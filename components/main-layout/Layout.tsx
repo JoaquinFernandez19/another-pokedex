@@ -4,7 +4,7 @@ import { Header } from "./header/Header";
 
 export const Layout: React.FC<any> = ({ children }) => {
   return (
-    <div className="grid grid-cols-1 grid-rows-3">
+    <div className="min-h-screen justify-items-center flex flex-col max-w-3xl ml-auto mr-auto justify-between items-center">
       <Header />
       {children}
       <Footer />
