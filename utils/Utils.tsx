@@ -36,3 +36,14 @@ export const getRandomPokemon = (maxNum: number) => {
   rand = rand + min;
   return rand;
 };
+
+export const fetchSinglePokemon = async (NUMBER_OF_POKEMONS: number) => {
+  const initialPokemon = getRandomPokemon(NUMBER_OF_POKEMONS);
+  // Fetch data from external API
+  const res = await fetch(
+    `https://pokeapi.co/api/v2/pokemon/${initialPokemon}`
+  );
+  const data: Pokemon = cleanupPokemonRequest(await res.json());
+
+  return { initialPokemon: initialPokemon, data: data };
+};
