@@ -2,7 +2,7 @@ export interface Pokemon {
   name: string;
   id: Number;
   types: PokemonTypeList;
-  img: URL;
+  img: string;
   weight: Number;
   height: Number;
   mainType: PokemonType;
@@ -10,9 +10,8 @@ export interface Pokemon {
 }
 
 export interface PokemonType {
-  name: string;
-  img: URL;
-  color: string;
+  slot: Number;
+  type: { name: string; url: string }[];
 }
 
 export interface Stat {
