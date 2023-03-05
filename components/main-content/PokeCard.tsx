@@ -7,10 +7,11 @@ import { Randomizer } from "./Randomizer";
 //Undefined bc at load we dont have data yet
 interface PokeCardprops {
   pokemon: Pokemon;
+  initialPokemon: number;
 }
 
-export const PokeCard: React.FC<PokeCardprops> = ({ pokemon }) => {
-  const CREDIT_LIMITS = 11000;
+export const PokeCard: React.FC<PokeCardprops> = ({ pokemon, initialPokemon }) => {
+  const CREDIT_LIMITS = 3;
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const [currPokemon, setPokemon] = useState<Pokemon>(pokemon);
   const [loading, setLoading] = useState(false);
@@ -20,12 +21,13 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemon }) => {
 
   useEffect(() => {
     if (credits === CREDIT_LIMITS) return;
+
     const fetchData = async () => {
-      const { data, initialPokemon } = await fetchSinglePokemon(1008);
+      const { data } = await fetchSinglePokemon(1008);
       //Start loading the img
       setLoading(true);
       //Check to no repeat pokemon
-      if (currPokemon.id != initialPokemon) return setPokemon(data);
+      if (data.id != initialPokemon) return setPokemon(data);
       //if the pokemon are the same, fetch again (randomized)
       fetchData();
     };
@@ -33,27 +35,24 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemon }) => {
     fetchData().catch(console.error);
   }, [credits]);
 
+  const handleImgLoad = () => {
+    setLoading(false);
+  };
   return (
-    <div>
-      <div
-        className={`${loading ? "hidden" : "block"}`}
-        style={{ height: "600px", width: "500px" }}
-      >
+    <div className="relative">
+      <div className={`${loading ? "invisible" : "visible"}`}>
+        <h1 className="text-center text-3xl text-white mt-5 pokefont">{currPokemon.name}</h1>
         <Image
           src={currPokemon.img}
           alt={currPokemon.name}
           width={300}
           height={300}
-          onLoad={() => setLoading(false)}
+          className="m-auto"
+          onLoad={handleImgLoad}
+          priority
         />
-        <h1 className="text-center text-5xl text-emerald-300 mt-5">
-          {currPokemon.name}
-        </h1>
       </div>
-      <div
-        className={`${!loading ? "hidden" : "block"}`}
-        style={{ height: "600px", width: "500px" }}
-      >
+      <div className={`${!loading ? "invisible" : "visible"} absolute top-0`}>
         <h1 className="text-5xl">Loading...</h1>
       </div>
       <Randomizer usageLimits={`${credits}`} trigger={randomize} />
