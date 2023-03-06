@@ -43,14 +43,13 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
       <div className={`${loading ? "invisible" : "visible"}`}>
         <h1 className="text-center text-3xl text-white mb-10 pokefont">{currPokemon.name}</h1>
         <div className=" relative">
-          <Image
+          <img
             src={currPokemon.img}
             alt={currPokemon.name}
             width={400}
             height={400}
             className="m-auto "
             onLoad={() => setLoading(false)}
-            priority
           />
         </div>
       </div>
