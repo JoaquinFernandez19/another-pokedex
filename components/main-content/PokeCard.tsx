@@ -14,9 +14,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const currPokIndex = useRef<number>(0);
 
-  const [currPokemon, setPokemon] = useState<Pokemon>(
-    pokemonList[currPokIndex.current]
-  );
+  const [currPokemon, setPokemon] = useState<Pokemon>(pokemonList[currPokIndex.current]);
   const [loading, setLoading] = useState(false);
   const randomize = () => {
     if (credits > 0) setCredits(credits - 1);
@@ -42,10 +40,9 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
 
   return (
     <div className="relative">
+      //
       <div className={`${loading ? "invisible" : "visible"}`}>
-        <h1 className="text-center text-3xl text-white mt-5 pokefont">
-          {currPokemon.name}
-        </h1>
+        <h1 className="text-center text-3xl text-white mt-5 pokefont">{currPokemon.name}</h1>
         <Image
           src={currPokemon.img}
           alt={currPokemon.name}
