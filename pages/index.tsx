@@ -1,10 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import {
-  cleanupPokemonRequest,
-  getRandomPokemon,
-  fetchPokemons,
-} from "../utils/Utils";
+import { cleanupPokemonRequest, getRandomPokemon, fetchPokemons } from "../utils/Utils";
 import { GetServerSideProps } from "next";
 
 import styles from "../styles/Home.module.css";
@@ -31,7 +27,7 @@ const Home: NextPage<Props> = ({ data }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data } = await fetchPokemons(4);
+  const { data } = await fetchPokemons(100);
   return { props: { data } };
 };
 export default Home;

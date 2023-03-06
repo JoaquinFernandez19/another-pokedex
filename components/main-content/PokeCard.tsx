@@ -4,7 +4,7 @@ import { fetchPokemons, preLoadImgs } from "../../utils/Utils";
 import { Pokemon } from "../Types";
 import { Randomizer } from "./Randomizer";
 
-const CREDIT_LIMITS = 3;
+const CREDIT_LIMITS = 100;
 //Undefined bc at load we dont have data yet
 interface PokeCardprops {
   pokemonList: Pokemon[];
@@ -41,16 +41,18 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   return (
     <div className="relative">
       <div className={`${loading ? "invisible" : "visible"}`}>
-        <h1 className="text-center text-3xl text-white mt-5 pokefont">{currPokemon.name}</h1>
-        <Image
-          src={currPokemon.img}
-          alt={currPokemon.name}
-          width={300}
-          height={300}
-          className="m-auto"
-          onLoad={() => setLoading(false)}
-          priority
-        />
+        <h1 className="text-center text-3xl text-white mb-10 pokefont">{currPokemon.name}</h1>
+        <div className=" relative">
+          <Image
+            src={currPokemon.img}
+            alt={currPokemon.name}
+            width={400}
+            height={400}
+            className="m-auto "
+            onLoad={() => setLoading(false)}
+            priority
+          />
+        </div>
       </div>
       <div className={`${!loading ? "hidden" : "hidden"} absolute top-0`}>
         <h1 className="text-5xl">Loading...</h1>

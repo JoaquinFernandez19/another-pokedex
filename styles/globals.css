@@ -9,16 +9,12 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell,
-    Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Odibee Sans";
 
   background-color: #474e68;
   color: white;
 }
 
-.pokefont {
-  font-family: "Press Start 2P";
-}
 a {
   color: inherit;
   text-decoration: none;
