@@ -26,7 +26,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
     setLoading(true);
     setPokemon(pokemonList[currPokIndex.current]);
   }, [credits]);
-
+  //
   useEffect(() => {
     const preLoadImgEffect = () => {
       preLoadImgs(
@@ -40,7 +40,6 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
 
   return (
     <div className="relative">
-      //
       <div className={`${loading ? "invisible" : "visible"}`}>
         <h1 className="text-center text-3xl text-white mt-5 pokefont">{currPokemon.name}</h1>
         <Image
