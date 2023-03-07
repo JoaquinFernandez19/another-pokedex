@@ -1,6 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { cleanupPokemonRequest, getRandomPokemon, fetchPokemons } from "../utils/Utils";
+import {
+  cleanupPokemonRequest,
+  getRandomPokemon,
+  fetchPokemons,
+} from "../utils/Utils";
 import { GetServerSideProps } from "next";
 
 import styles from "../styles/Home.module.css";

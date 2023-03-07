@@ -22,10 +22,10 @@ const socialMedias: { name: string; icon: string; url: string }[] = [
 
 export const SocialMedia: React.FC<SocialMediaProps> = ({}) => {
   return (
-    <div className="flex flex-row ">
+    <div className="flex flex-row gap-3">
       {socialMedias.map(({ name, icon, url }, i) => {
         return (
-          <div key={i} id={name} className=" pl-3">
+          <div key={i} id={name}>
             <a href={url} target="_blank">
               {name}
             </a>

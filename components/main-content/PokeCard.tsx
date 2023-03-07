@@ -3,17 +3,22 @@ import { preLoadImgs } from "../../utils/Utils";
 import { Pokemon } from "../Types";
 import { Randomizer } from "./Randomizer";
 import { motion } from "framer-motion";
+import { HiddenCard } from "./HiddenCard";
 const CREDIT_LIMITS = 100;
 //Undefined bc at load we dont have data yet
 interface PokeCardprops {
   pokemonList: Pokemon[];
 }
 
+//
 export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
+  const [firstPokemonSeen, setFirstPokemonSeen] = useState<boolean>(false);
   const currPokIndex = useRef<number>(0);
 
-  const [currPokemon, setPokemon] = useState<Pokemon>(pokemonList[currPokIndex.current]);
+  const [currPokemon, setPokemon] = useState<Pokemon>(
+    pokemonList[currPokIndex.current]
+  );
   const [loading, setLoading] = useState(true);
   const randomize = () => {
     if (credits > 0) setCredits(credits - 1);
@@ -36,23 +41,29 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
     return () => {};
   }, []);
 
-  return (
-    <div className="relative">
-      <motion.div animate={{ opacity: [0, 1] }} key={`${currPokemon.id}`}>
-        <h1 className="text-center text-3xl text-white mb-10 pokefont">{currPokemon.name}</h1>
-        <div className=" relative">
-          <img
-            src={currPokemon.img}
-            alt={currPokemon.name}
-            width={400}
-            height={400}
-            className={`m-auto`}
-            onLoad={() => setLoading(false)}
-          />
-        </div>
-      </motion.div>
+  if (firstPokemonSeen) {
+    return (
+      <div className="relative">
+        <motion.div animate={{ opacity: [0, 1] }} key={`${currPokemon.id}`}>
+          <h1 className="text-center text-3xl text-white mb-10 pokefont">
+            {currPokemon.name}
+          </h1>
+          <div className=" relative">
+            <img
+              src={currPokemon.img}
+              alt={currPokemon.name}
+              width={400}
+              height={400}
+              className={`m-auto`}
+              onLoad={() => setLoading(false)}
+            />
+          </div>
+        </motion.div>
 
-      <Randomizer usageLimits={`${credits}`} trigger={randomize} />
-    </div>
-  );
+        <Randomizer usageLimits={`${credits}`} trigger={randomize} />
+      </div>
+    );
+  } else {
+    return <HiddenCard showFirstPokemon={setFirstPokemonSeen} />;
+  }
 };
