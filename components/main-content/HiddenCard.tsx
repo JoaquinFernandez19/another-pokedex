@@ -10,7 +10,7 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
   const [opening, setOpening] = useState<boolean>(false);
   const [hovering, setHovering] = useState<boolean>(false);
   const [currentEvent, setCurrentEvent] = useState<string>("shaking");
-  const openDelay = 300;
+  const openDelay = 700;
   const variants = {
     shaking: {
       x: [0, 2, 0, -2, 0, 2, 0, -2].concat(standByAnim),
