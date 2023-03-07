@@ -31,7 +31,7 @@ const Home: NextPage<Props> = ({ data }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data } = await fetchPokemons(100);
+  const { data } = await fetchPokemons();
   return { props: { data } };
 };
 export default Home;

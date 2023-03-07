@@ -4,8 +4,8 @@ import { Pokemon, PokemonType } from "../components/Types";
 interface FrontSprite {
   other: { "official-artwork": { front_default: string } };
 }
-const NUMBER_OF_POKEMONS = 1008;
-
+const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
+const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 export const cleanupPokemonRequest = (data: any) => {
   const finalData: Pokemon = {
     name: fixName(data.name),
@@ -45,23 +45,28 @@ export const getRandomPokemon = (maxNum: number, quantity: number) => {
   return result;
 };
 
-export const fetchPokemons = async (quantity: number) => {
+export const fetchPokemons = async () => {
   const returnValue: Pokemon[] = [];
+  try {
+    const randomPokemonIds = getRandomPokemon(
+      Number(NUMBER_OF_POKEMONS),
+      CREDIT_LIMITS + 1
+    );
 
-  const randomPokemonIds = getRandomPokemon(NUMBER_OF_POKEMONS, quantity);
+    const promises = randomPokemonIds.map((id) => {
+      return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    });
 
-  const promises = randomPokemonIds.map((id) => {
-    return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-  });
+    const responses = await Promise.all(promises);
 
-  const responses = await Promise.all(promises);
+    const arr = await Promise.all(responses.map((response) => response.json()));
 
-  const arr = await Promise.all(responses.map((response) => response.json()));
-
-  arr.forEach((el) => {
-    returnValue.push(cleanupPokemonRequest(el));
-  });
-
+    arr.forEach((el) => {
+      returnValue.push(cleanupPokemonRequest(el));
+    });
+  } catch (e) {
+    fetchPokemons();
+  }
   return { data: returnValue };
 };
 
@@ -72,3 +77,5 @@ export const preLoadImgs = async (imgArray: string[]) => {
     return currImg;
   });
 };
+
+export const pokemonTypesColors = [];

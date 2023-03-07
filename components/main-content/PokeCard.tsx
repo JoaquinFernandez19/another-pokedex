@@ -4,7 +4,7 @@ import { Pokemon } from "../Types";
 import { Randomizer } from "./Randomizer";
 import { motion } from "framer-motion";
 import { HiddenCard } from "./HiddenCard";
-const CREDIT_LIMITS = 100;
+const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 //Undefined bc at load we dont have data yet
 interface PokeCardprops {
   pokemonList: Pokemon[];
@@ -19,7 +19,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   const [currPokemon, setPokemon] = useState<Pokemon>(
     pokemonList[currPokIndex.current]
   );
-  const [loading, setLoading] = useState(true);
+
   const randomize = () => {
     if (credits > 0) setCredits(credits - 1);
   };
@@ -27,7 +27,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   useEffect(() => {
     if (credits === CREDIT_LIMITS) return;
     currPokIndex.current++;
-    setLoading(true);
+
     setPokemon(pokemonList[currPokIndex.current]);
 
     return () => {};
@@ -55,7 +55,6 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
               width={400}
               height={400}
               className={`m-auto`}
-              onLoad={() => setLoading(false)}
             />
           </div>
         </motion.div>
