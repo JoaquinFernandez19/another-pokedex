@@ -23,21 +23,22 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
     open: {
       scale: [1.1, 0.7, 0.5, 0.1, 0],
       rotate: 1080,
-      transition: { rotate: { duration: 1, type: "spring", stiffnes: 100 } },
+      transition: { rotate: { duration: 1, type: "spring" } },
     },
     hover: {
       scale: 1.1,
       transition: { duration: 0.2 },
     },
   };
-
+  const hoverManagment = (bool: boolean) => {
+    return opening ? "" : setHovering(bool);
+  };
   useEffect(() => {
     if (opening) {
       setCurrentEvent("open");
     } else if (!opening && !hovering) {
       setCurrentEvent("shaking");
-    }
-    if (hovering && !opening) {
+    } else if (!opening && hovering) {
       setCurrentEvent("hover");
     }
     return () => {};
@@ -51,9 +52,9 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
             <motion.img
               animate={currentEvent}
               variants={variants}
-              onHoverStart={() => setHovering(true)}
-              onHoverEnd={() => setHovering(false)}
-              whileHover={currentEvent}
+              onHoverStart={() => hoverManagment(true)}
+              onHoverEnd={() => hoverManagment(false)}
+              whileHover={!opening ? "" : currentEvent}
               src={"/pkball.png"}
               alt="unkown pokemon"
               width={400}
@@ -61,6 +62,7 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
               className={`m-auto drop-shadow-2xl cursor-pointer w-[200px] sm:w-[300px]`}
               onClick={() => {
                 setOpening(true);
+                setHovering(false);
                 setTimeout(() => {
                   showFirstPokemon(true);
                 }, openDelay);
