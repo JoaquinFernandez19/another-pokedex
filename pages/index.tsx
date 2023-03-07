@@ -1,10 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import {
-  cleanupPokemonRequest,
-  getRandomPokemon,
-  fetchPokemons,
-} from "../utils/Utils";
+import { cleanupPokemonRequest, getRandomPokemon, fetchPokemons } from "../utils/Utils";
 import { GetServerSideProps } from "next";
 
 import styles from "../styles/Home.module.css";
@@ -20,7 +16,7 @@ type Props = {
 const Home: NextPage<Props> = ({ data }) => {
   //data equals an array of pokemons
   return (
-    <div className="pt-14 pb-14">
+    <div className="pt-14 pb-14 ">
       <Head>
         <title>pokecollect</title>
         <link rel="icon" href="/favicon.ico" />
