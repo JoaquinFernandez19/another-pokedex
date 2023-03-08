@@ -6,8 +6,8 @@ interface FrontSprite {
 const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
-export const cleanupPokemonRequest = (data: any) => {
-  const finalData: Pokemon = {
+export const cleanupPokemonRequest = (data: any): Pokemon => {
+  return {
     name: fixName(data.name),
     height: data.height,
     id: data.id,
@@ -16,13 +16,11 @@ export const cleanupPokemonRequest = (data: any) => {
     types: data.types,
     weight: data.weight,
     stats: data.stats,
+    color: filterColor(getMainType(data.types)),
   };
-
-  finalData.color = filterColor(finalData);
-  return finalData;
 };
-const filterColor = (pok: Pokemon) => {
-  const type = pok.mainType.type.name;
+const filterColor = (mainType: PokemonType) => {
+  const type = mainType.type.name;
   const key = PokTypes.types.find((key: any) => key.type == type);
   return key?.color;
 };
@@ -75,5 +73,3 @@ export const preLoadImgs = async (imgArray: string[]) => {
     return currImg;
   });
 };
-
-export const pokemonTypesColors = [];
