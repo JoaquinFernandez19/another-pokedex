@@ -7,6 +7,8 @@ const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
 export const cleanupPokemonRequest = (data: any) => {
+  // console.log(data);
+  console.log("xd");
   const finalData: Pokemon = {
     name: fixName(data.name),
     height: data.height,
@@ -16,9 +18,9 @@ export const cleanupPokemonRequest = (data: any) => {
     types: data.types,
     weight: data.weight,
     stats: data.stats,
-    color: filterColor(data),
   };
 
+  finalData.color = filterColor(finalData);
   return finalData;
 };
 const filterColor = (pok: Pokemon) => {
@@ -36,7 +38,6 @@ const getOfficialArtwork = (sprites: FrontSprite) => {
 const getMainType = (types: PokemonType[]) => {
   return types[0];
 };
-
 export const getRandomPokemon = (maxNum: number, quantity: number) => {
   const result: number[] = [];
   const start = 0;
@@ -49,14 +50,10 @@ export const getRandomPokemon = (maxNum: number, quantity: number) => {
   }
   return result;
 };
-
 export const fetchPokemons = async () => {
   const returnValue: Pokemon[] = [];
   try {
-    const randomPokemonIds = getRandomPokemon(
-      Number(NUMBER_OF_POKEMONS),
-      CREDIT_LIMITS + 1
-    );
+    const randomPokemonIds = getRandomPokemon(Number(NUMBER_OF_POKEMONS), CREDIT_LIMITS + 1);
     console.log(randomPokemonIds);
     const promises = randomPokemonIds.map((id) => {
       return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
@@ -74,7 +71,6 @@ export const fetchPokemons = async () => {
   }
   return { data: returnValue };
 };
-
 export const preLoadImgs = async (imgArray: string[]) => {
   return imgArray.map((img) => {
     const currImg = new Image();
