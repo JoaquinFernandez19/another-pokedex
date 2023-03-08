@@ -7,6 +7,7 @@ export interface Pokemon {
   height: Number;
   mainType: PokemonType;
   stats: Stat[];
+  color?: string | undefined;
 }
 
 export interface PokemonType {

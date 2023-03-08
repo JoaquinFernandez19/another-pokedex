@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { animate, motion, useMotionValue } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 
@@ -10,7 +10,7 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
   const [opening, setOpening] = useState<boolean>(false);
   const [hovering, setHovering] = useState<boolean>(false);
   const [currentEvent, setCurrentEvent] = useState<string>("shaking");
-  const openDelay = 700;
+  const openDelay = 1000;
   const variants = {
     shaking: {
       x: [0, 2, 0, -2, 0, 2, 0, -2].concat(standByAnim),
@@ -21,9 +21,12 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
       },
     },
     open: {
-      scale: [1.1, 0.7, 0.5, 0.1, 0],
+      scale: [1.1, 0.1],
       rotate: 1080,
-      transition: { rotate: { duration: 1, type: "spring" } },
+      transition: {
+        rotate: { duration: 6, type: "spring" },
+        scale: { duration: 2, type: "spring" },
+      },
     },
     hover: {
       scale: 1.1,
@@ -54,7 +57,7 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
               variants={variants}
               onHoverStart={() => hoverManagment(true)}
               onHoverEnd={() => hoverManagment(false)}
-              whileHover={!opening ? "" : currentEvent}
+              whileHover={opening ? "" : currentEvent}
               src={"/pkball.png"}
               alt="unkown pokemon"
               width={400}

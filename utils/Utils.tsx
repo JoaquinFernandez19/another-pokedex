@@ -1,11 +1,11 @@
-import { debug } from "console";
 import { Pokemon, PokemonType } from "../components/Types";
-
+import PokTypes from "./PokTypes.json";
 interface FrontSprite {
   other: { "official-artwork": { front_default: string } };
 }
 const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
+
 export const cleanupPokemonRequest = (data: any) => {
   const finalData: Pokemon = {
     name: fixName(data.name),
@@ -16,11 +16,16 @@ export const cleanupPokemonRequest = (data: any) => {
     types: data.types,
     weight: data.weight,
     stats: data.stats,
+    color: filterColor(data),
   };
 
   return finalData;
 };
-
+const filterColor = (pok: Pokemon) => {
+  const type = pok.mainType.type.name;
+  const key = PokTypes.types.find((key: any) => key.type == type);
+  return key?.color;
+};
 const fixName = (name: string) => {
   name = name.split("-")[0];
   return name.charAt(0).toUpperCase() + name.slice(1);
@@ -52,7 +57,7 @@ export const fetchPokemons = async () => {
       Number(NUMBER_OF_POKEMONS),
       CREDIT_LIMITS + 1
     );
-
+    console.log(randomPokemonIds);
     const promises = randomPokemonIds.map((id) => {
       return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     });

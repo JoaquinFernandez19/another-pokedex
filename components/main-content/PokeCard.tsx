@@ -4,40 +4,26 @@ import { Pokemon } from "../Types";
 import { Randomizer } from "./Randomizer";
 import { motion } from "framer-motion";
 import { HiddenCard } from "./HiddenCard";
+
+import { InfoMenu } from "./InfoMenu";
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 //Undefined bc at load we dont have data yet
 interface PokeCardprops {
   pokemonList: Pokemon[];
 }
 
-//
 export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   //States and refs
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const [firstPokemonSeen, setFirstPokemonSeen] = useState<boolean>(false);
   const currPokIndex = useRef<number>(0);
-
   const [currPokemon, setPokemon] = useState<Pokemon>(
     pokemonList[currPokIndex.current]
   );
 
+  //Functions
   const randomize = () => {
     if (credits > 0) setCredits(credits - 1);
-  };
-
-  const filterColor = (currPokemon: Pokemon) => {
-    let color;
-    const type = currPokemon.mainType.type.name;
-    switch (type) {
-      case "ground":
-        color = "brown";
-        break;
-      case "water":
-        color = "blue";
-        break;
-    }
-
-    return color;
   };
 
   //Effects
@@ -62,16 +48,18 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   if (firstPokemonSeen) {
     return (
       <div className="relative">
-        <motion.div animate={{ opacity: [0, 1] }} key={`${currPokemon.id}`}>
-          <h1 className="text-center text-3xl text-white mb-10 pokefont flex justify-center items-center">
-            {currPokemon.name}{" "}
-            <span
-              style={{ backgroundColor: filterColor(currPokemon) }}
-              className={` ml-[20px] px-2 text-[17px] leading-4`}
-            >
-              Info
-            </span>
-          </h1>
+        <motion.div
+          animate={{ opacity: [0, 1] }}
+          key={`${currPokemon.id}`}
+          className="flex flex-col items-center"
+        >
+          <div className="flex justify-center items-end mb-10">
+            <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
+              {currPokemon.name}
+            </h1>
+            <InfoMenu pokemon={currPokemon} />
+          </div>
+
           <div className=" relative">
             <img
               src={currPokemon.img}
