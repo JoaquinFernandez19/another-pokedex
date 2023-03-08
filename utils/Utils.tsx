@@ -7,8 +7,6 @@ const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
 export const cleanupPokemonRequest = (data: any) => {
-  // console.log(data);
-  console.log("xd");
   const finalData: Pokemon = {
     name: fixName(data.name),
     height: data.height,
@@ -54,7 +52,6 @@ export const fetchPokemons = async () => {
   const returnValue: Pokemon[] = [];
   try {
     const randomPokemonIds = getRandomPokemon(Number(NUMBER_OF_POKEMONS), CREDIT_LIMITS + 1);
-    console.log(randomPokemonIds);
     const promises = randomPokemonIds.map((id) => {
       return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     });
