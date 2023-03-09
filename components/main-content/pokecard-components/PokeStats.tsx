@@ -1,8 +1,6 @@
 import React from 'react'
 import { Pokemon } from '../../Types';
 
-// type PokeStats = Pokemon;
-
 
 type PropsStats = Pokemon;
 
@@ -10,10 +8,8 @@ export const PokeStats:React.FC<PropsStats> = ({height, color, weight, stats}) =
 
   return (
     <div
-    className="w-auto  text-center"
-    // whileDrag={{ scale: 1.1 }}
+    className="w-auto text-center top-0 relative stats-circular-info"
   >
-    {" "}
     <h2 className="text-xl">Stats</h2>
     <div
       style={{ backgroundColor: color }}
