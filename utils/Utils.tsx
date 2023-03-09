@@ -17,7 +17,6 @@ export const cleanupPokemonRequest = (data: any): Pokemon => {
     types: data.types,
     weight: formatWeightAndHeight(data.weight, null),
     stats: formatStats(data.stats),
-    // stats: data.stats,
     color: filterColor(getMainType(data.types)),
   };
 };
