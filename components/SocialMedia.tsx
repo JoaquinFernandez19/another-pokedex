@@ -22,7 +22,7 @@ const socialMedias: { name: string; icon: string; url: string }[] = [
 
 export const SocialMedia: React.FC<SocialMediaProps> = ({}) => {
   return (
-    <div className="flex flex-row gap-3">
+    <div className="flex flex-row gap-3 opacity-20">
       {socialMedias.map(({ name, icon, url }, i) => {
         return (
           <div key={i} id={name}>

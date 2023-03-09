@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction } from "react";
 interface HiddenCardProps {
   showFirstPokemon: Dispatch<SetStateAction<boolean>>;
 }
-const standByAnim = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const standByAnim = arrOfZeros(20);
 export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
   const [opening, setOpening] = useState<boolean>(false);
   const [hovering, setHovering] = useState<boolean>(false);
@@ -77,3 +77,11 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
     </div>
   );
 };
+
+function arrOfZeros(qty: number) {
+  const arr = [];
+  for (let i = 0; i <= qty; i++) {
+    arr.push(0);
+  }
+  return arr;
+}

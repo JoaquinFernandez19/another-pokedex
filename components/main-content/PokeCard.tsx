@@ -57,7 +57,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
             <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
               {currPokemon.name}
             </h1>
-            <InfoMenu pokemon={currPokemon} />
+            <InfoMenu {...currPokemon} />
           </div>
 
           <div className=" relative">
