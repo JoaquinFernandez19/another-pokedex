@@ -18,9 +18,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const [firstPokemonSeen, setFirstPokemonSeen] = useState<boolean>(false);
   const currPokIndex = useRef<number>(0);
-  const [currPokemon, setPokemon] = useState<Pokemon>(
-    pokemonList[currPokIndex.current]
-  );
+  const [currPokemon, setPokemon] = useState<Pokemon>(pokemonList[currPokIndex.current]);
 
   //Functions
   const randomize = () => {
@@ -61,13 +59,13 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
             <InfoBadge {...currPokemon} />
           </div>
 
-          <div className=" relative grid grid-cols-3 px-20">
+          <div className=" relative grid grid-cols-1 sm:px-20 sm:grid-cols-3">
             <img
               src={currPokemon.img}
               alt={currPokemon.name}
               width={400}
               height={400}
-              className="m-auto poke-circle col-start-2 col-end-3 p-5 border-solid  rounded-full z-10"
+              className="m-auto poke-circle sm:col-start-2 sm:col-end-3 p-5 border-solid  rounded-full z-10"
             />
             <PokeStats {...currPokemon} />
           </div>
