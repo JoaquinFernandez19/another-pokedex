@@ -67,9 +67,9 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
               alt={currPokemon.name}
               width={400}
               height={400}
-              className='m-auto poke-circle col-start-2 col-end-3'
+              className="m-auto poke-circle col-start-2 col-end-3 p-5 border-solid  rounded-full z-10"
             />
-            <PokeStats {...currPokemon}/>
+            <PokeStats {...currPokemon} />
           </div>
         </motion.div>
         <Randomizer usageLimits={`${credits}`} trigger={randomize} />
