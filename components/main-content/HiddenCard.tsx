@@ -62,7 +62,7 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
               alt="unkown pokemon"
               width={400}
               height={400}
-              className={`m-auto drop-shadow-2xl cursor-pointer w-[200px] sm:w-[300px]`}
+              className={`m-auto drop-shadow-2xl cursor-pointer w-[250px] md:w-[300px]`}
               onClick={() => {
                 setOpening(true);
                 setHovering(false);

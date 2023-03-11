@@ -19,7 +19,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   const [firstPokemonSeen, setFirstPokemonSeen] = useState<boolean>(false);
   const currPokIndex = useRef<number>(0);
   const [currPokemon, setPokemon] = useState<Pokemon>(pokemonList[currPokIndex.current]);
-
+  const [showStats, setShowStats] = useState<boolean>(false);
   //Functions
   const randomize = () => {
     if (credits > 0) setCredits(credits - 1);
@@ -52,22 +52,30 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
           key={`${currPokemon.id}`}
           className="flex flex-col items-center"
         >
-          <div className="flex justify-center items-end mb-10">
+          <div className="flex justify-center items-end mb-5 md:mb-10">
             <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
               {currPokemon.name}
             </h1>
-            <InfoBadge {...currPokemon} />
+            <InfoBadge
+              currPokemon={currPokemon}
+              setShowStats={setShowStats}
+              showStats={showStats}
+            />
           </div>
 
-          <div className=" relative grid grid-cols-1 sm:px-20 sm:grid-cols-3">
+          <div className=" relative grid grid-cols-1 gap-5   xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
             <img
               src={currPokemon.img}
               alt={currPokemon.name}
               width={400}
               height={400}
-              className="m-auto poke-circle sm:col-start-2 sm:col-end-3 p-5 border-solid  rounded-full z-10"
+              className="m-auto poke-circle border-solid z-10 px-10 md:px-0 md:col-start-2 md:col-end-3  "
             />
-            <PokeStats {...currPokemon} />
+            <PokeStats
+              currPokemon={currPokemon}
+              showStats={showStats}
+              setShowStats={setShowStats}
+            />
           </div>
         </motion.div>
         <Randomizer usageLimits={`${credits}`} trigger={randomize} />

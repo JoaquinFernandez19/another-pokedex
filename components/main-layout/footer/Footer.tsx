@@ -5,8 +5,8 @@ interface FooterProps {}
 
 export const Footer: React.FC<FooterProps> = ({}) => {
   return (
-    <div className="flex justify-end w-full pr-10  pb-2 pt-2 sm:pb-1 sm:pt-1 ">
-      <div className=" gap-1 flex-col-reverse  sm:flex-row sm:gap-24">
+    <div className="flex justify-center md:justify-end w-full md:pr-10  pb-2 pt-2 md:pb-1 md:pt-1 ">
+      <div className=" gap-1 flex-col-reverse  md:flex-row md:gap-24">
         <SocialMedia />
       </div>
     </div>
