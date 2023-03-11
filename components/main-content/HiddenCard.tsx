@@ -48,7 +48,7 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
   }, [opening, hovering]);
 
   return (
-    <div className="relative">
+    <div className="relative top-[200px] md:top-0">
       <motion.div animate={{ opacity: [0, 1] }}>
         <div className="">
           <div className="relative">
