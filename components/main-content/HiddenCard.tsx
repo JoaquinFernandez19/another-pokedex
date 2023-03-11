@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { animate, motion, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 
 interface HiddenCardProps {
