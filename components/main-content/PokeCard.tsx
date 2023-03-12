@@ -18,7 +18,9 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const [firstPokemonSeen, setFirstPokemonSeen] = useState<boolean>(false);
   const currPokIndex = useRef<number>(0);
-  const [currPokemon, setPokemon] = useState<Pokemon>(pokemonList[currPokIndex.current]);
+  const [currPokemon, setPokemon] = useState<Pokemon>(
+    pokemonList[currPokIndex.current]
+  );
   const [showStats, setShowStats] = useState<boolean>(false);
   //Functions
   const randomize = () => {
@@ -46,7 +48,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   //Return jsx
   if (firstPokemonSeen) {
     return (
-      <div className="relative">
+      <div className="relative pokecard">
         <motion.div
           animate={{ opacity: [0, 1] }}
           key={`${currPokemon.id}`}
@@ -63,7 +65,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
             />
           </div>
 
-          <div className=" relative grid grid-cols-1 gap-5   xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
+          <div className=" relative grid grid-cols-1 gap-16 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
             <img
               src={currPokemon.img}
               alt={currPokemon.name}
