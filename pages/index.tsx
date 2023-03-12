@@ -14,7 +14,7 @@ type Props = {
 const Home: NextPage<Props> = ({ data }) => {
   //data equals an array of pokemons
   return (
-    <div className="pt-6 pb-2 md:pt-14 md:pb-14 ">
+    <div className=" h-full pt-6 pb-2 md:pt-14 md:pb-14 ">
       <Head>
         <title>pokecollect</title>
         <link rel="icon" href="/favicon.ico" />

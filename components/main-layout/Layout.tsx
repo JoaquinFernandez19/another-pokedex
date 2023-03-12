@@ -3,10 +3,8 @@ import { Footer } from "./footer/Footer";
 
 export const Layout: React.FC<any> = ({ children }) => {
   return (
-    <div className="min-h-screen justify-items-center flex flex-col md:max-h-[100vh] justify-between items-center">
-      <div className="pt-[70px]  md:pt-[50px] md:min-h-[90vh] flex justify-center flex-col w-full">
-        {children}
-      </div>
+    <div className="h-[100vh] grid grid-cols-[1fr] grid-rows-[1fr,50px]">
+      <div>{children}</div>
       <Footer />
     </div>
   );
