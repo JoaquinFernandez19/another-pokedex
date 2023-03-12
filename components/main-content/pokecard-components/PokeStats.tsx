@@ -8,10 +8,12 @@ interface PropsStats {
   setShowStats: Dispatch<SetStateAction<boolean>>;
 }
 
-export const PokeStats: React.FC<PropsStats> = ({ currPokemon, showStats, setShowStats }) => {
+export const PokeStats: React.FC<PropsStats> = ({
+  currPokemon,
+  showStats,
+  setShowStats,
+}) => {
   const { color, height, weight, stats } = currPokemon;
-  const [opening, setOpening] = useState<boolean>(false);
-  const [closing, setClosing] = useState<boolean>(false);
   const isMobile = window.innerWidth <= 768;
   const variants = {
     open: {
@@ -45,7 +47,7 @@ export const PokeStats: React.FC<PropsStats> = ({ currPokemon, showStats, setSho
       initial={"hidden"}
       animate={showStats ? "open" : ""}
       variants={variants}
-      className="w-auto text-center h-min relative md:text-right md:top-[15%] md:left-[-10%] "
+      className="z-0 w-auto text-center h-min relative md:text-right md:top-[15%] md:left-[-10%] "
     >
       <div className=" p-3 px-5 flex flex-col gap-1 md:gap-2  stats-circular-info  relative ">
         <motion.div
@@ -55,7 +57,15 @@ export const PokeStats: React.FC<PropsStats> = ({ currPokemon, showStats, setSho
           }}
           variants={outLineVariants}
           initial={"hidden"}
-          animate={!isMobile ? (showStats ? "open" : "") : showStats ? "openMobile" : ""}
+          animate={
+            !isMobile
+              ? showStats
+                ? "open"
+                : ""
+              : showStats
+              ? "openMobile"
+              : ""
+          }
         ></motion.div>
         <p className="text-[13px] md:text-sm">
           <> Height: {height}</>

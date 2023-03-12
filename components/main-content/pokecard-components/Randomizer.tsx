@@ -5,12 +5,15 @@ interface RandomizerProps {
   usageLimits: string;
 }
 
-export const Randomizer: React.FC<RandomizerProps> = ({ trigger, usageLimits }) => {
+export const Randomizer: React.FC<RandomizerProps> = ({
+  trigger,
+  usageLimits,
+}) => {
   const handleOnClick = () => {
     if (Number(usageLimits) > 0) trigger();
   };
   return (
-    <div className="text-center mt-10">
+    <div className="z-10 text-center mt-10">
       <button onClick={handleOnClick} className="pb-5 text-xl ">
         Roll
       </button>
