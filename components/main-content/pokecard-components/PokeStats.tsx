@@ -65,7 +65,7 @@ export const PokeStats: React.FC<PropsStats> = ({ currPokemon, showStats, setSho
         </p>
         {stats.map(({ name, value }) => {
           return (
-            <p className="text-[13px] capitalize md:text-sm">
+            <p key={value} className="text-[13px] capitalize md:text-sm">
               <>
                 {name}: {value}
               </>
