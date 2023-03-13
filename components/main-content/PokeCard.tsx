@@ -63,7 +63,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
             />
           </div>
 
-          <div className=" relative grid grid-cols-1 gap-5 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
+          <div className=" relative grid grid-cols-1 gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
             <img
               src={currPokemon.img}
               alt={currPokemon.name}
