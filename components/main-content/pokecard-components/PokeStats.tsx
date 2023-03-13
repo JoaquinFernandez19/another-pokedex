@@ -29,6 +29,15 @@ export const PokeStats: React.FC<PropsStats> = ({
         opacity: { duration: 1, type: "spring" },
       },
     },
+    closing: {
+      x: [0, -100],
+      opacity: [1, 0],
+      height: 0,
+      transition: {
+        x: { duration: 1, type: "spring" },
+        opacity: { duration: 1, type: "spring" },
+      },
+    },
     showing: { opacity: 1, x: 0, height: "auto" },
     hidden: { opacity: 0, x: -100, height: 0 },
   };
@@ -47,10 +56,24 @@ export const PokeStats: React.FC<PropsStats> = ({
     },
   };
   const manageAnimation = () => {
-    return showStats && !rolling && managingStats ? "open" : "";
+    if (showStats) {
+      if (!rolling) {
+        //We should do animation
+        return "open";
+      } else {
+        return "";
+      }
+    } else {
+      if (managingStats) {
+        return "closing";
+      } else {
+        return "";
+      }
+    }
   };
   const manageInitial = () => {
-    return showStats && rolling && !managingStats ? "showing" : "hidden";
+    if (showStats) return "showing";
+    return "hidden";
   };
 
   return (
@@ -70,7 +93,15 @@ export const PokeStats: React.FC<PropsStats> = ({
           }}
           variants={outLineVariants}
           initial={"hidden"}
-          animate={!isMobile ? (showStats ? "open" : "") : showStats ? "openMobile" : ""}
+          animate={
+            !isMobile
+              ? showStats
+                ? "open"
+                : ""
+              : showStats
+              ? "openMobile"
+              : ""
+          }
         ></motion.div>
         <p className="text-[13px] md:text-sm">
           <> Height: {height}</>
@@ -80,7 +111,10 @@ export const PokeStats: React.FC<PropsStats> = ({
         </p>
         {stats.map(({ name, value }, i) => {
           return (
-            <p key={value + i + name} className="text-[13px] capitalize md:text-sm">
+            <p
+              key={value + i + name}
+              className="text-[13px] capitalize md:text-sm"
+            >
               <>
                 {name}: {value}
               </>

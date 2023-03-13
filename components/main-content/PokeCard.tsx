@@ -18,7 +18,9 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const [firstPokemonSeen, setFirstPokemonSeen] = useState<boolean>(false);
   const currPokIndex = useRef<number>(0);
-  const [currPokemon, setPokemon] = useState<Pokemon>(pokemonList[currPokIndex.current]);
+  const [currPokemon, setPokemon] = useState<Pokemon>(
+    pokemonList[currPokIndex.current]
+  );
   const [showStats, setShowStats] = useState<boolean>(false);
 
   let managingStats = useRef(false);
