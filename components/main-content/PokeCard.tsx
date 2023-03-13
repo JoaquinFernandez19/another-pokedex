@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { preLoadImgs } from "../../utils/Utils";
 import { Pokemon } from "../Types";
 import { Randomizer } from "./pokecard-components/Randomizer";
@@ -20,12 +20,27 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   const currPokIndex = useRef<number>(0);
   const [currPokemon, setPokemon] = useState<Pokemon>(pokemonList[currPokIndex.current]);
   const [showStats, setShowStats] = useState<boolean>(false);
+
+  let managingStats = useRef(false);
+  let rolling = useRef(false);
+
   //Functions
   const randomize = () => {
+    //If when rolling, we are showing stats
+    //we should maintain a reference for that
+    rolling.current = true;
+    managingStats.current = false;
     if (credits > 0) setCredits(credits - 1);
   };
 
   //Effects
+  useMemo(() => {
+    if (!firstPokemonSeen) return;
+    managingStats.current = true;
+    rolling.current = false;
+    return () => {};
+  }, [showStats]);
+
   useEffect(() => {
     if (credits === CREDIT_LIMITS) return;
     currPokIndex.current++;
@@ -43,7 +58,6 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
     return () => {};
   }, []);
 
-  //Return jsx
   if (firstPokemonSeen) {
     return (
       <div className="h-full flex justify-center md:flex-col items-center relative pokecard">
@@ -72,6 +86,8 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
               className="m-auto poke-circle border-solid z-10 px-10 md:px-0 md:col-start-2 md:col-end-3  "
             />
             <PokeStats
+              managingStats={managingStats.current}
+              rolling={rolling.current}
               currPokemon={currPokemon}
               showStats={showStats}
               setShowStats={setShowStats}

@@ -4,11 +4,19 @@ import { motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 interface PropsStats {
   currPokemon: Pokemon;
+  managingStats: boolean;
+  rolling: boolean;
   showStats: boolean;
   setShowStats: Dispatch<SetStateAction<boolean>>;
 }
 
-export const PokeStats: React.FC<PropsStats> = ({ currPokemon, showStats, setShowStats }) => {
+export const PokeStats: React.FC<PropsStats> = ({
+  currPokemon,
+  showStats,
+  setShowStats,
+  rolling,
+  managingStats,
+}) => {
   const { color, height, weight, stats } = currPokemon;
   const isMobile = window.innerWidth <= 768;
   const variants = {
@@ -21,7 +29,7 @@ export const PokeStats: React.FC<PropsStats> = ({ currPokemon, showStats, setSho
         opacity: { duration: 1, type: "spring" },
       },
     },
-
+    showing: { opacity: 1, x: 0, height: "auto" },
     hidden: { opacity: 0, x: -100, height: 0 },
   };
   const outLineVariants = {
@@ -38,10 +46,17 @@ export const PokeStats: React.FC<PropsStats> = ({ currPokemon, showStats, setSho
       },
     },
   };
+  const manageAnimation = () => {
+    return showStats && !rolling && managingStats ? "open" : "";
+  };
+  const manageInitial = () => {
+    return showStats && rolling && !managingStats ? "showing" : "hidden";
+  };
+
   return (
     <motion.div
-      initial={"hidden"}
-      animate={showStats ? "open" : ""}
+      initial={manageInitial()}
+      animate={manageAnimation()}
       variants={variants}
       className={`${
         !showStats ? "pointer-events-none" : ""
@@ -49,7 +64,7 @@ export const PokeStats: React.FC<PropsStats> = ({ currPokemon, showStats, setSho
     >
       <div className="p-3 px-5 grid grid-cols-[repeat(2,minmax(0,100px))] justify-center gap-1 md:flex md:flex-col  md:gap-2  stats-circular-info  relative ">
         <motion.div
-          className="absolute  h-full bottom-0 right-0 m-auto left-0 border-t-0 border-l-0 border-r-0 border-b-[3px] md:border-b-0 md:w-full md:border-r-[3px]"
+          className="absolute h-full bottom-0 right-0 m-auto left-0 border-t-0 border-l-0 border-r-0 border-b-[3px] md:border-b-0 md:w-full md:border-r-[3px]"
           style={{
             borderColor: `${color}`,
           }}
@@ -63,9 +78,9 @@ export const PokeStats: React.FC<PropsStats> = ({ currPokemon, showStats, setSho
         <p className="text-[13px] md:text-sm">
           <> Weight: {weight}</>
         </p>
-        {stats.map(({ name, value }) => {
+        {stats.map(({ name, value }, i) => {
           return (
-            <p key={value} className="text-[13px] capitalize md:text-sm">
+            <p key={value + i + name} className="text-[13px] capitalize md:text-sm">
               <>
                 {name}: {value}
               </>
