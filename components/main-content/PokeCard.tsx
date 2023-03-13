@@ -46,7 +46,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
   //Return jsx
   if (firstPokemonSeen) {
     return (
-      <div className="h-full flex justify-center items-center relative pokecard">
+      <div className="h-full flex justify-center md:flex-col items-center relative pokecard">
         <motion.div
           animate={{ opacity: [0, 1] }}
           key={`${currPokemon.id}`}
