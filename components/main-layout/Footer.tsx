@@ -1,5 +1,5 @@
 import React from "react";
-import { SocialMedia } from "../../SocialMedia";
+import { SocialMedia } from "../SocialMedia";
 
 interface FooterProps {}
 

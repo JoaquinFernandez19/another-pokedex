@@ -7,6 +7,7 @@ import { HiddenCard } from "./HiddenCard";
 
 import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
+import { PokeStars } from "./PokeStars";
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 //Undefined bc at load we dont have data yet
 interface PokeCardprops {
@@ -70,7 +71,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
         >
           <div className="flex justify-center items-end mb-5 md:mb-10">
             <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
-              {currPokemon.name}
+              <PokeStars value={currPokemon.value} /> - {currPokemon.name}
             </h1>
             <InfoBadge
               currPokemon={currPokemon}

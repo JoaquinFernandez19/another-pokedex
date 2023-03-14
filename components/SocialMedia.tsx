@@ -4,19 +4,19 @@ interface SocialMediaProps {}
 
 const socialMedias: { name: string; icon: string; url: string }[] = [
   {
-    name: "Portfolio",
-    icon: "",
-    url: "",
+    name: "Linkedin",
+    url: "https://www.linkedin.com/in/joaqu%C3%ADn-fernandez-rosso-b5973016b/",
+    icon: "Linkedin",
   },
   {
     name: "Github",
-    icon: "",
-    url: "",
+    url: "https://github.com/JoaquinFernandez19",
+    icon: "JoaquinFernandez19",
   },
   {
-    name: "Linkedin",
-    icon: "",
-    url: "",
+    name: "Portfolio",
+    url: "https://www.linkedin.com/in/joaquin-fernandez-rosso/",
+    icon: "Portfolio",
   },
 ];
 

@@ -8,6 +8,7 @@ const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
 export const cleanupPokemonRequest = (data: any): Pokemon => {
+  const formattedStats = formatStats(data.stats);
   return {
     name: fixName(data.name),
     height: formatWeightAndHeight(null, data.height),
@@ -16,8 +17,9 @@ export const cleanupPokemonRequest = (data: any): Pokemon => {
     mainType: getMainType(data.types),
     types: data.types,
     weight: formatWeightAndHeight(data.weight, null),
-    stats: formatStats(data.stats),
     color: filterColor(getMainType(data.types)),
+    value: getPokemonValue(formattedStats),
+    stats: formattedStats,
   };
 };
 
@@ -32,7 +34,13 @@ const formatStats = (stats: any[]): Stat[] => {
 
   return formattedStats;
 };
+const getPokemonValue = (stats: any[]): number => {
+  let value = 0;
 
+  stats.map((stat) => (value += stat.value));
+
+  return value;
+};
 const formatWeightAndHeight = (w: PhysicalInfo, h: PhysicalInfo) => {
   if (w) return `${w / 10} KG`;
   if (h) return `${h * 10} CM`;

@@ -8,6 +8,7 @@ export interface Pokemon {
   mainType: PokemonType;
   stats: Stat[];
   color?: string | undefined;
+  value: number;
 }
 
 export interface PokemonType {
