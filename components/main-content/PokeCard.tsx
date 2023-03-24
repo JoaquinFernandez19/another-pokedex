@@ -1,20 +1,45 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { preLoadImgs } from "../../utils/Utils";
 import { Pokemon } from "../Types";
-import { Randomizer } from "./pokecard-components/Randomizer";
+import { Randomizer } from "./pokecard-components/bottom-actions/Randomizer";
 import { motion } from "framer-motion";
 import { HiddenCard } from "./HiddenCard";
-
+import { Dispatch, SetStateAction } from "react";
 import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
-import { PokeStars } from "./PokeStars";
+import { PokeStars } from "./pokecard-components/PokeStars";
+import { Purchaser } from "./pokecard-components/bottom-actions/Purchaser";
+import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 //Undefined bc at load we dont have data yet
 interface PokeCardprops {
   pokemonList: Pokemon[];
+  setInited: Dispatch<SetStateAction<boolean>>;
 }
 
-export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
+export const CurrentPokemonContext = createContext<Pokemon>({
+  name: "",
+  id: 0,
+  types: [],
+  img: "",
+  weight: "",
+  stars: 0,
+  height: "",
+  mainType: { slot: 0, type: { name: "none", url: "none" } },
+  stats: [],
+  value: 0,
+});
+
+export const PokeCard: React.FC<PokeCardprops> = ({
+  pokemonList,
+  setInited,
+}) => {
   //States and refs
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const [firstPokemonSeen, setFirstPokemonSeen] = useState<boolean>(false);
@@ -61,46 +86,49 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
     return () => {};
   }, []);
 
+  const handleInitialization = () => {
+    setInited(true);
+    setFirstPokemonSeen(true);
+  };
+
   if (firstPokemonSeen) {
     return (
-      <div className="h-full flex justify-center md:flex-col items-center relative pokecard">
-        <motion.div
-          animate={{ opacity: [0, 1] }}
-          key={`${currPokemon.id}`}
-          className="flex flex-col items-center"
-        >
-          <div className="flex justify-center items-end mb-5 md:mb-10">
-            <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
-              <PokeStars value={currPokemon.value} /> - {currPokemon.name}
-            </h1>
-            <InfoBadge
-              currPokemon={currPokemon}
-              setShowStats={setShowStats}
-              showStats={showStats}
-            />
-          </div>
+      <CurrentPokemonContext.Provider value={currPokemon}>
+        <div className="h-full flex justify-center md:flex-col items-center relative pokecard">
+          <motion.div
+            animate={{ opacity: [0, 1] }}
+            key={`${currPokemon.id}`}
+            className="flex flex-col items-center"
+          >
+            <div className="flex justify-center items-end mb-5 md:mb-10">
+              <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
+                <PokeStars /> - {currPokemon.name}
+              </h1>
+              <InfoBadge setShowStats={setShowStats} showStats={showStats} />
+            </div>
 
-          <div className=" relative grid grid-cols-1 gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
-            <img
-              src={currPokemon.img}
-              alt={currPokemon.name}
-              width={400}
-              height={400}
-              className="m-auto poke-circle border-solid z-10 px-10 md:px-0 md:col-start-2 md:col-end-3  "
-            />
-            <PokeStats
-              managingStats={managingStats.current}
-              rolling={rolling.current}
-              currPokemon={currPokemon}
-              showStats={showStats}
-              setShowStats={setShowStats}
-            />
-          </div>
-        </motion.div>
-        <Randomizer usageLimits={`${credits}`} trigger={randomize} />
-      </div>
+            <div className=" relative grid grid-cols-1 gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
+              <img
+                src={currPokemon.img}
+                alt={currPokemon.name}
+                width={400}
+                height={400}
+                className="m-auto poke-circle border-solid z-10 px-10 md:px-0 md:col-start-2 md:col-end-3  "
+              />
+              <PokeStats
+                managingStats={managingStats.current}
+                rolling={rolling.current}
+                currPokemon={currPokemon}
+                showStats={showStats}
+                setShowStats={setShowStats}
+              />
+            </div>
+          </motion.div>
+          <BottomActions usageLimits={`${credits}`} trigger={randomize} />
+        </div>
+      </CurrentPokemonContext.Provider>
     );
   } else {
-    return <HiddenCard showFirstPokemon={setFirstPokemonSeen} />;
+    return <HiddenCard showFirstPokemon={handleInitialization} />;
   }
 };

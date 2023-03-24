@@ -5,12 +5,15 @@ interface RandomizerProps {
   usageLimits: string;
 }
 
-export const Randomizer: React.FC<RandomizerProps> = ({ trigger, usageLimits }) => {
+export const Randomizer: React.FC<RandomizerProps> = ({
+  trigger,
+  usageLimits,
+}) => {
   const handleOnClick = () => {
     if (Number(usageLimits) > 0) trigger();
   };
   return (
-    <div className="fixed bottom-0 md:relative md:top-auto mx-auto right-0   z-10 text-center md:mt-10">
+    <div className="fixed bottom-0 md:relative md:top-auto mx-auto right-0   z-10 text-center ">
       <button
         onClick={handleOnClick}
         className="text-xl relative cursor-pointer bg-slate-500 px-6 py-1.5 md:px-4 md:py-0.5"

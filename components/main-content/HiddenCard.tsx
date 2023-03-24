@@ -1,15 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Dispatch, SetStateAction } from "react";
-
+import { UserContext } from "../../pages";
 interface HiddenCardProps {
-  showFirstPokemon: Dispatch<SetStateAction<boolean>>;
+  showFirstPokemon: () => void;
 }
 const standByAnim = arrOfZeros(20);
 export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
   const [opening, setOpening] = useState<boolean>(false);
   const [hovering, setHovering] = useState<boolean>(false);
   const [currentEvent, setCurrentEvent] = useState<string>("shaking");
+
+  //Coins initial managment
+  const { coins, setCoins } = useContext(UserContext);
+
   const openDelay = 1000;
   const variants = {
     shaking: {
@@ -64,10 +67,11 @@ export const HiddenCard: React.FC<HiddenCardProps> = ({ showFirstPokemon }) => {
               height={400}
               className={`m-auto drop-shadow-2xl cursor-pointer w-[250px] md:w-[300px]`}
               onClick={() => {
+                setCoins(coins + Number(process.env.NEXT_PUBLIC_CREDITS));
                 setOpening(true);
                 setHovering(false);
                 setTimeout(() => {
-                  showFirstPokemon(true);
+                  showFirstPokemon();
                 }, openDelay);
               }}
             />

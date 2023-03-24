@@ -1,20 +1,19 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Pokemon } from "../../Types";
 import { motion } from "framer-motion";
 
+import { CurrentPokemonContext } from "../PokeCard";
 import { Dispatch, SetStateAction } from "react";
 interface InfoBadgeProps {
-  currPokemon: Pokemon;
   setShowStats: Dispatch<SetStateAction<boolean>>;
   showStats: boolean;
 }
 
 export const InfoBadge: React.FC<InfoBadgeProps> = ({
-  currPokemon,
   setShowStats,
   showStats,
 }) => {
-  const { color } = currPokemon;
+  const { color } = useContext(CurrentPokemonContext);
   const waitingAnimation = useRef<boolean>(false);
   const handleClick = () => {
     if (!waitingAnimation.current) {

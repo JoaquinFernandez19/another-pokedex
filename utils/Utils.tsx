@@ -18,7 +18,8 @@ export const cleanupPokemonRequest = (data: any): Pokemon => {
     types: data.types,
     weight: formatWeightAndHeight(data.weight, null),
     color: filterColor(getMainType(data.types)),
-    value: getPokemonValue(formattedStats),
+    value: getPokemonValue(formattedStats).value,
+    stars: getPokemonValue(formattedStats).stars,
     stats: formattedStats,
   };
 };
@@ -34,12 +35,22 @@ const formatStats = (stats: any[]): Stat[] => {
 
   return formattedStats;
 };
-const getPokemonValue = (stats: any[]): number => {
+const getPokemonValue = (stats: any[]): { value: number; stars: number } => {
   let value = 0;
+  let stars = 0;
 
   stats.map((stat) => (value += stat.value));
+  if (value >= 200) stars = 1;
 
-  return value;
+  if (value >= 300) stars = 2;
+
+  if (value >= 400) stars = 3;
+
+  if (value >= 500) stars = 4;
+
+  if (value >= 600) stars = 5;
+
+  return { value: value, stars: stars };
 };
 const formatWeightAndHeight = (w: PhysicalInfo, h: PhysicalInfo) => {
   if (w) return `${w / 10} KG`;

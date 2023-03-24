@@ -5,27 +5,54 @@ import { GetServerSideProps } from "next";
 import { Coins } from "../components/main-content/Coins";
 import { PokeCard } from "../components/main-content/PokeCard";
 import { Pokemon, PokemonList } from "../components/Types";
-import { useState } from "react";
+import {
+  useState,
+  useContext,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 type Props = {
   data: Pokemon[];
   initialPokemon: number;
 };
 
+export const UserContext = createContext<{
+  coins: number;
+  ownedPokemons: PokemonList | [];
+  setCoins: Dispatch<SetStateAction<number>>;
+  setOwnedPokemons: Dispatch<SetStateAction<PokemonList>>;
+}>({
+  coins: 0,
+  ownedPokemons: [],
+  setCoins: () => {},
+  setOwnedPokemons: () => {},
+});
+
 const Home: NextPage<Props> = ({ data }) => {
   //data equals an array of pokemons
-  const [coins, setCoints] = useState(0);
+  const [coins, setCoints] = useState(400);
   const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
-
+  const [inited, setInited] = useState<boolean>(false);
   return (
-    <div className=" h-full pt-6 pb-2 md:pt-14 md:pb-14 ">
-      <Coins coins={coins} />
-      <Head>
-        <title>pokecollect</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <PokeCard pokemonList={data} />
-    </div>
+    <UserContext.Provider
+      value={{
+        coins: coins,
+        ownedPokemons: ownedPokemons,
+        setCoins: setCoints,
+        setOwnedPokemons: setOwnedPokemons,
+      }}
+    >
+      <div className=" h-full pt-6 pb-2 md:pt-14 md:pb-14 ">
+        {inited ? <Coins /> : ""}
+        <Head>
+          <title>pokecollect</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <PokeCard pokemonList={data} setInited={setInited} />
+      </div>
+    </UserContext.Provider>
   );
 };
 
