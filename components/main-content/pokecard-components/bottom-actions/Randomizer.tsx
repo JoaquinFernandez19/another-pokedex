@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
+import { UserContext } from "../../../../pages";
 interface RandomizerProps {
   trigger: () => void;
   usageLimits: string;
 }
 
-export const Randomizer: React.FC<RandomizerProps> = ({
-  trigger,
-  usageLimits,
-}) => {
+export const Randomizer: React.FC<RandomizerProps> = ({ trigger, usageLimits }) => {
+  const { coins, setCoins } = useContext(UserContext);
+
   const handleOnClick = () => {
-    if (Number(usageLimits) > 0) trigger();
+    if (Number(usageLimits) > 0) {
+      trigger();
+      setCoins(coins + Number(process.env.NEXT_PUBLIC_ROLL_CREDITS));
+    }
   };
   return (
     <div className="fixed bottom-0 md:relative md:top-auto mx-auto right-0   z-10 text-center ">
