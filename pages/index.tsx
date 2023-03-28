@@ -5,8 +5,15 @@ import { GetServerSideProps } from "next";
 import { Coins } from "../components/main-content/inventory/Coins";
 import { PokeCard } from "../components/main-content/PokeCard";
 import { Pokemon, PokemonList } from "../components/Types";
-import { useState, useContext, createContext, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useContext,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { Bag } from "../components/main-content/inventory/Bag";
+import { Inventory } from "../components/main-content/Inventory";
 
 type Props = {
   data: Pokemon[];
@@ -14,11 +21,15 @@ type Props = {
 };
 
 export const UserContext = createContext<{
+  userName: string;
+  userId: number;
   coins: number;
   ownedPokemons: PokemonList | [];
   setCoins: Dispatch<SetStateAction<number>>;
   setOwnedPokemons: Dispatch<SetStateAction<PokemonList>>;
 }>({
+  userName: "",
+  userId: 1,
   coins: 0,
   ownedPokemons: [],
   setCoins: () => {},
@@ -27,12 +38,21 @@ export const UserContext = createContext<{
 
 const Home: NextPage<Props> = ({ data }) => {
   //data equals an array of pokemons
+  const [userData, setUserData] = useState<{
+    userName: string;
+    userId: number;
+  }>({
+    userName: "Joaco",
+    userId: 1,
+  });
   const [coins, setCoints] = useState(400);
   const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
   const [inited, setInited] = useState<boolean>(false);
   return (
     <UserContext.Provider
       value={{
+        userName: userData.userName,
+        userId: userData.userId,
         coins: coins,
         ownedPokemons: ownedPokemons,
         setCoins: setCoints,
@@ -40,8 +60,7 @@ const Home: NextPage<Props> = ({ data }) => {
       }}
     >
       <div className=" h-full pt-6 pb-2 md:pt-14 md:pb-14 ">
-        {inited ? <Coins /> : ""}
-        {inited ? <Bag /> : ""}
+        {inited ? <Inventory /> : ""}
         <Head>
           <title>pokecollect</title>
           <link rel="icon" href="/favicon.ico" />

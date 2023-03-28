@@ -1,12 +1,16 @@
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { UserContext } from "../../../../pages";
+import { ToolNumber } from "../../tools/ToolNumber";
 interface RandomizerProps {
   trigger: () => void;
   usageLimits: string;
 }
 
-export const Randomizer: React.FC<RandomizerProps> = ({ trigger, usageLimits }) => {
+export const Randomizer: React.FC<RandomizerProps> = ({
+  trigger,
+  usageLimits,
+}) => {
   const { coins, setCoins } = useContext(UserContext);
 
   const handleOnClick = () => {
@@ -21,26 +25,7 @@ export const Randomizer: React.FC<RandomizerProps> = ({ trigger, usageLimits }) 
         onClick={handleOnClick}
         className="text-xl relative cursor-pointer bg-slate-500 px-6 py-1.5 md:px-4 md:py-0.5"
       >
-        Roll{" "}
-        <span
-          className={` ${
-            usageLimits === "0" ? "grayscale" : ""
-          } opacity-90 absolute inline-flex items-center justify-center w-5 h-5 text-[13px] font-bold text-white bg-red-500 border-2 border-white rounded-full bottom-[30px] md:bottom-[24.5px] -left-2 md:-right-2 dark:border-gray-900`}
-        >
-          <motion.span
-            key={usageLimits}
-            animate={{
-              y: [-20, 0],
-              opacity: [0, 1],
-              transition: {
-                y: { duration: 0.5, type: "spring" },
-                opacity: { duration: 1, type: "spring" },
-              },
-            }}
-          >
-            {usageLimits}
-          </motion.span>
-        </span>
+        Roll <ToolNumber value={Number(usageLimits)} />
       </button>
     </div>
   );
