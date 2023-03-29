@@ -25,7 +25,11 @@ export const Randomizer: React.FC<RandomizerProps> = ({
         onClick={handleOnClick}
         className="text-xl relative cursor-pointer bg-slate-500 px-6 py-1.5 md:px-4 md:py-0.5"
       >
-        Roll <ToolNumber value={Number(usageLimits)} />
+        Roll{" "}
+        <ToolNumber
+          value={Number(usageLimits)}
+          style={"bottom-[30px] md:bottom-[24.5px] -left-2 md:-right-2"}
+        />
       </button>
     </div>
   );

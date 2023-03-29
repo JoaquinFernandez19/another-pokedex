@@ -5,7 +5,7 @@ import { UserContext } from "../../pages";
 export const Inventory = () => {
   const { userName, userId } = useContext(UserContext);
   return (
-    <div className="fixed top-3 right-[2.5rem] text-right z-50">
+    <div className="fixed flex flex-col gap-1 top-3 right-[2.5rem] text-right z-50">
       <div>{userName}</div>
       <Coins />
       <Bag />
