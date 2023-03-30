@@ -7,7 +7,7 @@ export const Purchaser: React.FC = () => {
   const { value, color } = useContext(CurrentPokemonContext);
   const currPokemon = useContext(CurrentPokemonContext);
   const handleBuy = () => {
-    if (coins >= value) {
+    if (coins >= value && ownedPokemons.length < 6) {
       //we admit buying
       setCoins(coins - value);
       setOwnedPokemons([...ownedPokemons, currPokemon]);

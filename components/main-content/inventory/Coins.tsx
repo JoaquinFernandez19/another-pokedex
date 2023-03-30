@@ -1,7 +1,39 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../pages";
-
+import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import { motion } from "framer-motion";
 export const Coins: React.FC = () => {
   const { coins } = useContext(UserContext);
-  return <div> {coins} coins </div>;
+  const [prevCoins, setPrevCoins] = useState(coins);
+
+  let arrow = null;
+
+  if (coins > prevCoins) {
+    arrow = <AiFillCaretUp className="text-green-500" />;
+  } else if (coins < prevCoins) {
+    arrow = <AiFillCaretDown className="text-red-500" />;
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setPrevCoins(coins);
+    }, 500);
+  }, [coins]);
+
+  return (
+    <div className="flex items-center">
+      <motion.span
+        key={coins}
+        animate={{
+          opacity: [1, 0, 1, 0],
+          transition: {
+            opacity: { duration: 0.5, type: "spring" },
+          },
+        }}
+      >
+        {arrow}
+      </motion.span>
+      {coins} coins
+    </div>
+  );
 };

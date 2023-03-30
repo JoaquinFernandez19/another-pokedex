@@ -45,7 +45,7 @@ const Home: NextPage<Props> = ({ data }) => {
     userName: "Joaco",
     userId: 1,
   });
-  const [coins, setCoints] = useState(2000);
+  const [coins, setCoints] = useState(4000);
   const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
   const [inited, setInited] = useState<boolean>(false);
   return (
