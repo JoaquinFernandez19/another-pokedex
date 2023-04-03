@@ -17,12 +17,12 @@ export const Purchaser: React.FC = () => {
   return (
     <button
       onClick={handleBuy}
-      className={`text-xl relative cursor-pointer  px-6 py-1.5 md:px-4 md:py-0.5 ${
+      className={`text-xl relative cursor-pointer  px-6 py-1.5   md:px-4 md:py-0.5 ${
         coins < value ? "disabled" : ""
       }`}
       style={{ backgroundColor: color }}
     >
-      Buy - ({value})
+      Buy
     </button>
   );
 };

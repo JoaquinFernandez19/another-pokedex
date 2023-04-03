@@ -7,10 +7,7 @@ interface RandomizerProps {
   usageLimits: string;
 }
 
-export const Randomizer: React.FC<RandomizerProps> = ({
-  trigger,
-  usageLimits,
-}) => {
+export const Randomizer: React.FC<RandomizerProps> = ({ trigger, usageLimits }) => {
   const { coins, setCoins } = useContext(UserContext);
 
   const handleOnClick = () => {
@@ -20,17 +17,15 @@ export const Randomizer: React.FC<RandomizerProps> = ({
     }
   };
   return (
-    <div className="fixed bottom-0 md:relative md:top-auto mx-auto right-0   z-10 text-center ">
-      <button
-        onClick={handleOnClick}
-        className="text-xl relative cursor-pointer bg-slate-500 px-6 py-1.5 md:px-4 md:py-0.5"
-      >
-        Roll{" "}
-        <ToolNumber
-          value={Number(usageLimits)}
-          style={"bottom-[30px] md:bottom-[24.5px] -left-2 md:-right-2"}
-        />
-      </button>
-    </div>
+    <button
+      onClick={handleOnClick}
+      className="text-xl relative cursor-pointer bg-slate-500 px-6 w-[89.68px] py-1.5 md:px-4 md:py-0.5"
+    >
+      Roll{" "}
+      <ToolNumber
+        value={Number(usageLimits)}
+        style={"bottom-[30px] md:bottom-[24.5px] -left-2 md:-right-2"}
+      />
+    </button>
   );
 };
