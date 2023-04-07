@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { UserContext } from "../../pages";
+import { UserContext } from "../context/Context";
 interface HiddenCardProps {
   showFirstPokemon: () => void;
 }

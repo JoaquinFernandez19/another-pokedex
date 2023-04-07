@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import { UserContext } from "../../../../pages";
 import { ToolNumber } from "../../tools/ToolNumber";
+import { UserContext } from "../../../context/Context";
 interface RandomizerProps {
   trigger: () => void;
   usageLimits: string;

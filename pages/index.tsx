@@ -2,8 +2,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { fetchPokemons } from "../utils/Utils";
 import { GetServerSideProps } from "next";
-import { Coins } from "../components/main-content/inventory/Coins";
-import { PokeCard } from "../components/main-content/PokeCard";
+import { Coins } from "../components/content/inventory/Coins";
+import { PokeCard } from "../components/content/PokeCard";
 import { Pokemon, PokemonList } from "../components/Types";
 import {
   useState,
@@ -12,29 +12,13 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
-import { Bag } from "../components/main-content/inventory/Bag";
-import { Inventory } from "../components/main-content/Inventory";
+import { Inventory } from "../components/content/Inventory";
+import { UserContext } from "../components/context/Context";
 
 type Props = {
   data: Pokemon[];
   initialPokemon: number;
 };
-
-export const UserContext = createContext<{
-  userName: string;
-  userId: number;
-  coins: number;
-  ownedPokemons: PokemonList | [];
-  setCoins: Dispatch<SetStateAction<number>>;
-  setOwnedPokemons: Dispatch<SetStateAction<PokemonList>>;
-}>({
-  userName: "",
-  userId: 1,
-  coins: 0,
-  ownedPokemons: [],
-  setCoins: () => {},
-  setOwnedPokemons: () => {},
-});
 
 const Home: NextPage<Props> = ({ data }) => {
   //data equals an array of pokemons

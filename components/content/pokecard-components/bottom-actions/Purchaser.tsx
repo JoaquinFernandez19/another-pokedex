@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { UserContext } from "../../../../pages";
+import { UserContext } from "../../../context/Context";
 import { CurrentPokemonContext } from "../../PokeCard";
 export const Purchaser: React.FC = () => {
   const { coins, setCoins, ownedPokemons, setOwnedPokemons } =

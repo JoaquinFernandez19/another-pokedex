@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../../pages";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import { motion } from "framer-motion";
+import { UserContext } from "../../context/Context";
 export const Coins: React.FC = () => {
   const { coins } = useContext(UserContext);
   const [prevCoins, setPrevCoins] = useState(coins);
