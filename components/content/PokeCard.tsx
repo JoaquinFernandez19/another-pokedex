@@ -13,7 +13,7 @@ import { HiddenCard } from "./HiddenCard";
 import { Dispatch, SetStateAction } from "react";
 import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
-import { PokeStars } from "./pokecard-components/PokeStars";
+import { PokeStars } from "./pokecard-components/PokePrice";
 import { Purchaser } from "./pokecard-components/bottom-actions/Purchaser";
 import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
