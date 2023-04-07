@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import {RiCoinLine} from 'react-icons/ri'
 import { motion } from "framer-motion";
+
 import { UserContext } from "../../context/Context";
 export const Coins: React.FC = () => {
   const { coins } = useContext(UserContext);
@@ -22,6 +24,8 @@ export const Coins: React.FC = () => {
 
   return (
     <div className="flex items-center">
+      
+      <RiCoinLine style={{paddingRight: '5px'}}/>{coins} 
       <motion.span
         key={coins}
         animate={{
@@ -33,7 +37,6 @@ export const Coins: React.FC = () => {
       >
         {arrow}
       </motion.span>
-      {coins} coins
     </div>
   );
 };

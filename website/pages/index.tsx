@@ -2,18 +2,15 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { fetchPokemons } from "../utils/Utils";
 import { GetServerSideProps } from "next";
-import { Coins } from "../components/content/inventory/Coins";
 import { PokeCard } from "../components/content/PokeCard";
 import { Pokemon, PokemonList } from "../components/Types";
 import {
   useState,
-  useContext,
-  createContext,
-  Dispatch,
-  SetStateAction,
+
 } from "react";
-import { Inventory } from "../components/content/Inventory";
+
 import { UserContext } from "../components/context/Context";
+import { Profile } from "../components/content/profile/Profile";
 
 type Props = {
   data: Pokemon[];
@@ -44,7 +41,7 @@ const Home: NextPage<Props> = ({ data }) => {
       }}
     >
       <div className=" h-full pt-6 pb-2 md:pt-14 md:pb-14 ">
-        {inited ? <Inventory /> : ""}
+        {inited ? <Profile /> : ""}
         <Head>
           <title>pokecollect</title>
           <link rel="icon" href="/favicon.ico" />

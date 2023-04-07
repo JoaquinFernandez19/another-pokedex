@@ -28,6 +28,37 @@ a {
   pointer-events: none;
   opacity: 0.3;
 }
+.fixed-center {
+  left:50%;
+  right:50%;
+  transform: translate(-50%, -50%);
+}
+
+.profile-icon {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  /* Add any additional styles as needed */
+}
+
+.profile-menu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transform-origin: bottom left;
+  max-width:100px;
+
+  max-height: max-content;
+  /* Add any additional styles as needed */
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

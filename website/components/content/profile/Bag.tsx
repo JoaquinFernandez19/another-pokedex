@@ -13,12 +13,11 @@ export const Bag: React.FC = () => {
     <div className="relative">
       <button
         onClick={handleClickBag}
-        className={`cursor-pointer relative ${
+        className={`cursor-pointer pl-5 relative ${
           ownedPokemons.length === 0 ? "grayscale  " : ""
         }`}
       >
-        <img src={"/backpack.png"} className={"w-8"} />
-        <ToolNumber value={ownedPokemons.length} style={"top-5 -right-3"} />
+       Bag <ToolNumber value={ownedPokemons.length} style={"top-0 -left-1"} />
       </button>
       {showBag ? <BagPokemonList pokemonList={ownedPokemons} /> : ""}
     </div>
