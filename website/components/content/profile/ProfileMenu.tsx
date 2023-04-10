@@ -1,15 +1,11 @@
 import React, { useContext } from "react";
-import { Bag } from "./Bag";
-import { Coins } from "./Coins";
 import { UserContext } from "../../context/Context";
 
 export const ProfileMenu = () => {
-  const {userName} = useContext(UserContext)
+  const { userName } = useContext(UserContext);
   return (
-    <div>
-      <Bag />
-      <Coins />
- {userName}     
+    <div className="flex flex-col gap-1 justify-center items-start pl-3">
+      {userName}
     </div>
   );
 };

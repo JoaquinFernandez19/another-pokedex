@@ -29,15 +29,16 @@ a {
   opacity: 0.3;
 }
 .fixed-center {
-  left:50%;
-  right:50%;
+  left: 50%;
+  right: 50%;
   transform: translate(-50%, -50%);
 }
 
 .profile-icon {
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 0;
+  padding-top: 10px;
+  padding-left: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,18 +46,45 @@ a {
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
-  /* Add any additional styles as needed */
+  z-index: 5;
 }
 
 .profile-menu {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 0;
+  left: 0;
   transform-origin: bottom left;
-  max-width:100px;
-
+  z-index: 4;
+  width: 200px;
+  padding-left: 50px;
+  padding-top: 10px;
+  font-size: 30px;
+  height: 100vh;
+  background: rgba(252, 192, 192);
   max-height: max-content;
   /* Add any additional styles as needed */
+}
+.inventory {
+  position: fixed;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: top;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+
+  width: 450px;
+  padding: 40px 32px;
+  padding-bottom: 10px;
+}
+.inventory-pokemon-list {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+.inventory-pokemon-list > div {
+  min-width: 40px;
+  min-height: 60px;
 }
 
 @media (prefers-color-scheme: dark) {

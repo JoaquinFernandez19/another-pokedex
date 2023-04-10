@@ -1,9 +1,7 @@
 import { createContext, Dispatch, SetStateAction } from "react";
-import { PokemonList } from "../Types";
+import { Pokemon, PokemonList } from "../Types";
 
-
-
-export const isMobileContext  = createContext<boolean>(false);
+export const isMobileContext = createContext<boolean>(false);
 export const UserContext = createContext<{
   userName: string;
   userId: number;
@@ -18,4 +16,16 @@ export const UserContext = createContext<{
   ownedPokemons: [],
   setCoins: () => {},
   setOwnedPokemons: () => {},
+});
+export const CurrentPokemonContext = createContext<Pokemon>({
+  name: "",
+  id: 0,
+  types: [],
+  img: "",
+  weight: "",
+  stars: 0,
+  height: "",
+  mainType: { slot: 0, type: { name: "none", url: "none" } },
+  stats: [],
+  value: 0,
 });

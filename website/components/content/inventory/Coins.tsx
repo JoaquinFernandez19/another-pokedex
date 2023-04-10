@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
-import {RiCoinLine} from 'react-icons/ri'
 import { motion } from "framer-motion";
+import { TbCoin } from "react-icons/tb";
 
 import { UserContext } from "../../context/Context";
 export const Coins: React.FC = () => {
@@ -24,8 +24,15 @@ export const Coins: React.FC = () => {
 
   return (
     <div className="flex items-center">
-      
-      <RiCoinLine style={{paddingRight: '5px'}}/>{coins} 
+      {/* <TbCoin
+        style={{
+          paddingRight: "1px",
+          fontSize: "25px",
+          position: "relative",
+          left: "-5px",
+        }}
+      /> */}
+      {coins}
       <motion.span
         key={coins}
         animate={{

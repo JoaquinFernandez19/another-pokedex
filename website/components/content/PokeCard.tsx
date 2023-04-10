@@ -7,34 +7,20 @@ import React, {
 } from "react";
 import { preLoadImgs } from "../../utils/Utils";
 import { Pokemon } from "../Types";
-import { Randomizer } from "./pokecard-components/bottom-actions/Randomizer";
 import { motion } from "framer-motion";
 import { HiddenCard } from "./HiddenCard";
 import { Dispatch, SetStateAction } from "react";
 import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
 import { PokeStars } from "./pokecard-components/PokePrice";
-import { Purchaser } from "./pokecard-components/bottom-actions/Purchaser";
 import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
+import { CurrentPokemonContext } from "../context/Context";
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 //Undefined bc at load we dont have data yet
 interface PokeCardprops {
   pokemonList: Pokemon[];
   setInited: Dispatch<SetStateAction<boolean>>;
 }
-
-export const CurrentPokemonContext = createContext<Pokemon>({
-  name: "",
-  id: 0,
-  types: [],
-  img: "",
-  weight: "",
-  stars: 0,
-  height: "",
-  mainType: { slot: 0, type: { name: "none", url: "none" } },
-  stats: [],
-  value: 0,
-});
 
 export const PokeCard: React.FC<PokeCardprops> = ({
   pokemonList,
@@ -132,3 +118,4 @@ export const PokeCard: React.FC<PokeCardprops> = ({
     return <HiddenCard showFirstPokemon={handleInitialization} />;
   }
 };
+export { CurrentPokemonContext };
