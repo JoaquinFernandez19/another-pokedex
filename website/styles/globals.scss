@@ -111,11 +111,11 @@ a {
     }
   }
   @media (max-width: 768px) {
-    // transform: rotate(270deg);
-    // left: inherit;
+    padding-top: 55px;
     height: 306px;
     width: 364px;
     z-index: 1000;
+    bottom: -65px;
   }
 }
 
