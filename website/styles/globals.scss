@@ -64,6 +64,7 @@ a {
   max-height: max-content;
   /* Add any additional styles as needed */
 }
+
 .inventory {
   position: fixed;
   background-size: contain;
@@ -73,18 +74,49 @@ a {
   right: 0;
   bottom: 0;
   margin: auto;
-
-  width: 450px;
+  --inventory-size: 680px;
+  @media (max-width: 768px) {
+    --inventory-size: 364px;
+  }
+  width: var(--inventory-size);
   padding: 40px 32px;
-  padding-bottom: 10px;
-}
-.inventory-pokemon-list {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-}
-.inventory-pokemon-list > div {
-  min-width: 40px;
-  min-height: 60px;
+  padding-bottom: 0;
+
+  .inventory-pokemon-list {
+    display: grid;
+    column-gap: 20px;
+    max-width: calc(var(--inventory-size) - 150px);
+    margin: auto;
+    padding-bottom: 5px;
+    grid-template-columns: repeat(6, 1fr);
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 30px;
+      row-gap: 30px;
+      max-width: fit-content;
+    }
+    & > div {
+      min-width: 40px;
+      min-height: 60px;
+      background-color: #0000001f;
+      margin-top: 3px;
+
+      border-radius: 25%;
+      background-size: cover;
+      background-position: center;
+      @media (max-width: 768px) {
+        min-width: 61px;
+        min-height: 72px;
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    // transform: rotate(270deg);
+    // left: inherit;
+    height: 306px;
+    width: 364px;
+    z-index: 1000;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

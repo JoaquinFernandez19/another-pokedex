@@ -2,6 +2,7 @@ import { Pokemon, PokemonType, Stat } from "../components/Types";
 import PokTypes from "./PokTypes.json";
 interface FrontSprite {
   other: { "official-artwork": { front_default: string } };
+  front_default: string;
 }
 type PhysicalInfo = number | null;
 const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
@@ -21,6 +22,7 @@ export const cleanupPokemonRequest = (data: any): Pokemon => {
     value: getPokemonValue(formattedStats).value,
     stars: getPokemonValue(formattedStats).stars,
     stats: formattedStats,
+    sm_img: getOfficialArtwork(data.sprites, "sm"),
   };
 };
 
@@ -66,7 +68,8 @@ const fixName = (name: string) => {
   name = name.split("-")[0];
   return name.charAt(0).toUpperCase() + name.slice(1);
 };
-const getOfficialArtwork = (sprites: FrontSprite) => {
+const getOfficialArtwork = (sprites: FrontSprite, type?: string) => {
+  if (type == "sm") return sprites?.front_default;
   return sprites?.other?.["official-artwork"]?.front_default;
 };
 const getMainType = (types: PokemonType[]) => {

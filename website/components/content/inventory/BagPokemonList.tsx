@@ -24,13 +24,19 @@ export const BagPokemonList: React.FC<BagPokemonListProps> = ({
     <div className="inventory-pokemon-list">
       {inventory.map((pokemon, i) => {
         if (typeof pokemon === "string") {
-          return <div key={i}></div>;
+          return (
+            <div
+              key={i}
+              className="bg-contain bg-center bg-no-repeat opacity-20"
+              style={{ backgroundImage: `url('./empty-pokeball.png')` }}
+            ></div>
+          );
         }
         return (
           <div
             key={i}
             className="bg-cover"
-            style={{ backgroundImage: `url(${pokemon.img})` }}
+            style={{ backgroundImage: `url(${pokemon.sm_img})` }}
           ></div>
         );
       })}

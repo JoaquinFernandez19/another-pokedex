@@ -28,4 +28,5 @@ export const CurrentPokemonContext = createContext<Pokemon>({
   mainType: { slot: 0, type: { name: "none", url: "none" } },
   stats: [],
   value: 0,
+  sm_img: "",
 });
