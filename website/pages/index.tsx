@@ -61,9 +61,7 @@ const Home: NextPage<Props> = ({ data }) => {
           </Head>
           <PokeCard pokemonList={data} setInited={setInited} />
           {inited ? <Logo /> : ""}
-          {/* {inited ? <Inventory ownedPokemons={ownedPokemons} /> : ""} */}
-          {/* {inited ?  : ""} */}
-          <Inventory ownedPokemons={ownedPokemons} />
+          {inited ? <Inventory ownedPokemons={ownedPokemons} /> : ""}
         </div>
       </UserContext.Provider>
     </isMobileContext.Provider>
