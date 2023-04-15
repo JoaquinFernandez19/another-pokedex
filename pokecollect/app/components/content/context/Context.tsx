@@ -1,21 +1,18 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Pokemon, PokemonList } from "../../../utils/Types";
 
-export const isMobileContext = createContext<boolean>(false);
-export const UserContext = createContext<{
-  userName: string;
-  userId: number;
+export const SessionContext = createContext<{
   coins: number;
   ownedPokemons: PokemonList | [];
   setCoins: Dispatch<SetStateAction<number>>;
   setOwnedPokemons: Dispatch<SetStateAction<PokemonList>>;
+  isMobile: boolean;
 }>({
-  userName: "",
-  userId: 1,
   coins: 0,
   ownedPokemons: [],
   setCoins: () => {},
   setOwnedPokemons: () => {},
+  isMobile: false,
 });
 export const CurrentPokemonContext = createContext<Pokemon>({
   name: "",

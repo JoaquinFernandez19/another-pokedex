@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useContext } from "react";
-import { UserContext } from "../../../../context/Context";
+import { SessionContext } from "../../../../context/Context";
 import { CurrentPokemonContext } from "../../PokeCard";
 export const Purchaser: React.FC = () => {
   const { coins, setCoins, ownedPokemons, setOwnedPokemons } =
-    useContext(UserContext);
+    useContext(SessionContext);
   const { value, color } = useContext(CurrentPokemonContext);
   const currPokemon = useContext(CurrentPokemonContext);
   const handleBuy = () => {

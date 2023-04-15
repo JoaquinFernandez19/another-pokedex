@@ -11,6 +11,7 @@ import { BottomActions } from "./pokecard-components/bottom-actions/BottomAction
 import { CurrentPokemonContext } from "../../context/Context";
 import { fetchPokemons } from "@/app/utils/Utils";
 import { BackgroundLogo } from "@/app/components/layout/BackgroundLogo";
+import Image from "next/image";
 
 const pokemonListFetch = fetchPokemons();
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
@@ -59,7 +60,7 @@ export const PokeCard: React.FC = () => {
           </div>
 
           <div className=" relative grid grid-cols-1 gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
-            <img
+            <Image
               src={currPokemon.img}
               alt={currPokemon.name}
               width={400}

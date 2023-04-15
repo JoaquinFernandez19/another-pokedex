@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import { motion } from "framer-motion";
-import { UserContext } from "../../../context/Context";
+import { SessionContext } from "../../../context/Context";
 export const Coins: React.FC = () => {
-  const { coins } = useContext(UserContext);
+  const { coins } = useContext(SessionContext);
   const [prevCoins, setPrevCoins] = useState(coins);
 
   let arrow = null;

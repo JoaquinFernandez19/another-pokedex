@@ -2,7 +2,7 @@
 
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import { ToolNumber } from "../../tools/ToolNumber";
-import { UserContext } from "../../../../context/Context";
+import { SessionContext } from "../../../../context/Context";
 interface RandomizerProps {
   randomize: Dispatch<SetStateAction<number>>;
   usageLimits: string;
@@ -12,7 +12,7 @@ export const Randomizer: React.FC<RandomizerProps> = ({
   randomize,
   usageLimits,
 }) => {
-  const { coins, setCoins } = useContext(UserContext);
+  const { coins, setCoins } = useContext(SessionContext);
   const credits = Number(usageLimits);
   const handleOnClick = () => {
     if (credits > 0) {

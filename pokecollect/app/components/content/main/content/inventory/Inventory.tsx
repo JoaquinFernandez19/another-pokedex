@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { BagPokemonList } from "./BagPokemonList";
 import { Pokemon } from "../../../../../utils/Types";
-import { isMobileContext } from "../../../context/Context";
+import { SessionContext } from "../../../context/Context";
 import { motion } from "framer-motion";
 interface PokeCardprops {
   ownedPokemons: Pokemon[];
 }
 export const Inventory: React.FC<PokeCardprops> = ({ ownedPokemons }) => {
-  const isMobile = useContext(isMobileContext);
+  const { isMobile } = useContext(SessionContext);
   const imageUrl = isMobile ? "inventory-m" : "inventory";
   const showInventory = useRef(false);
   const [currentAnimation, setCurrenAnimation] = useState("minimized");

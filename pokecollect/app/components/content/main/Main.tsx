@@ -2,20 +2,12 @@
 
 import { PokemonList } from "@/app/utils/Types";
 import { PokeBall } from "./content/PokeBall";
-import React, { useEffect, useState, use } from "react";
-import { isMobileContext, UserContext } from "../context/Context";
+import React, { useEffect, useState } from "react";
+import { SessionContext } from "../context/Context";
 import { PokeCard } from "./content/PokeCard";
 import { Inventory } from "./content/inventory/Inventory";
 
 export const Main: React.FC = () => {
-  const [userData, setUserData] = useState<{
-    userName: string;
-    userId: number;
-  }>({
-    userName: "Joaco",
-    userId: 1,
-  });
-
   const [coins, setCoints] = useState(4000);
   const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
   const [inited, setInited] = useState<boolean>(false);
@@ -34,22 +26,19 @@ export const Main: React.FC = () => {
   }, []);
 
   return (
-    <isMobileContext.Provider value={isMobile}>
-      <UserContext.Provider
-        value={{
-          userName: userData.userName,
-          userId: userData.userId,
-          coins: coins,
-          ownedPokemons: ownedPokemons,
-          setCoins: setCoints,
-          setOwnedPokemons: setOwnedPokemons,
-        }}
-      >
-        <div className="min-h-screen flex items-center justify-center relative">
-          {inited ? <PokeCard /> : <PokeBall showFirstPokemon={setInited} />}
-          {inited ? <Inventory ownedPokemons={ownedPokemons} /> : ""}
-        </div>
-      </UserContext.Provider>
-    </isMobileContext.Provider>
+    <SessionContext.Provider
+      value={{
+        isMobile: isMobile,
+        coins: coins,
+        ownedPokemons: ownedPokemons,
+        setCoins: setCoints,
+        setOwnedPokemons: setOwnedPokemons,
+      }}
+    >
+      <div className="min-h-screen flex items-center justify-center relative">
+        {inited ? <PokeCard /> : <PokeBall showFirstPokemon={setInited} />}
+        {inited ? <Inventory ownedPokemons={ownedPokemons} /> : ""}
+      </div>
+    </SessionContext.Provider>
   );
 };

@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react";
 import { motion } from "framer-motion";
-import { UserContext } from "../../context/Context";
+import { SessionContext } from "../../context/Context";
 interface PokeBallProps {
   showFirstPokemon: Dispatch<SetStateAction<boolean>>;
 }
@@ -20,7 +20,7 @@ export const PokeBall: React.FC<PokeBallProps> = ({ showFirstPokemon }) => {
   const [currentEvent, setCurrentEvent] = useState<string>("shaking");
 
   //Coins initial managment
-  const { coins, setCoins } = useContext(UserContext);
+  const { coins, setCoins } = useContext(SessionContext);
 
   const openDelay = 1000;
   const variants = {
