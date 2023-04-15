@@ -34,7 +34,7 @@ export const PokeCard: React.FC = () => {
     setPokemon(pokemonList[currPokIndex.current]);
 
     return () => {};
-  }, [credits]);
+  }, [credits, pokemonList]);
 
   useEffect(() => {
     const preLoadImgEffect = () => {
@@ -42,38 +42,41 @@ export const PokeCard: React.FC = () => {
     };
     preLoadImgEffect();
     return () => {};
-  }, []);
+  }, [pokemonList]);
+  if (currPokemon?.name) {
+    return (
+      <CurrentPokemonContext.Provider value={currPokemon}>
+        <div className="bottom-4 h-full flex justify-center md:flex-col items-center relative md:bottom-0 ">
+          <motion.div
+            animate={{ opacity: [0, 1] }}
+            key={`${currPokemon.id}`}
+            className="flex flex-col items-center"
+          >
+            <div className="flex justify-center items-end mb-5 md:mb-10">
+              <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
+                <PokePrice /> - {currPokemon.name}
+              </h1>
+              <InfoBadge setShowStats={setShowStats} showStats={showStats} />
+            </div>
 
-  return (
-    <CurrentPokemonContext.Provider value={currPokemon}>
-      <div className="bottom-4 h-full flex justify-center md:flex-col items-center relative md:bottom-0 ">
-        <motion.div
-          animate={{ opacity: [0, 1] }}
-          key={`${currPokemon.id}`}
-          className="flex flex-col items-center"
-        >
-          <div className="flex justify-center items-end mb-5 md:mb-10">
-            <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
-              <PokePrice /> - {currPokemon.name}
-            </h1>
-            <InfoBadge setShowStats={setShowStats} showStats={showStats} />
-          </div>
-
-          <div className=" relative grid grid-cols-1 gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
-            <Image
-              src={currPokemon.img}
-              alt={currPokemon.name}
-              width={400}
-              height={400}
-              className="m-auto poke-circle border-solid z-10 px-10 md:px-0 md:col-start-2 md:col-end-3  "
-            />
-            {showStats ? <PokeStats currPokemon={currPokemon} /> : ""}
-          </div>
-        </motion.div>
-        <BottomActions usageLimits={`${credits}`} randomize={setCredits} />
-      </div>
-      <BackgroundLogo />
-    </CurrentPokemonContext.Provider>
-  );
+            <div className=" relative grid grid-cols-1 gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]">
+              <Image
+                src={currPokemon.img}
+                alt={currPokemon.name}
+                width={400}
+                height={400}
+                className="m-auto poke-circle border-solid z-10 px-10 md:px-0 md:col-start-2 md:col-end-3  "
+              />
+              {showStats ? <PokeStats currPokemon={currPokemon} /> : ""}
+            </div>
+          </motion.div>
+          <BottomActions usageLimits={`${credits}`} randomize={setCredits} />
+        </div>
+        <BackgroundLogo />
+      </CurrentPokemonContext.Provider>
+    );
+  } else {
+    return <h1>RIP</h1>;
+  }
 };
 export { CurrentPokemonContext };
