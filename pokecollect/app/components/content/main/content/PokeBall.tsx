@@ -12,9 +12,13 @@ import { motion } from "framer-motion";
 import { SessionContext } from "../../context/Context";
 interface PokeBallProps {
   showFirstPokemon: Dispatch<SetStateAction<boolean>>;
+  inited: boolean;
 }
 
-export const PokeBall: React.FC<PokeBallProps> = ({ showFirstPokemon }) => {
+export const PokeBall: React.FC<PokeBallProps> = ({
+  showFirstPokemon,
+  inited,
+}) => {
   const [opening, setOpening] = useState<boolean>(false);
   const [hovering, setHovering] = useState<boolean>(false);
   const [currentEvent, setCurrentEvent] = useState<string>("shaking");
@@ -58,7 +62,7 @@ export const PokeBall: React.FC<PokeBallProps> = ({ showFirstPokemon }) => {
     }
     return () => {};
   }, [opening, hovering]);
-
+  if (inited) return <></>;
   return (
     <motion.div animate={{ opacity: [0, 1] }} className="pokeball">
       <div className="relative">

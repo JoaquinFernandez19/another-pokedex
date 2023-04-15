@@ -1,5 +1,3 @@
-"use client";
-
 import { Pokemon, PokemonType, Stat } from "./Types";
 import PokTypes from "./PokTypes.json";
 interface FrontSprite {

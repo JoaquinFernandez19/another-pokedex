@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, use } from "react";
 import { preLoadImgs } from "../../../../utils/Utils";
 import { Pokemon, PokemonList } from "../../../../utils/Types";
 import { motion } from "framer-motion";
@@ -15,37 +15,40 @@ import Image from "next/image";
 
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 //Undefined bc at load we dont have data yet
-
-export const PokeCard: React.FC = () => {
+const fetchPokemons_ = fetchPokemons();
+export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
+  debugger;
+  //Fetch pokemonList
+  const pokemonList = use(fetchPokemons_);
   //States and refs
-  const pokemonList = useRef<PokemonList>([]);
+
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const currPokIndex = useRef<number>(0);
   const [currPokemon, setPokemon] = useState<Pokemon | null>(null);
   const [showStats, setShowStats] = useState<boolean>(false);
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await fetchPokemons();
-      debugger;
-      const preLoadImgEffect = () => {
-        preLoadImgs(response.map((pk) => pk.img));
-      };
-      preLoadImgEffect();
-      pokemonList.current = response;
-      setPokemon(pokemonList.current[currPokIndex.current]);
-    }
-    fetchData();
+    // async function fetchData() {
+    //   const response = await fetchPokemons();
+    //   debugger;
+    const preLoadImgEffect = () => {
+      preLoadImgs(pokemonList.map((pk) => pk.img));
+    };
+    preLoadImgEffect();
+
+    setPokemon(pokemonList[currPokIndex.current]);
+    // }
+    // fetchData();
   }, []);
 
   useEffect(() => {
     if (credits === CREDIT_LIMITS) return;
     currPokIndex.current++;
-    setPokemon(pokemonList.current[currPokIndex.current]);
+    setPokemon(pokemonList[currPokIndex.current]);
     return () => {};
   }, [credits]);
 
-  if (currPokemon) {
+  if (currPokemon && inited) {
     return (
       <CurrentPokemonContext.Provider value={currPokemon}>
         <div className="bottom-4 h-full flex justify-center md:flex-col items-center relative md:bottom-0 ">
@@ -77,8 +80,7 @@ export const PokeCard: React.FC = () => {
         <BackgroundLogo />
       </CurrentPokemonContext.Provider>
     );
-  } else {
-    return <h1>Loading...</h1>;
   }
+  return <></>;
 };
 export { CurrentPokemonContext };

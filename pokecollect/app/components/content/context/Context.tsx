@@ -7,12 +7,14 @@ export const SessionContext = createContext<{
   setCoins: Dispatch<SetStateAction<number>>;
   setOwnedPokemons: Dispatch<SetStateAction<PokemonList>>;
   isMobile: boolean;
+  inited: boolean;
 }>({
   coins: 0,
   ownedPokemons: [],
   setCoins: () => {},
   setOwnedPokemons: () => {},
   isMobile: false,
+  inited: false,
 });
 export const CurrentPokemonContext = createContext<Pokemon>({
   name: "",
