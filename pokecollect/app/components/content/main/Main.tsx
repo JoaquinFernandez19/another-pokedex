@@ -2,7 +2,7 @@
 
 import { PokemonList } from "@/app/utils/Types";
 import { PokeBall } from "./content/PokeBall";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { SessionContext } from "../context/Context";
 import { PokeCard } from "./content/PokeCard";
 import { Inventory } from "./content/inventory/Inventory";
@@ -37,7 +37,9 @@ export const Main: React.FC = () => {
       }}
     >
       <div className="min-h-screen flex items-center justify-center relative">
-        <PokeCard inited={inited} />
+        <Suspense fallback={<div className="hidden">Loading...</div>}>
+          <PokeCard inited={inited} />
+        </Suspense>
         <PokeBall showFirstPokemon={setInited} inited={inited} />
         {inited ? <Inventory ownedPokemons={ownedPokemons} /> : ""}
       </div>
