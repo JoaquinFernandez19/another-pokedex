@@ -19,7 +19,6 @@ const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
 export const PokeCard: React.FC = () => {
   const pokemonList: PokemonList = use(pokemonListFetch);
-
   //States and refs
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const currPokIndex = useRef<number>(0);
