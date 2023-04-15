@@ -5,19 +5,9 @@ import { motion } from "framer-motion";
 import { Dispatch, SetStateAction } from "react";
 interface PropsStats {
   currPokemon: Pokemon;
-  managingStats: boolean;
-  rolling: boolean;
-  showStats: boolean;
-  setShowStats: Dispatch<SetStateAction<boolean>>;
 }
 
-export const PokeStats: React.FC<PropsStats> = ({
-  currPokemon,
-  showStats,
-  setShowStats,
-  rolling,
-  managingStats,
-}) => {
+export const PokeStats: React.FC<PropsStats> = ({ currPokemon }) => {
   const { color, height, weight, stats } = currPokemon;
   const isMobile = window.innerWidth <= 768;
   const variants = {
@@ -56,35 +46,11 @@ export const PokeStats: React.FC<PropsStats> = ({
       },
     },
   };
-  const manageAnimation = () => {
-    if (showStats) {
-      if (!rolling) {
-        //We should do animation
-        return "open";
-      } else {
-        return "";
-      }
-    } else {
-      if (managingStats) {
-        return "closing";
-      } else {
-        return "";
-      }
-    }
-  };
-  const manageInitial = () => {
-    if (showStats) return "showing";
-    return "hidden";
-  };
 
   return (
     <motion.div
-      initial={manageInitial()}
-      animate={manageAnimation()}
       variants={variants}
-      className={`${
-        !showStats ? "pointer-events-none" : ""
-      } w-auto text-center h-min relative md:text-right md:top-[15%] md:left-[-10%]`}
+      className={`w-auto text-center h-min relative md:text-right md:top-[15%] md:left-[-10%]`}
     >
       <div className="p-3 px-5 grid grid-cols-[repeat(2,minmax(0,100px))] justify-center gap-1 md:flex md:flex-col  md:gap-2  stats-circular-info  relative ">
         <motion.div
@@ -94,15 +60,7 @@ export const PokeStats: React.FC<PropsStats> = ({
           }}
           variants={outLineVariants}
           initial={"hidden"}
-          animate={
-            !isMobile
-              ? showStats
-                ? "open"
-                : ""
-              : showStats
-              ? "openMobile"
-              : ""
-          }
+          animate={isMobile ? "openMobile" : "open"}
         ></motion.div>
         <p className="text-[13px] md:text-sm">
           <> Height: {height}</>

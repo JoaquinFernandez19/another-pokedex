@@ -1,12 +1,19 @@
 "use client";
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { motion } from "framer-motion";
 import { UserContext } from "../../context/Context";
 interface PokeBallProps {
-  showFirstPokemon: () => void;
+  showFirstPokemon: Dispatch<SetStateAction<boolean>>;
 }
-const standByAnim = arrOfZeros(20);
+
 export const PokeBall: React.FC<PokeBallProps> = ({ showFirstPokemon }) => {
   const [opening, setOpening] = useState<boolean>(false);
   const [hovering, setHovering] = useState<boolean>(false);
@@ -65,7 +72,7 @@ export const PokeBall: React.FC<PokeBallProps> = ({ showFirstPokemon }) => {
           alt="unkown pokemon"
           width={400}
           height={400}
-          className={`z-10 drop-shadow-2xl cursor-pointer w-[250px] md:w-[300px]`}
+          className={`z-10 relative drop-shadow-2xl cursor-pointer w-[250px] md:w-[300px]`}
           onClick={() => {
             setCoins(
               coins + Number(process.env.NEXT_PUBLIC_DAILY_ENTERING_CREDITS)
@@ -73,7 +80,7 @@ export const PokeBall: React.FC<PokeBallProps> = ({ showFirstPokemon }) => {
             setOpening(true);
             setHovering(false);
             setTimeout(() => {
-              showFirstPokemon();
+              showFirstPokemon(true);
             }, openDelay);
           }}
         />
@@ -89,3 +96,5 @@ function arrOfZeros(qty: number) {
   }
   return arr;
 }
+
+const standByAnim = arrOfZeros(20);

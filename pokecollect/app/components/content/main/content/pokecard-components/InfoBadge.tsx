@@ -15,10 +15,7 @@ export const InfoBadge: React.FC<InfoBadgeProps> = ({
   const handleClick = () => {
     if (!waitingAnimation.current) {
       setShowStats(!showStats);
-      waitingAnimation.current = true;
-      setTimeout(() => {
-        waitingAnimation.current = false;
-      }, 1000);
+      waitingAnimation.current = false;
     }
   };
   return (

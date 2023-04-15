@@ -108,7 +108,7 @@ export const fetchPokemons = async () => {
   } catch (e) {
     fetchPokemons();
   }
-  return { data: returnValue };
+  return returnValue;
 };
 export const preLoadImgs = async (imgArray: string[]) => {
   return imgArray.map((img) => {

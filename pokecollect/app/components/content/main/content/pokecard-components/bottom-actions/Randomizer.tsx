@@ -1,22 +1,22 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import { ToolNumber } from "../../tools/ToolNumber";
 import { UserContext } from "../../../../context/Context";
 interface RandomizerProps {
-  trigger: () => void;
+  randomize: Dispatch<SetStateAction<number>>;
   usageLimits: string;
 }
 
 export const Randomizer: React.FC<RandomizerProps> = ({
-  trigger,
+  randomize,
   usageLimits,
 }) => {
   const { coins, setCoins } = useContext(UserContext);
-
+  const credits = Number(usageLimits);
   const handleOnClick = () => {
-    if (Number(usageLimits) > 0) {
-      trigger();
+    if (credits > 0) {
+      randomize(credits - 1);
       setCoins(coins + Number(process.env.NEXT_PUBLIC_ROLL_CREDITS));
     }
   };
