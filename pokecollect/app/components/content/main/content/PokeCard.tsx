@@ -1,21 +1,24 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, use } from "react";
 import { preLoadImgs } from "../../../../utils/Utils";
-import { Pokemon } from "../../../../utils/Types";
+import { Pokemon, PokemonList } from "../../../../utils/Types";
 import { motion } from "framer-motion";
 import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
 import { PokePrice } from "./pokecard-components/PokePrice";
 import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
 import { CurrentPokemonContext } from "../../context/Context";
+import { fetchPokemons } from "@/app/utils/Utils";
+import { BackgroundLogo } from "@/app/components/layout/BackgroundLogo";
+
+const pokemonListFetch = fetchPokemons();
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 //Undefined bc at load we dont have data yet
-interface PokeCardprops {
-  pokemonList: Pokemon[];
-}
 
-export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
+export const PokeCard: React.FC = () => {
+  const pokemonList: PokemonList = use(pokemonListFetch);
+
   //States and refs
   const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
   const currPokIndex = useRef<number>(0);
@@ -68,6 +71,7 @@ export const PokeCard: React.FC<PokeCardprops> = ({ pokemonList }) => {
         </motion.div>
         <BottomActions usageLimits={`${credits}`} randomize={setCredits} />
       </div>
+      <BackgroundLogo />
     </CurrentPokemonContext.Provider>
   );
 };

@@ -6,9 +6,6 @@ import React, { useEffect, useState, use } from "react";
 import { isMobileContext, UserContext } from "../context/Context";
 import { PokeCard } from "./content/PokeCard";
 import { Inventory } from "./content/inventory/Inventory";
-import { fetchPokemons } from "@/app/utils/Utils";
-
-const pokemonListFetch = fetchPokemons();
 
 export const Main: React.FC = () => {
   const [userData, setUserData] = useState<{
@@ -18,8 +15,6 @@ export const Main: React.FC = () => {
     userName: "Joaco",
     userId: 1,
   });
-
-  const pokemonList: PokemonList = use(pokemonListFetch);
 
   const [coins, setCoints] = useState(4000);
   const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
@@ -51,11 +46,7 @@ export const Main: React.FC = () => {
         }}
       >
         <div className="min-h-screen flex items-center justify-center relative">
-          {inited ? (
-            <PokeCard pokemonList={pokemonList} />
-          ) : (
-            <PokeBall showFirstPokemon={setInited} />
-          )}
+          {inited ? <PokeCard /> : <PokeBall showFirstPokemon={setInited} />}
           {inited ? <Inventory ownedPokemons={ownedPokemons} /> : ""}
         </div>
       </UserContext.Provider>

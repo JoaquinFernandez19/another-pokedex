@@ -1,5 +1,5 @@
 import { Main } from "./components/content/main/Main";
-import { BackgroundLogo } from "./components/layout/BackgroundLogo";
+
 import { Footer } from "./components/layout/Footer";
 
 import { Bubblegum_Sans } from "@next/font/google";
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className={`main ${roboto.className}`}>
       <Main />
-      <BackgroundLogo />
+
       <Footer />
     </div>
   );
