@@ -1,5 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from "react";
-import { Pokemon, PokemonList } from "../Types";
+import { Pokemon, PokemonList } from "../../../utils/Types";
 
 export const isMobileContext = createContext<boolean>(false);
 export const UserContext = createContext<{
