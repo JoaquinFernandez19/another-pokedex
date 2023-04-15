@@ -27,6 +27,7 @@ export const PokeCard: React.FC = () => {
   useEffect(() => {
     async function fetchData() {
       const response = await fetchPokemons();
+      debugger;
       const preLoadImgEffect = () => {
         preLoadImgs(response.map((pk) => pk.img));
       };

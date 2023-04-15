@@ -36,13 +36,7 @@ export const Main: React.FC = () => {
       }}
     >
       <div className="min-h-screen flex items-center justify-center relative">
-        {inited ? (
-          <Suspense fallback={<div className="hidden">Loading...</div>}>
-            <PokeCard />
-          </Suspense>
-        ) : (
-          <PokeBall showFirstPokemon={setInited} />
-        )}
+        {inited ? <PokeCard /> : <PokeBall showFirstPokemon={setInited} />}
         {inited ? <Inventory ownedPokemons={ownedPokemons} /> : ""}
       </div>
     </SessionContext.Provider>

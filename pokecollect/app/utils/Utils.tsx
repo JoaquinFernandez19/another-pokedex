@@ -1,3 +1,5 @@
+"use client";
+
 import { Pokemon, PokemonType, Stat } from "./Types";
 import PokTypes from "./PokTypes.json";
 interface FrontSprite {
@@ -106,7 +108,7 @@ export const fetchPokemons = async () => {
       returnValue.push(cleanupPokemonRequest(el));
     });
   } catch (e) {
-    fetchPokemons();
+    console.log("error", e);
   }
   return returnValue;
 };
