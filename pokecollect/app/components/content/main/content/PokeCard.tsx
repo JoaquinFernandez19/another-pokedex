@@ -75,7 +75,7 @@ export const PokeCard: React.FC = () => {
       </CurrentPokemonContext.Provider>
     );
   } else {
-    return <h1>RIP</h1>;
+    return <h1>RIP {JSON.stringify(pokemonList)}</h1>;
   }
 };
 export { CurrentPokemonContext };
