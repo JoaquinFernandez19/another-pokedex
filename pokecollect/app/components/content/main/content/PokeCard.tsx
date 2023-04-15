@@ -9,8 +9,8 @@ import { PokeStats } from "./pokecard-components/PokeStats";
 import { PokePrice } from "./pokecard-components/PokePrice";
 import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
 import { CurrentPokemonContext } from "../../context/Context";
-import { fetchPokemons } from "@/app/utils/Utils";
-import { BackgroundLogo } from "@/app/components/layout/BackgroundLogo";
+import { fetchPokemons } from "../../../../utils/Utils";
+import { BackgroundLogo } from "../../../layout/BackgroundLogo";
 import Image from "next/image";
 
 const pokemonListFetch = fetchPokemons();
