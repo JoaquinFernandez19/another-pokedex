@@ -21,7 +21,7 @@ export const BagPokemonList: React.FC<BagPokemonListProps> = ({
   }
 
   return (
-    <div className="inventory-pokemon-list">
+    <div className="inventory-pokemon-list ">
       {inventory.map((pokemon, i) => {
         if (typeof pokemon === "string") {
           return (

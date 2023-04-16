@@ -47,6 +47,36 @@ a {
   width: var(--inventory-size);
   padding: 40px 32px;
   padding-bottom: 0;
+  .inventory-control {
+    position: absolute;
+    width: 97%;
+    top: 0;
+    height: 27px;
+    left: 10px;
+    @media (max-width: 768px) {
+      top: 15px;
+    }
+  }
+  .inventory-control-2 {
+    position: absolute;
+    width: 27px;
+    top: 0;
+    height: 100%;
+    left: 20px;
+    @media (max-width: 768px) {
+      left: 14px;
+    }
+  }
+  .inventory-control-3 {
+    position: absolute;
+    width: 27px;
+    top: 0;
+    height: 100%;
+    right: 20px;
+    @media (max-width: 768px) {
+      right: 14px;
+    }
+  }
 
   .inventory-pokemon-list {
     display: grid;

@@ -3,6 +3,8 @@ import { BagPokemonList } from "./BagPokemonList";
 import { Pokemon } from "../../../../../utils/Types";
 import { SessionContext } from "../../../context/Context";
 import { motion } from "framer-motion";
+import { InventoryControls } from "./InventoryControls";
+
 interface PokeCardprops {
   ownedPokemons: Pokemon[];
 }
@@ -42,7 +44,6 @@ export const Inventory: React.FC<PokeCardprops> = ({ ownedPokemons }) => {
   }, [ownedPokemons]);
 
   const handleOnClick = () => {
-    debugger;
     if (!showInventory.current) {
       setCurrenAnimation("opening");
       showInventory.current = true;
@@ -58,12 +59,12 @@ export const Inventory: React.FC<PokeCardprops> = ({ ownedPokemons }) => {
         y: menuTransitionPercentage,
         opacity: firstRendered.current ? 1 : 0,
       }}
-      className="inventory cursor-pointer "
-      onClick={handleOnClick}
+      className="inventory  relative"
       variants={variants}
       animate={currentAnimation}
       style={{ backgroundImage: `url("./${imageUrl}.png")` }}
     >
+      <InventoryControls handleOnClick={handleOnClick} />
       <BagPokemonList pokemonList={ownedPokemons} />
     </motion.div>
   );
