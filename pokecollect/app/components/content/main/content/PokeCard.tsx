@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, use } from "react";
 import { preLoadImgs } from "../../../../utils/Utils";
-import { Pokemon, PokemonList } from "../../../../utils/Types";
+import { Pokemon } from "../../../../utils/Types";
 import { motion } from "framer-motion";
 import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
@@ -17,7 +17,6 @@ const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 //Undefined bc at load we dont have data yet
 const fetchPokemons_ = fetchPokemons();
 export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
-  debugger;
   //Fetch pokemonList
   const pokemonList = use(fetchPokemons_);
   //States and refs
@@ -54,6 +53,14 @@ export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
         <div className="bottom-4 h-full flex justify-center md:flex-col items-center relative md:bottom-0 ">
           <motion.div
             animate={{ opacity: [0, 1] }}
+            transition={{
+              opacity: {
+                duration: 3,
+                type: "spring",
+                delay: currPokIndex.current == 0 ? 1 : 0,
+              },
+            }}
+            initial={{ opacity: 0 }}
             key={`${currPokemon.id}`}
             className="flex flex-col items-center"
           >
