@@ -12,25 +12,19 @@ export const PokeStats: React.FC<PropsStats> = ({ currPokemon }) => {
   const isMobile = window.innerWidth <= 768;
   const variants = {
     open: {
-      x: [-100, 0],
-      opacity: [0, 1],
+      x: 0,
+      opacity: 1,
       height: "auto",
       transition: {
         x: { duration: 1, type: "spring" },
         opacity: { duration: 1, type: "spring" },
       },
     },
-    closing: {
-      x: [0, -100],
-      opacity: [1, 0],
+    closed: {
+      x: -100,
+      opacity: 0,
       height: 0,
-      transition: {
-        x: { duration: 1, type: "spring" },
-        opacity: { duration: 1, type: "spring" },
-      },
     },
-    showing: { opacity: 1, x: 0, height: "auto" },
-    hidden: { opacity: 0, x: -100, height: 0 },
   };
   const outLineVariants = {
     open: {
@@ -50,6 +44,8 @@ export const PokeStats: React.FC<PropsStats> = ({ currPokemon }) => {
   return (
     <motion.div
       variants={variants}
+      initial={"closed"}
+      animate={"open"}
       className={`w-auto text-center h-min relative md:text-right md:top-[15%] md:left-[-10%]`}
     >
       <div className="p-3 px-5 grid grid-cols-[repeat(2,minmax(0,100px))] justify-center gap-1 md:flex md:flex-col  md:gap-2  stats-circular-info  relative ">

@@ -1,5 +1,6 @@
 import React from "react";
 import { PokemonList, Pokemon } from "../../../../../utils/Types";
+import { BagPokemonUnit } from "./BagPokemonUnit";
 
 interface BagPokemonListProps {
   pokemonList: PokemonList;
@@ -21,24 +22,12 @@ export const BagPokemonList: React.FC<BagPokemonListProps> = ({
   }
 
   return (
-    <div className="inventory-pokemon-list ">
+    <div className="inventory-pokemon-list">
       {inventory.map((pokemon, i) => {
         if (typeof pokemon === "string") {
-          return (
-            <div
-              key={i}
-              className="bg-contain bg-center bg-no-repeat opacity-20"
-              style={{ backgroundImage: `url('./empty-pokeball.png')` }}
-            ></div>
-          );
+          return <BagPokemonUnit empty={true} key={`empty-${i}`} index={i} />;
         }
-        return (
-          <div
-            key={i}
-            className="bg-cover"
-            style={{ backgroundImage: `url(${pokemon.sm_img})` }}
-          ></div>
-        );
+        return <BagPokemonUnit pokemon={pokemon} key={`pk-${i}`} index={i} />;
       })}
     </div>
   );

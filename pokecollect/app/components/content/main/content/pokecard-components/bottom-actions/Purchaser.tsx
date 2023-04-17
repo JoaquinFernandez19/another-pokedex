@@ -3,13 +3,20 @@
 import React, { useContext } from "react";
 import { SessionContext } from "../../../../context/Context";
 import { CurrentPokemonContext } from "../../PokeCard";
-export const Purchaser: React.FC = () => {
+import { PokePrice } from "../PokePrice";
+import { Button } from "./Button";
+
+interface PurchaserProps {
+  alredyOwned: boolean;
+}
+
+export const Purchaser: React.FC<PurchaserProps> = ({ alredyOwned }) => {
   const { coins, setCoins, ownedPokemons, setOwnedPokemons } =
     useContext(SessionContext);
   const { value, color } = useContext(CurrentPokemonContext);
   const currPokemon = useContext(CurrentPokemonContext);
   const handleBuy = () => {
-    if (coins >= value && ownedPokemons.length < 6) {
+    if (coins >= value && ownedPokemons.length < 6 && !alredyOwned) {
       //we admit buying
       setCoins(coins - value);
       setOwnedPokemons([...ownedPokemons, currPokemon]);
@@ -17,14 +24,13 @@ export const Purchaser: React.FC = () => {
   };
 
   return (
-    <button
+    <Button
+      text={""}
       onClick={handleBuy}
-      className={`text-xl relative cursor-pointer  px-6 py-1.5   md:px-4 md:py-0.5 ${
-        coins < value ? "disabled" : ""
-      }`}
-      style={{ backgroundColor: color }}
+      extraStyles={`${coins < value || alredyOwned ? " disabled " : ""}`}
+      color={color}
     >
-      Buy
-    </button>
+      <PokePrice />
+    </Button>
   );
 };

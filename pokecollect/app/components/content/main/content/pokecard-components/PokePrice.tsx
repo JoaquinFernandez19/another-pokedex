@@ -3,5 +3,5 @@ import { CurrentPokemonContext } from "../PokeCard";
 
 export const PokePrice: React.FC = () => {
   const { value } = useContext(CurrentPokemonContext);
-  return <>{value}</>;
+  return <>{value} Coins</>;
 };

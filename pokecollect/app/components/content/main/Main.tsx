@@ -6,6 +6,7 @@ import React, { Suspense, useEffect, useState } from "react";
 import { SessionContext } from "../context/Context";
 import { PokeCard } from "./content/PokeCard";
 import { Inventory } from "./content/inventory/Inventory";
+import { Coins } from "./content/inventory/Coins";
 
 export const Main: React.FC = () => {
   const [coins, setCoints] = useState(4000);

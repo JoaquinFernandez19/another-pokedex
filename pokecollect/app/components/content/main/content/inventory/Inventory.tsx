@@ -59,7 +59,7 @@ export const Inventory: React.FC<PokeCardprops> = ({ ownedPokemons }) => {
         y: menuTransitionPercentage,
         opacity: firstRendered.current ? 1 : 0,
       }}
-      className="inventory  relative"
+      className="inventory relative "
       variants={variants}
       animate={currentAnimation}
       style={{ backgroundImage: `url("./${imageUrl}.png")` }}
