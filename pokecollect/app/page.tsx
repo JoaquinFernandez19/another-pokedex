@@ -1,7 +1,5 @@
 import { Main } from "./components/content/main/Main";
-
 import { Footer } from "./components/layout/Footer";
-
 import { Bubblegum_Sans } from "@next/font/google";
 
 const bublegum = Bubblegum_Sans({

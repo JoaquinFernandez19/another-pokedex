@@ -23,9 +23,6 @@ export const PokeBall: React.FC<PokeBallProps> = ({
   const [hovering, setHovering] = useState<boolean>(false);
   const [currentEvent, setCurrentEvent] = useState<string>("shaking");
 
-  //Coins initial managment
-  const { coins, setCoins } = useContext(SessionContext);
-
   const openDelay = 1000;
   const variants = {
     shaking: {
@@ -78,9 +75,6 @@ export const PokeBall: React.FC<PokeBallProps> = ({
           height={400}
           className={`z-10 relative drop-shadow-2xl cursor-pointer w-[250px] md:w-[300px]`}
           onClick={() => {
-            setCoins(
-              coins + Number(process.env.NEXT_PUBLIC_DAILY_ENTERING_CREDITS)
-            );
             setOpening(true);
             setHovering(false);
             setTimeout(() => {

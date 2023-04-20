@@ -2,17 +2,35 @@
 
 import { PokemonList } from "@/app/utils/Types";
 import { PokeBall } from "./content/PokeBall";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, use } from "react";
 import { SessionContext } from "../context/Context";
 import { PokeCard } from "./content/PokeCard";
 import { Inventory } from "./content/inventory/Inventory";
-import { Coins } from "./content/inventory/Coins";
+import { fetchUser } from "../../../utils/DBFetching";
 
 export const Main: React.FC = () => {
-  const [coins, setCoints] = useState(4000);
   const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
   const [inited, setInited] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [user, setUser] = useState({
+    id: 0,
+    name: "",
+    ranking: 0,
+    starting_date: "",
+  });
+
+  useEffect(() => {
+    //This 0 is the id, will change later to EMAIL
+    const userIdForTesting = 0;
+    const fetchUser_ = async () => {
+      const data = await fetchUser(userIdForTesting);
+      setUser(data);
+    };
+
+    fetchUser_();
+
+    return () => {};
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,11 +48,10 @@ export const Main: React.FC = () => {
     <SessionContext.Provider
       value={{
         isMobile: isMobile,
-        coins: coins,
         ownedPokemons: ownedPokemons,
-        setCoins: setCoints,
         setOwnedPokemons: setOwnedPokemons,
         inited: inited,
+        user: user,
       }}
     >
       <div className="min-h-screen flex items-center justify-center relative">

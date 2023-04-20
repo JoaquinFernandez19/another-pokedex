@@ -1,20 +1,34 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Pokemon, PokemonList } from "../../../utils/Types";
 
+interface UserData {
+  id: number;
+  name: string;
+  ranking: number;
+  starting_date: string;
+}
+
 export const SessionContext = createContext<{
   coins: number;
   ownedPokemons: PokemonList | [];
-  setCoins: Dispatch<SetStateAction<number>>;
+
   setOwnedPokemons: Dispatch<SetStateAction<PokemonList>>;
   isMobile: boolean;
   inited: boolean;
+  user: UserData;
 }>({
   coins: 0,
   ownedPokemons: [],
-  setCoins: () => {},
+
   setOwnedPokemons: () => {},
   isMobile: false,
   inited: false,
+  user: {
+    id: 0,
+    name: "",
+    ranking: 0,
+    starting_date: "",
+  },
 });
 export const CurrentPokemonContext = createContext<Pokemon>({
   name: "",

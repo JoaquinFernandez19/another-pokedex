@@ -13,17 +13,15 @@ export const Randomizer: React.FC<RandomizerProps> = ({
   randomize,
   usageLimits,
 }) => {
-  const { coins, setCoins } = useContext(SessionContext);
   const credits = Number(usageLimits);
   const handleOnClick = () => {
     if (credits > 0) {
       randomize(credits - 1);
-      setCoins(coins + Number(process.env.NEXT_PUBLIC_ROLL_CREDITS));
     }
   };
   return (
     <Button
-      text={"Roll"}
+      text={"Next"}
       onClick={handleOnClick}
       extraStyles={" bg-slate-500"}
       color={undefined}
