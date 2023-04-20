@@ -9,7 +9,6 @@ interface UserData {
 }
 
 export const SessionContext = createContext<{
-  coins: number;
   ownedPokemons: PokemonList | [];
 
   setOwnedPokemons: Dispatch<SetStateAction<PokemonList>>;
@@ -17,7 +16,6 @@ export const SessionContext = createContext<{
   inited: boolean;
   user: UserData;
 }>({
-  coins: 0,
   ownedPokemons: [],
 
   setOwnedPokemons: () => {},
