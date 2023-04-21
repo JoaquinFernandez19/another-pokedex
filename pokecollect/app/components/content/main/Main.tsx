@@ -6,7 +6,7 @@ import React, { Suspense, useEffect, useState, use } from "react";
 import { SessionContext } from "../context/Context";
 import { PokeCard } from "./content/PokeCard";
 import { Inventory } from "./content/inventory/Inventory";
-import { fetchUser } from "../../../utils/DBFetching";
+import { GoogleLogin } from "../login/GoogleLogin";
 
 export const Main: React.FC = () => {
   const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
@@ -19,18 +19,18 @@ export const Main: React.FC = () => {
     starting_date: "",
   });
 
-  useEffect(() => {
-    //This 0 is the id, will change later to EMAIL
-    const userIdForTesting = 0;
-    const fetchUser_ = async () => {
-      const data = await fetchUser(userIdForTesting);
-      setUser(data);
-    };
+  // useEffect(() => {
+  //   //This 0 is the id, will change later to EMAIL
+  //   const userIdForTesting = 0;
+  //   const fetchUser_ = async () => {
+  //     const data = await fetchUser(userIdForTesting);
+  //     setUser(data);
+  //   };
 
-    fetchUser_();
+  //   fetchUser_();
 
-    return () => {};
-  }, []);
+  //   return () => {};
+  // }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,7 +54,8 @@ export const Main: React.FC = () => {
         user: user,
       }}
     >
-      <div className="min-h-screen flex items-center justify-center relative">
+      <div className="main-container flex items-center justify-center relative">
+        <GoogleLogin />
         <Suspense fallback={<div className="hidden">Loading...</div>}>
           <PokeCard inited={inited} />
         </Suspense>

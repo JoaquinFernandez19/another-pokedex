@@ -21,6 +21,10 @@ a {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
+.main-container {
+  min-height: 100vh;
+  min-height: 100svh;
+}
 .disabled {
   pointer-events: none;
   opacity: 0.3;
