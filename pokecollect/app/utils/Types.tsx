@@ -25,3 +25,10 @@ export interface Stat {
 
 export type PokemonList = Pokemon[];
 export type PokemonTypeList = PokemonType[];
+
+export interface FrontSprite {
+  other: { "official-artwork": { front_default: string } };
+  front_default: string;
+}
+
+export type PhysicalInfo = number | null;

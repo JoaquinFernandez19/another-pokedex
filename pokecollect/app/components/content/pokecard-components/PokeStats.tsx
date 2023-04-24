@@ -1,8 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { Pokemon } from "../../../../../utils/Types";
+import React from "react";
+import { Pokemon } from "../../../utils/Types";
 import { motion } from "framer-motion";
-import { Dispatch, SetStateAction } from "react";
+
 interface PropsStats {
   currPokemon: Pokemon;
 }

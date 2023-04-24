@@ -1,10 +1,6 @@
-import { Pokemon, PokemonType, Stat } from "./Types";
+import { FrontSprite, PhysicalInfo, Pokemon, PokemonType, Stat } from "./Types";
 import PokTypes from "./PokTypes.json";
-interface FrontSprite {
-  other: { "official-artwork": { front_default: string } };
-  front_default: string;
-}
-type PhysicalInfo = number | null;
+
 const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 

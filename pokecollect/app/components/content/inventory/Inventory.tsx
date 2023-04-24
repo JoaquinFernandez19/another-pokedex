@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { BagPokemonList } from "./BagPokemonList";
-import { Pokemon } from "../../../../../utils/Types";
-import { SessionContext } from "../../../context/Context";
+import { Pokemon } from "../../../utils/Types";
+import { SessionContext } from "../context/Context";
 import { motion } from "framer-motion";
 import { InventoryControls } from "./InventoryControls";
 
