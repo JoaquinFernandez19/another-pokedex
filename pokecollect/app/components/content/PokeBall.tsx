@@ -9,7 +9,7 @@ import React, {
   useState,
 } from "react";
 import { motion } from "framer-motion";
-import { SessionContext } from "../../context/Context";
+import { SessionContext } from "./context/Context";
 interface PokeBallProps {
   showFirstPokemon: Dispatch<SetStateAction<boolean>>;
   inited: boolean;

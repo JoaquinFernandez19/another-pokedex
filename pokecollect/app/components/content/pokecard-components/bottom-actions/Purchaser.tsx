@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext } from "react";
-import { SessionContext } from "../../../../context/Context";
+import { SessionContext } from "../../context/Context";
 import { CurrentPokemonContext } from "../../PokeCard";
 
 import { Button } from "./Button";

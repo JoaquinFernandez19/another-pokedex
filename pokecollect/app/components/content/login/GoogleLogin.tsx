@@ -1,16 +1,24 @@
 import React from "react";
 import { auth } from "../login/Firebase";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { SignoutIcon } from "./SignoutIcon";
 
 export const GoogleLogin: React.FC = ({}) => {
   const googleAuth = new GoogleAuthProvider();
-
-  const [user, setUser] = useAuthState(auth);
-
+  const [user, loading] = useAuthState(auth);
   const login = async () => {
-    const result = await signInWithPopup(auth, googleAuth);
+    if (user) return;
+    signInWithPopup(auth, googleAuth);
   };
-
-  return <button onClick={login}>Log me in with google!</button>;
+  let text = user ? "Welcome " + user.displayName : "Login with Google";
+  if (!loading) {
+    return (
+      <button onClick={login} className="fixed bottom-1 left-3 flex">
+        {text}
+        {user ? <SignoutIcon /> : ""}
+      </button>
+    );
+  }
+  return <></>;
 };

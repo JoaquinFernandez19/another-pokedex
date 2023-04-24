@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useEffect, useRef, useState, use, useContext } from "react";
-import { preLoadImgs } from "../../../../utils/Utils";
-import { Pokemon } from "../../../../utils/Types";
+import { preLoadImgs } from "../../utils/Utils";
+import { Pokemon } from "../../utils/Types";
 import { motion, AnimatePresence } from "framer-motion";
 import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
 import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
-import { CurrentPokemonContext, SessionContext } from "../../context/Context";
-import { fetchPokemons } from "../../../../utils/Utils";
-import { BackgroundLogo } from "../../../layout/BackgroundLogo";
+import { CurrentPokemonContext, SessionContext } from "./context/Context";
+import { fetchPokemons } from "../../utils/Utils";
+import { BackgroundLogo } from "../layout/BackgroundLogo";
 
 import Image from "next/image";
 
@@ -29,17 +29,12 @@ export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
   const { ownedPokemons } = useContext(SessionContext);
 
   useEffect(() => {
-    // async function fetchData() {
-    //   const response = await fetchPokemons();
-    //   debugger;
     const preLoadImgEffect = () => {
       preLoadImgs(pokemonList.map((pk) => pk.img));
     };
     preLoadImgEffect();
 
     setPokemon(pokemonList[currPokIndex.current]);
-    // }
-    // fetchData();
   }, []);
 
   useEffect(() => {

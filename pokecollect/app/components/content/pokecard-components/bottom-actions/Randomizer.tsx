@@ -2,7 +2,7 @@
 
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import { ToolNumber } from "../../tools/ToolNumber";
-import { SessionContext } from "../../../../context/Context";
+import { SessionContext } from "../../context/Context";
 import { Button } from "./Button";
 interface RandomizerProps {
   randomize: Dispatch<SetStateAction<number>>;

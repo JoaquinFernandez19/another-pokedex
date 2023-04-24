@@ -1,36 +1,20 @@
 "use client";
 
 import { PokemonList } from "@/app/utils/Types";
-import { PokeBall } from "./content/PokeBall";
-import React, { Suspense, useEffect, useState, use } from "react";
-import { SessionContext } from "../context/Context";
-import { PokeCard } from "./content/PokeCard";
-import { Inventory } from "./content/inventory/Inventory";
-import { GoogleLogin } from "../login/GoogleLogin";
+import { PokeBall } from "./PokeBall";
+import React, { Suspense, useEffect, useState } from "react";
+import { SessionContext } from "./context/Context";
+import { PokeCard } from "../content/PokeCard";
+import { Inventory } from "./inventory/Inventory";
+import { GoogleLogin } from "./login/GoogleLogin";
+import { Auth } from "firebase/auth";
+import { auth } from "./login/Firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export const Main: React.FC = () => {
   const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
   const [inited, setInited] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [user, setUser] = useState({
-    id: 0,
-    name: "",
-    ranking: 0,
-    starting_date: "",
-  });
-
-  // useEffect(() => {
-  //   //This 0 is the id, will change later to EMAIL
-  //   const userIdForTesting = 0;
-  //   const fetchUser_ = async () => {
-  //     const data = await fetchUser(userIdForTesting);
-  //     setUser(data);
-  //   };
-
-  //   fetchUser_();
-
-  //   return () => {};
-  // }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -51,7 +35,6 @@ export const Main: React.FC = () => {
         ownedPokemons: ownedPokemons,
         setOwnedPokemons: setOwnedPokemons,
         inited: inited,
-        user: user,
       }}
     >
       <div className="main-container flex items-center justify-center relative">

@@ -1,5 +1,4 @@
-import { Main } from "./components/content/main/Main";
-import { Footer } from "./components/layout/Footer";
+import { Main } from "./components/content/Main";
 import { Bubblegum_Sans } from "@next/font/google";
 
 const bublegum = Bubblegum_Sans({
@@ -11,7 +10,6 @@ export default function Home() {
   return (
     <div className={`main ${bublegum.className}`}>
       <Main />
-      <Footer />
     </div>
   );
 }
