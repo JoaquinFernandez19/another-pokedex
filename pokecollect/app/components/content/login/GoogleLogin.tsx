@@ -21,7 +21,9 @@ export const GoogleLogin: React.FC = ({}) => {
     return () => {};
   }, [user]);
 
-  let text = user ? "Welcome " + user.displayName : "Login with Google";
+  let text = user
+    ? "Welcome " + user.displayName?.split(" ")[0]
+    : "Login with Google";
   if (!loading) {
     return (
       <button onClick={login} className="fixed bottom-1 left-3 flex">

@@ -37,7 +37,11 @@ export const Main: React.FC = () => {
         inited: inited,
       }}
     >
-      <div className="main-container flex items-center justify-center relative">
+      <div
+        className={`main-container ${
+          inited ? "showing-pokeball" : ""
+        } flex items-center justify-center relative`}
+      >
         <GoogleLogin />
         <Suspense fallback={<div className="hidden">Loading...</div>}>
           <PokeCard inited={inited} />
