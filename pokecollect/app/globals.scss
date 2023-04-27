@@ -124,6 +124,13 @@ a {
   transition: filter 0.1s ease-in;
 }
 
+.main-container.showing-pokeball {
+  @media (max-height: 788px) {
+    align-items: start;
+    padding-top: 25px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
