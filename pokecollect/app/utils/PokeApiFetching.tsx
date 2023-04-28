@@ -4,7 +4,29 @@ import PokTypes from "./PokTypes.json";
 const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
-export const cleanupPokemonRequest = (data: any): Pokemon => {
+export const fetchPokemons = async (lastSeenPokemon?: Pokemon) => {
+  const returnValue: Pokemon[] = [];
+  try {
+    const randomPokemonIds = getRandomPokemon(Number(NUMBER_OF_POKEMONS), CREDIT_LIMITS + 1);
+
+    const promises = randomPokemonIds.map((id) => {
+      return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    });
+
+    const responses = await Promise.all(promises);
+
+    const arr = await Promise.all(responses.map((response) => response.json()));
+
+    arr.forEach((el) => {
+      returnValue.push(cleanupPokemonRequest(el));
+    });
+    if (lastSeenPokemon) returnValue[0] = lastSeenPokemon;
+  } catch (e) {
+    console.log("error", e);
+  }
+  return returnValue;
+};
+const cleanupPokemonRequest = (data: any): Pokemon => {
   const formattedStats = formatStats(data.stats);
   return {
     name: fixName(data.name),
@@ -21,7 +43,6 @@ export const cleanupPokemonRequest = (data: any): Pokemon => {
     sm_img: getOfficialArtwork(data.sprites, "sm"),
   };
 };
-
 const formatStats = (stats: any[]): Stat[] => {
   const formattedStats: Stat[] = [];
   stats.map((stat) => {
@@ -82,31 +103,6 @@ export const getRandomPokemon = (maxNum: number, quantity: number) => {
     }
   }
   return result;
-};
-export const fetchPokemons = async (lastSeenPokemon?: Pokemon) => {
-  const returnValue: Pokemon[] = [];
-  try {
-    const randomPokemonIds = getRandomPokemon(
-      Number(NUMBER_OF_POKEMONS),
-      CREDIT_LIMITS + 1
-    );
-
-    const promises = randomPokemonIds.map((id) => {
-      return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-    });
-
-    const responses = await Promise.all(promises);
-
-    const arr = await Promise.all(responses.map((response) => response.json()));
-
-    arr.forEach((el) => {
-      returnValue.push(cleanupPokemonRequest(el));
-    });
-    if (lastSeenPokemon) returnValue[0] = lastSeenPokemon;
-  } catch (e) {
-    console.log("error", e);
-  }
-  return returnValue;
 };
 export const preLoadImgs = async (imgArray: string[]) => {
   return imgArray.map((img) => {

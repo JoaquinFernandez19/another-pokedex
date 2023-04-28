@@ -5,15 +5,9 @@ import { howManyCreditsUserShouldHave } from "./UserCredits";
 
 export const generateSessionData = async (userId: string) => {
   const userData = await fetchCurrentUserInfo(userId);
-  const pokemonList = await fetchCurrentUserPokemons(
-    userData?.catched_pokemons
-  );
+  const pokemonList = await fetchCurrentUserPokemons(userData?.catched_pokemons);
   const lastResetTimestamp = userData?.last_reset;
-  const credits = howManyCreditsUserShouldHave(
-    lastResetTimestamp,
-    userData?.credits,
-    userId
-  );
+  const credits = howManyCreditsUserShouldHave(lastResetTimestamp, userData?.credits, userId);
 
   return {
     userData,
@@ -34,9 +28,7 @@ const fetchCurrentUserInfo = async (userId: string) => {
   }
 };
 
-const fetchCurrentUserPokemons = async (
-  pokemons: { pokemon_id: number }[] = []
-) => {
+const fetchCurrentUserPokemons = async (pokemons: { pokemon_id: number }[] = []) => {
   const collectionRef = collection(db, "pokemons");
   //Get the doc keys
   const arr: Pokemon[] = [];

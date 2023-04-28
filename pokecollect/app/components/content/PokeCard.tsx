@@ -8,7 +8,7 @@ import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
 import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
 import { CurrentPokemonContext, SessionContext } from "./context/Context";
-import { fetchPokemons } from "../../utils/Utils";
+import { fetchPokemons } from "../../utils/PokeApiFetching";
 import { BackgroundLogo } from "../layout/BackgroundLogo";
 
 import Image from "next/image";
