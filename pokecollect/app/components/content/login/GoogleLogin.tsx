@@ -1,23 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { auth } from "../login/Firebase";
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { SignoutIcon } from "./SignoutIcon";
 import { generateSessionData } from "../db/DataBase";
+import { SessionContext } from "../context/Context";
 
 export const GoogleLogin: React.FC = ({}) => {
   const googleAuth = new GoogleAuthProvider();
   const [user, loading] = useAuthState(auth);
+  const { setOwnedPokemons, setCredits } = useContext(SessionContext);
+
   const login = async () => {
     if (user) return;
     signInWithPopup(auth, googleAuth);
   };
 
   useEffect(() => {
-    if (user) {
-      generateSessionData(user.uid);
-    }
-
+    const getSessionData = async () => {
+      if (user) {
+        const { pokemonList, credits } = await generateSessionData(user.uid);
+        setOwnedPokemons(pokemonList);
+        if (credits) setCredits(credits);
+      }
+    };
+    getSessionData();
     return () => {};
   }, [user]);
 

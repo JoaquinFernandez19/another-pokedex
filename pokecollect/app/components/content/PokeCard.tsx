@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useRef, useState, use, useContext } from "react";
-import { preLoadImgs } from "../../utils/Utils";
-import { Pokemon } from "../../utils/Types";
+
+import { Pokemon, PokemonList } from "../../utils/Types";
 import { motion, AnimatePresence } from "framer-motion";
 import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
@@ -12,32 +12,50 @@ import { fetchPokemons } from "../../utils/Utils";
 import { BackgroundLogo } from "../layout/BackgroundLogo";
 
 import Image from "next/image";
-
+import { syncUserInfoWithDB } from "./db/UserCredits";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./login/Firebase";
+import { getLastSeenPokemon } from "./db/Pokemons";
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 //Undefined bc at load we dont have data yet
-const fetchPokemons_ = fetchPokemons();
+
 export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
   //Fetch pokemonList
-  const pokemonList = use(fetchPokemons_);
+
   //States and refs
-  const [credits, setCredits] = useState<number>(CREDIT_LIMITS);
+  const [pokemonList, setPokemonList] = useState<PokemonList>([]);
+  const [user] = useAuthState(auth);
   const currPokIndex = useRef<number>(0);
   const [currPokemon, setPokemon] = useState<Pokemon | null>(null);
   const [showStats, setShowStats] = useState<boolean>(false);
   const [alredyOwned, setAlredyOwned] = useState<boolean>(false);
+  const [firstEncounter, setFirstEncounter] = useState<boolean>(false);
   //Context
-  const { ownedPokemons } = useContext(SessionContext);
+  const { ownedPokemons, credits, setCredits } = useContext(SessionContext);
+
+  //Effects
+  useEffect(() => {
+    if (currPokemon && !firstEncounter) {
+      syncUserInfoWithDB(user?.uid, undefined, currPokemon);
+      setFirstEncounter(true);
+    }
+  }, [currPokemon]);
 
   useEffect(() => {
-    const preLoadImgEffect = () => {
-      preLoadImgs(pokemonList.map((pk) => pk.img));
+    const fetchPokemons_ = async () => {
+      //We need to get the prev last seen pokemon before setting it up in here!
+      if (user) {
+        const lastSeenPokemon = await getLastSeenPokemon(user?.uid);
+        const pokemonListFetch = await fetchPokemons(lastSeenPokemon);
+        setPokemonList(pokemonListFetch);
+        setPokemon(pokemonListFetch[currPokIndex.current]);
+      }
     };
-    preLoadImgEffect();
-
-    setPokemon(pokemonList[currPokIndex.current]);
-  }, []);
+    fetchPokemons_();
+  }, [user]);
 
   useEffect(() => {
+    if (credits === 0) return;
     if (credits === CREDIT_LIMITS) return;
     currPokIndex.current++;
     setPokemon(pokemonList[currPokIndex.current]);
@@ -45,6 +63,7 @@ export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
   }, [credits]);
 
   useEffect(() => {
+    if (!currPokemon) return;
     if (ownedPokemons.find((pokemon) => pokemon?.name === currPokemon?.name)) {
       setAlredyOwned(true);
     } else {

@@ -83,13 +83,14 @@ export const getRandomPokemon = (maxNum: number, quantity: number) => {
   }
   return result;
 };
-export const fetchPokemons = async () => {
+export const fetchPokemons = async (lastSeenPokemon?: Pokemon) => {
   const returnValue: Pokemon[] = [];
   try {
     const randomPokemonIds = getRandomPokemon(
       Number(NUMBER_OF_POKEMONS),
       CREDIT_LIMITS + 1
     );
+
     const promises = randomPokemonIds.map((id) => {
       return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
     });
@@ -101,6 +102,7 @@ export const fetchPokemons = async () => {
     arr.forEach((el) => {
       returnValue.push(cleanupPokemonRequest(el));
     });
+    if (lastSeenPokemon) returnValue[0] = lastSeenPokemon;
   } catch (e) {
     console.log("error", e);
   }

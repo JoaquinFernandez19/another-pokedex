@@ -7,24 +7,19 @@ import { SessionContext } from "./context/Context";
 import { PokeCard } from "../content/PokeCard";
 import { Inventory } from "./inventory/Inventory";
 import { GoogleLogin } from "./login/GoogleLogin";
-import { Auth } from "firebase/auth";
-import { auth } from "./login/Firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 
 export const Main: React.FC = () => {
   const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
   const [inited, setInited] = useState<boolean>(false);
   const [isMobile, setIsMobile] = useState(false);
-
+  const [credits, setCredits] = useState<number>(0);
   useEffect(() => {
     const handleResize = () => {
       const { innerWidth: width } = window;
       setIsMobile(width <= 768);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -35,6 +30,8 @@ export const Main: React.FC = () => {
         ownedPokemons: ownedPokemons,
         setOwnedPokemons: setOwnedPokemons,
         inited: inited,
+        credits: credits,
+        setCredits: setCredits,
       }}
     >
       <div

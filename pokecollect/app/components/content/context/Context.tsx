@@ -1,19 +1,20 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Pokemon, PokemonList } from "../../../utils/Types";
-import { Auth, User } from "firebase/auth";
 
 export const SessionContext = createContext<{
   ownedPokemons: PokemonList | [];
   setOwnedPokemons: Dispatch<SetStateAction<PokemonList>>;
   isMobile: boolean;
   inited: boolean;
-  // user: User | null | undefined;
+  credits: number;
+  setCredits: Dispatch<SetStateAction<number>>;
 }>({
   ownedPokemons: [],
   setOwnedPokemons: () => {},
   isMobile: false,
   inited: false,
-  // user: null,
+  setCredits: () => {},
+  credits: 0,
 });
 export const CurrentPokemonContext = createContext<Pokemon>({
   name: "",
