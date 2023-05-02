@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Pokemon } from "../../../utils/Types";
+import { Pokemon } from "../../../lib/Types";
 import { AnimatePresence, motion } from "framer-motion";
 interface BagPokemonUnitProps {
   pokemon?: Pokemon;

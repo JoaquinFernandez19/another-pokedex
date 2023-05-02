@@ -1,24 +1,23 @@
 "use client";
 
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { SessionContext } from "./context/Context";
-interface PokeBallProps {
-  showFirstPokemon: Dispatch<SetStateAction<boolean>>;
-  inited: boolean;
-}
+import { AppContext } from "@/app/lib/AppInitialState";
+import { AppActions } from "@/app/lib/AppReducer";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/app/lib/firebase/Firebase";
 
-export const PokeBall: React.FC<PokeBallProps> = ({
-  showFirstPokemon,
-  inited,
-}) => {
+const initialState = {
+  opening: false,
+  hovering: false,
+  currentEvent: "shaking",
+};
+
+export const PokeBall: React.FC = () => {
+  //State management
+  const { state, dispatch } = useContext(AppContext);
+  const [user, loading] = useAuthState(auth);
+
   const [opening, setOpening] = useState<boolean>(false);
   const [hovering, setHovering] = useState<boolean>(false);
   const [currentEvent, setCurrentEvent] = useState<string>("shaking");
@@ -50,6 +49,15 @@ export const PokeBall: React.FC<PokeBallProps> = ({
     return opening ? "" : setHovering(bool);
   };
   useEffect(() => {
+    //Reset when user logs out
+    const { currentEvent, hovering, opening } = initialState;
+    if (!user) {
+      setCurrentEvent(currentEvent);
+      setOpening(hovering);
+      setHovering(opening);
+    }
+  }, [user]);
+  useEffect(() => {
     if (opening) {
       setCurrentEvent("open");
     } else if (!opening && !hovering) {
@@ -59,7 +67,7 @@ export const PokeBall: React.FC<PokeBallProps> = ({
     }
     return () => {};
   }, [opening, hovering]);
-  if (inited) return <></>;
+  if (state.clickedInitialPokeBall) return <></>;
   return (
     <motion.div animate={{ opacity: [0, 1] }} className="pokeball">
       <div className="relative">
@@ -75,10 +83,14 @@ export const PokeBall: React.FC<PokeBallProps> = ({
           height={400}
           className={`z-10 relative drop-shadow-2xl cursor-pointer w-[250px] md:w-[300px]`}
           onClick={() => {
+            if (!user) return;
             setOpening(true);
             setHovering(false);
             setTimeout(() => {
-              showFirstPokemon(true);
+              dispatch({
+                type: AppActions.SET_CLICKED_PKBALL,
+                payload: true,
+              });
             }, openDelay);
           }}
         />

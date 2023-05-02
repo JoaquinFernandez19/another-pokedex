@@ -1,3 +1,6 @@
+import { User } from "@firebase/auth";
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
+
 export interface Pokemon {
   name: string;
   id: number;
@@ -22,6 +25,28 @@ export interface Stat {
   name: string;
   value: number;
 }
+
+export interface UserInfoLocal {
+  userSnapData?: DocumentData;
+  userSnap?: QueryDocumentSnapshot<DocumentData>;
+  error?: unknown;
+}
+export interface UserDB {
+  achievements: [];
+  catchedPokemons: CatchedPokemon[];
+  credits: number;
+  date_started: string;
+  id: string;
+  last_pokemon_seend: number;
+  last_reset: string;
+  name: string;
+  rank: number;
+}
+type CatchedPokemon = {
+  catch_date: string;
+  favorite: boolean;
+  pokemon_id: number;
+};
 
 export type PokemonList = Pokemon[];
 export type PokemonTypeList = PokemonType[];

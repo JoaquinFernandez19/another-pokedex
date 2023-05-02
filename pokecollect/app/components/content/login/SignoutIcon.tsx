@@ -1,16 +1,23 @@
-import React from "react";
-import { auth } from "../login/Firebase";
+import React, { useContext } from "react";
+import { auth } from "../../../lib/firebase/Firebase";
 import { signOut } from "firebase/auth";
 import { motion } from "framer-motion";
+import { AppContext } from "@/app/lib/AppInitialState";
+import { AppActions } from "@/app/lib/AppReducer";
 
 export const SignoutIcon = () => {
+  const { dispatch } = useContext(AppContext);
   const signOut_ = () => {
     signOut(auth);
+    dispatch({
+      type: AppActions.SIGNOUT_USER,
+      payload: "",
+    });
   };
   return (
     <motion.svg
       initial={{ fill: "transparent" }}
-      whileHover={{ fill: "maroon" }}
+      whileHover={{ fill: "" }}
       transition={{
         fill: {
           duration: 1,

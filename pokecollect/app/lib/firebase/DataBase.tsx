@@ -1,11 +1,25 @@
-import { Pokemon } from "@/app/utils/Types";
-import { db } from "../login/Firebase";
-import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { Pokemon } from "@/app/lib/Types";
+import { db } from "./Firebase";
+import { doc, getDoc, collection } from "firebase/firestore";
+import { howManyCreditsUserShouldHave } from "./UserCredits";
 
 export const generateSessionData = async (userId: string) => {
-  const correctedUserData = {};
   const userData = await fetchCurrentUserInfo(userId);
-  const pokemonList = fetchCurrentUserPokemons(userData?.catched_pokemons);
+  const pokemonList = await fetchCurrentUserPokemons(
+    userData?.catched_pokemons
+  );
+  const lastResetTimestamp = userData?.last_reset;
+  const credits = howManyCreditsUserShouldHave(
+    lastResetTimestamp,
+    userData?.credits,
+    userId
+  );
+
+  return {
+    userData,
+    pokemonList,
+    credits,
+  };
 };
 
 const fetchCurrentUserInfo = async (userId: string) => {
@@ -20,11 +34,9 @@ const fetchCurrentUserInfo = async (userId: string) => {
   }
 };
 
-//TODO: dividie the array in parts and fetch by 5 or something like that
-//Return that something is loading to show empty pokemons loading icons
-//if not loading, we onyl show the alredy loaded pokemons!!!
-//Will be hard but no impossible!!!!
-const fetchCurrentUserPokemons = async (pokemons: { pokemon_id: number }[] = []) => {
+const fetchCurrentUserPokemons = async (
+  pokemons: { pokemon_id: number }[] = []
+) => {
   const collectionRef = collection(db, "pokemons");
   //Get the doc keys
   const arr: Pokemon[] = [];
@@ -40,9 +52,9 @@ const fetchCurrentUserPokemons = async (pokemons: { pokemon_id: number }[] = [])
       if (!docSnapshot.exists()) {
         return null;
       }
-      return docSnapshot.data().info_json;
+      return JSON.parse(docSnapshot.data().info_json);
     })
   );
 
-  return arr;
+  return docs;
 };
