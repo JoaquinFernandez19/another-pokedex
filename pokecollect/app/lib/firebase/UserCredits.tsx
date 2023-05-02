@@ -1,7 +1,7 @@
-import { db } from "../login/Firebase";
 import { doc, collection, updateDoc, Timestamp } from "firebase/firestore";
 import { checkIfPokemonAlredyInDB } from "./Pokemons";
-import { Pokemon } from "@/app/utils/Types";
+import { Pokemon } from "@/app/lib/Types";
+import { db } from "./Firebase";
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
 export const syncUserInfoWithDB = async (
@@ -41,7 +41,6 @@ export const howManyCreditsUserShouldHave = (
   credits: number,
   userId: string
 ) => {
-  debugger;
   const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000); // create a date object for 12 hours ago
   const lastReset = last_reset.toDate();
 

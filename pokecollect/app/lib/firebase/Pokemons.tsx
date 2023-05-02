@@ -1,5 +1,5 @@
-import { Pokemon } from "@/app/utils/Types";
-import { db } from "../login/Firebase";
+import { Pokemon } from "@/app/lib/Types";
+
 import {
   doc,
   collection,
@@ -8,6 +8,7 @@ import {
   DocumentReference,
   DocumentData,
 } from "firebase/firestore";
+import { db } from "./Firebase";
 
 export const savePokemonToDB = async (
   pokemonDocRef: DocumentReference<DocumentData>,

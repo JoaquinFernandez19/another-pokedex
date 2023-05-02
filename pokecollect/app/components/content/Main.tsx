@@ -1,51 +1,28 @@
 "use client";
 
-import { PokemonList } from "@/app/utils/Types";
 import { PokeBall } from "./PokeBall";
-import React, { Suspense, useEffect, useState } from "react";
-import { SessionContext } from "./context/Context";
+import React, { useReducer } from "react";
 import { PokeCard } from "../content/PokeCard";
 import { Inventory } from "./inventory/Inventory";
 import { GoogleLogin } from "./login/GoogleLogin";
+import { AppReducer } from "@/app/lib/AppReducer";
+import { AppContext, AppInitialState } from "@/app/lib/AppInitialState";
 
 export const Main: React.FC = () => {
-  const [ownedPokemons, setOwnedPokemons] = useState<PokemonList>([]);
-  const [inited, setInited] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [credits, setCredits] = useState<number>(0);
-  useEffect(() => {
-    const handleResize = () => {
-      const { innerWidth: width } = window;
-      setIsMobile(width <= 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const [state, dispatch] = useReducer(AppReducer, AppInitialState);
 
   return (
-    <SessionContext.Provider
-      value={{
-        isMobile: isMobile,
-        ownedPokemons: ownedPokemons,
-        setOwnedPokemons: setOwnedPokemons,
-        inited: inited,
-        credits: credits,
-        setCredits: setCredits,
-      }}
-    >
+    <AppContext.Provider value={{ state, dispatch }}>
       <div
         className={`main-container ${
-          inited ? "showing-pokeball" : ""
+          state.clickedInitialPokeBall ? "showing-pokeball" : ""
         } flex items-center justify-center relative`}
       >
         <GoogleLogin />
-        <Suspense fallback={<div className="hidden">Loading...</div>}>
-          <PokeCard inited={inited} />
-        </Suspense>
-        <PokeBall showFirstPokemon={setInited} inited={inited} />
-        {inited ? <Inventory ownedPokemons={ownedPokemons} /> : ""}
+        <PokeCard />
+        <PokeBall />
+        {state.clickedInitialPokeBall ? <Inventory /> : ""}
       </div>
-    </SessionContext.Provider>
+    </AppContext.Provider>
   );
 };

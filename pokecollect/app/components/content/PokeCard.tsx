@@ -1,79 +1,37 @@
 "use client";
 
-import React, { useEffect, useRef, useState, use, useContext } from "react";
-
-import { Pokemon, PokemonList } from "../../utils/Types";
+import React, { useEffect, useState, useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { InfoBadge } from "./pokecard-components/InfoBadge";
 import { PokeStats } from "./pokecard-components/PokeStats";
 import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
-import { CurrentPokemonContext, SessionContext } from "./context/Context";
-import { fetchPokemons } from "../../utils/PokeApiFetching";
 import { BackgroundLogo } from "../layout/BackgroundLogo";
-
 import Image from "next/image";
-import { syncUserInfoWithDB } from "./db/UserCredits";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./login/Firebase";
-import { getLastSeenPokemon } from "./db/Pokemons";
-const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
-//Undefined bc at load we dont have data yet
+import { AppContext } from "@/app/lib/AppInitialState";
 
-export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
-  //Fetch pokemonList
-
+export const PokeCard: React.FC = () => {
   //States and refs
-  const [pokemonList, setPokemonList] = useState<PokemonList>([]);
-  const [user] = useAuthState(auth);
-  const currPokIndex = useRef<number>(0);
-  const [currPokemon, setPokemon] = useState<Pokemon | null>(null);
   const [showStats, setShowStats] = useState<boolean>(false);
   const [alredyOwned, setAlredyOwned] = useState<boolean>(false);
-  const [firstEncounter, setFirstEncounter] = useState<boolean>(false);
+
   //Context
-  const { ownedPokemons, credits, setCredits } = useContext(SessionContext);
-
-  //Effects
-  useEffect(() => {
-    if (currPokemon && !firstEncounter) {
-      syncUserInfoWithDB(user?.uid, undefined, currPokemon);
-      setFirstEncounter(true);
-    }
-  }, [currPokemon]);
+  const { state } = useContext(AppContext);
 
   useEffect(() => {
-    const fetchPokemons_ = async () => {
-      //We need to get the prev last seen pokemon before setting it up in here!
-      if (user) {
-        const lastSeenPokemon = await getLastSeenPokemon(user?.uid);
-        const pokemonListFetch = await fetchPokemons(lastSeenPokemon);
-        setPokemonList(pokemonListFetch);
-        setPokemon(pokemonListFetch[currPokIndex.current]);
-      }
-    };
-    fetchPokemons_();
-  }, [user]);
-
-  useEffect(() => {
-    if (credits === 0) return;
-    if (credits === CREDIT_LIMITS) return;
-    currPokIndex.current++;
-    setPokemon(pokemonList[currPokIndex.current]);
-    return () => {};
-  }, [credits]);
-
-  useEffect(() => {
-    if (!currPokemon) return;
-    if (ownedPokemons.find((pokemon) => pokemon?.name === currPokemon?.name)) {
+    if (
+      state.ownedPokemons.find(
+        (pokemon) => pokemon?.id === state.pokemonList[state.currPokemon].id
+      )
+    ) {
       setAlredyOwned(true);
     } else {
       setAlredyOwned(false);
     }
-  }, [ownedPokemons, currPokemon]);
+  }, [state.ownedPokemons, state.currPokemon]);
 
-  if (currPokemon && inited) {
+  if (state.clickedInitialPokeBall) {
     return (
-      <CurrentPokemonContext.Provider value={currPokemon}>
+      <>
         <div className="h-full flex justify-center md:flex-col items-center relative md:bottom-0 ">
           <motion.div
             animate={{ opacity: [0, 1] }}
@@ -81,11 +39,11 @@ export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
               opacity: {
                 duration: 3,
                 type: "spring",
-                delay: currPokIndex.current == 0 ? 1 : 0,
+                delay: state.currPokemon > 0 ? 0 : 1,
               },
             }}
             initial={{ opacity: 0 }}
-            key={`${currPokemon.id}`}
+            key={`${state.pokemonList[state.currPokemon].id}`}
             className="flex flex-col items-center"
           >
             {alredyOwned ? (
@@ -98,7 +56,9 @@ export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
                 animate={{ opacity: 1 }}
                 transition={{ opacity: { duration: 0.2, delay: 0.1 } }}
                 stroke="currentColor"
-                className={`absolute top-[30%] h-[200px] z-50 text-[${currPokemon.color}]`}
+                className={`absolute top-[30%] h-[200px] z-50 text-[${
+                  state.pokemonList[state.currPokemon].color
+                }]`}
               >
                 <path
                   strokeLinecap="round"
@@ -111,7 +71,8 @@ export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
             )}
             <div className="flex justify-center items-end mb-5 md:mb-10">
               <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
-                #{currPokemon.id} {currPokemon.name}
+                #{state.pokemonList[state.currPokemon].id}{" "}
+                {state.pokemonList[state.currPokemon].name}
               </h1>
               <InfoBadge setShowStats={setShowStats} showStats={showStats} />
             </div>
@@ -122,8 +83,8 @@ export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
               } relative grid grid-cols-1 gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]`}
             >
               <Image
-                src={currPokemon.img}
-                alt={currPokemon.name}
+                src={state.pokemonList[state.currPokemon].img}
+                alt={state.pokemonList[state.currPokemon].name}
                 width={400}
                 height={400}
                 className="m-auto poke-circle border-solid z-10 px-10 md:px-0 md:col-start-2 md:col-end-3  "
@@ -131,7 +92,7 @@ export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
               <AnimatePresence>
                 {showStats ? (
                   <motion.div key="poke-stats" exit={{ opacity: 0, x: -100 }}>
-                    <PokeStats currPokemon={currPokemon} />
+                    <PokeStats />
                   </motion.div>
                 ) : (
                   ""
@@ -139,16 +100,11 @@ export const PokeCard: React.FC<{ inited: boolean }> = ({ inited }) => {
               </AnimatePresence>
             </div>
           </motion.div>
-          <BottomActions
-            usageLimits={`${credits}`}
-            randomize={setCredits}
-            alredyOwned={alredyOwned}
-          />
+          <BottomActions alredyOwned={alredyOwned} />
         </div>
         <BackgroundLogo />
-      </CurrentPokemonContext.Provider>
+      </>
     );
   }
   return <></>;
 };
-export { CurrentPokemonContext };

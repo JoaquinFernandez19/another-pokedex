@@ -1,15 +1,16 @@
-import React, { useContext, useEffect } from "react";
-import { auth } from "../login/Firebase";
+import React, { useContext, useEffect, useState } from "react";
+import { auth } from "../../../lib/firebase/Firebase";
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { SignoutIcon } from "./SignoutIcon";
-import { generateSessionData } from "../db/DataBase";
-import { SessionContext } from "../context/Context";
+import { AppContext, SetAppInitialState } from "@/app/lib/AppInitialState";
+import { AppActions } from "@/app/lib/AppReducer";
 
 export const GoogleLogin: React.FC = ({}) => {
   const googleAuth = new GoogleAuthProvider();
   const [user, loading] = useAuthState(auth);
-  const { setOwnedPokemons, setCredits } = useContext(SessionContext);
+  const { dispatch } = useContext(AppContext);
+  const [loadingAppData, setLoadingAppData] = useState<boolean>(false);
 
   const login = async () => {
     if (user) return;
@@ -17,27 +18,48 @@ export const GoogleLogin: React.FC = ({}) => {
   };
 
   useEffect(() => {
-    const getSessionData = async () => {
-      if (user) {
-        const { pokemonList, credits } = await generateSessionData(user.uid);
-        setOwnedPokemons(pokemonList);
-        if (credits) setCredits(credits);
-      }
-    };
-    getSessionData();
-    return () => {};
+    async function initAppWhenUserLogsIn() {
+      if (!user) return;
+      setLoadingAppData(true);
+      const initialState = await SetAppInitialState(user);
+
+      setLoadingAppData(false);
+      dispatch({
+        type: AppActions.INIT_APP,
+        payload: initialState,
+      });
+    }
+    if (!user) return;
+    initAppWhenUserLogsIn();
   }, [user]);
 
-  let text = user
-    ? "Welcome " + user.displayName?.split(" ")[0]
-    : "Login with Google";
-  if (!loading) {
-    return (
-      <button onClick={login} className="fixed bottom-1 left-3 flex">
-        {text}
-        {user ? <SignoutIcon /> : ""}
-      </button>
-    );
+  let text;
+  if (user) {
+    if (loadingAppData) {
+      text = "Loading...";
+    } else {
+      text = "Welcome " + user.displayName?.split(" ")[0];
+    }
+  } else {
+    if (loading) {
+      text = "Loading...";
+    } else {
+      text = "Login with Google";
+    }
   }
-  return <></>;
+
+  return (
+    <div
+      className={`${
+        (!user && loading) || (loadingAppData && user) || !user
+          ? "required-login"
+          : ""
+      } fixed bottom-1 left-3 `}
+    >
+      <button onClick={login} className="flex">
+        {text}
+        {user && !loading && !loadingAppData ? <SignoutIcon /> : ""}
+      </button>
+    </div>
+  );
 };

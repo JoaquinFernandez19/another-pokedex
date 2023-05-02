@@ -1,14 +1,12 @@
 "use client";
-import React from "react";
-import { Pokemon } from "../../../utils/Types";
+import React, { useContext } from "react";
+
 import { motion } from "framer-motion";
+import { AppContext } from "@/app/lib/AppInitialState";
 
-interface PropsStats {
-  currPokemon: Pokemon;
-}
-
-export const PokeStats: React.FC<PropsStats> = ({ currPokemon }) => {
-  const { color, height, weight, stats } = currPokemon;
+export const PokeStats: React.FC = () => {
+  const { state, dispatch } = useContext(AppContext);
+  const { color, height, weight, stats } = state.pokemonList[state.currPokemon];
   const isMobile = window.innerWidth <= 768;
   const variants = {
     open: {

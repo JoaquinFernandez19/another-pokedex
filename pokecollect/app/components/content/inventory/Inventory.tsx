@@ -1,20 +1,18 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { BagPokemonList } from "./BagPokemonList";
-import { Pokemon } from "../../../utils/Types";
-import { SessionContext } from "../context/Context";
+
 import { motion } from "framer-motion";
 import { InventoryControls } from "./InventoryControls";
+import { AppActions } from "@/app/lib/AppReducer";
+import { AppContext } from "@/app/lib/AppInitialState";
 
-interface PokeCardprops {
-  ownedPokemons: Pokemon[];
-}
-export const Inventory: React.FC<PokeCardprops> = ({ ownedPokemons }) => {
-  const { isMobile } = useContext(SessionContext);
-  const imageUrl = isMobile ? "inventory-m" : "inventory";
+export const Inventory: React.FC = () => {
+  const { state, dispatch } = useContext(AppContext);
+  const imageUrl = state.isMobile ? "inventory-m" : "inventory";
   const showInventory = useRef(false);
   const firstRendered = useRef(false);
   const [currentAnimation, setCurrenAnimation] = useState("minimized");
-  const menuTransitionPercentage = isMobile ? "60%" : "70%";
+  const menuTransitionPercentage = state.isMobile ? "60%" : "70%";
   const variants = {
     opening: {
       y: "0",
@@ -37,11 +35,11 @@ export const Inventory: React.FC<PokeCardprops> = ({ ownedPokemons }) => {
     firstRendered.current = true;
   }, []);
   useEffect(() => {
-    if (ownedPokemons.length && !showInventory.current) {
+    if (state.ownedPokemons.length && !showInventory.current) {
       setCurrenAnimation("opening");
       showInventory.current = true;
     }
-  }, [ownedPokemons]);
+  }, [state.ownedPokemons]);
 
   const handleOnClick = () => {
     if (!showInventory.current) {
@@ -65,7 +63,7 @@ export const Inventory: React.FC<PokeCardprops> = ({ ownedPokemons }) => {
       style={{ backgroundImage: `url("./${imageUrl}.png")` }}
     >
       <InventoryControls handleOnClick={handleOnClick} />
-      <BagPokemonList pokemonList={ownedPokemons} />
+      <BagPokemonList pokemonList={state.ownedPokemons} />
     </motion.div>
   );
 };
