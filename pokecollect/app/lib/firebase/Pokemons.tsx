@@ -1,5 +1,5 @@
-import { Pokemon } from "@/app/lib/Types";
-
+import { Pokemon, PokemonList } from "@/app/lib/Types";
+import { User } from "firebase/auth";
 import {
   doc,
   collection,
@@ -7,6 +7,8 @@ import {
   setDoc,
   DocumentReference,
   DocumentData,
+  updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import { db } from "./Firebase";
 
@@ -61,4 +63,19 @@ export const getLastSeenPokemon = async (userId?: string) => {
   }
   return null;
 };
-// export const fetchSinglePokemon = async (id: number) => {};
+
+export const catchPokemonDB = async (
+  userDataAuth: User | null,
+  pokemon: Pokemon
+) => {
+  if (!userDataAuth) return;
+  const usersCollectionRef = collection(db, "users");
+  const docRef = doc(usersCollectionRef, userDataAuth.uid);
+  updateDoc(docRef, {
+    catched_pokemons: arrayUnion({
+      catch_date: new Date(),
+      favorite: false,
+      pokemon_id: pokemon.id,
+    }), // Replace 1 with the number you want to add
+  });
+};

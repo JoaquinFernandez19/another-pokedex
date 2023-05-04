@@ -2,6 +2,7 @@ import { Reducer, ReducerAction, ReducerState } from "react";
 import { PokemonList, UserDB } from "./Types";
 import { User } from "firebase/auth";
 import { AppInitialState } from "./AppInitialState";
+import { catchPokemonDB } from "./firebase/Pokemons";
 
 export enum AppActions {
   SET_USER_DATA = "SET_USER_DATA",
@@ -20,10 +21,12 @@ export interface AppState {
   pokemonList: PokemonList;
   currPokemon: number;
   ownedPokemons: PokemonList;
-  userData: (User & UserDB) | null;
+  userDataDB: UserDB | null;
+  userDataAuth: User | null;
   clickedInitialPokeBall: boolean;
   isMobile: boolean;
 }
+
 // An interface for our actions
 export interface AppAction {
   type: AppActions;
@@ -65,9 +68,10 @@ export const AppReducer: Reducer<AppState, AppAction> = (
       }
       return state;
     case "CATCH_POKEMON":
+      catchPokemonDB(state.userDataAuth, payload.pokemon);
       return {
         ...state,
-        ownedPokemons: [...state.ownedPokemons, payload],
+        ownedPokemons: [...state.ownedPokemons, payload.pokemon],
       };
     case "SET_CLICKED_PKBALL":
       return {

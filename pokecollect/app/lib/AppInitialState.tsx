@@ -15,13 +15,15 @@ import { Pokemon, PokemonList, UserDB, UserInfoLocal } from "./Types";
 import { createContext, Dispatch, SetStateAction } from "react";
 import { AppAction, AppState } from "./AppReducer";
 import { AuthCredential, User, UserCredential, UserInfo } from "firebase/auth";
+import { checkIfPokemonAlredyInDB, savePokemonToDB } from "./firebase/Pokemons";
 
 export const AppInitialState: AppState = {
   credits: 0,
   pokemonList: [],
   currPokemon: 0,
   ownedPokemons: [],
-  userData: null,
+  userDataDB: null,
+  userDataAuth: null,
   clickedInitialPokeBall: false,
   isMobile: false,
 };
@@ -61,7 +63,8 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
     pokemonList,
     currPokemon,
     ownedPokemons,
-    userData: { ...userSnapData, authUserObject },
+    userDataDB: userSnapData,
+    userDataAuth: authUserObject,
     clickedInitialPokeBall: false,
     isMobile: checkDevice(),
   };
@@ -86,18 +89,17 @@ async function registerUserInDB(authUserObject: UserInfo) {
     rank: 1,
     credits: Number(process.env.NEXT_PUBLIC_CREDITS),
   };
-  debugger;
+
   await setDoc(doc(db, "users", authUserObject.uid), InitialUserData);
   fetchUserInfo(authUserObject);
 }
 
 async function fetchUserInfo(authUserObject: UserInfo): Promise<UserInfoLocal> {
   const docRef = doc(db, "users", authUserObject.uid);
-  debugger;
+
   try {
     const userSnap = await getDoc(docRef);
     if (userSnap.exists()) {
-      debugger;
       const userSnapData = userSnap.data();
 
       return { userSnapData, userSnap };
@@ -170,3 +172,14 @@ function checkDevice() {
   const { innerWidth: width } = window;
   return width <= 768;
 }
+
+// async function storeAllPokemonsInDB(qty: number) {
+//   //Request pokemons to api -   //Generate object json for that pokemon
+//   const pokemonList = await fetchPokemons();
+//   console.log(pokemonList);
+//   //Check if exist in DB
+//   pokemonList.forEach(async (pok) => {
+//     //This function alredy saves to DB if pokemon dont exist
+//     await checkIfPokemonAlredyInDB(pok.id, pok);
+//   });
+// }

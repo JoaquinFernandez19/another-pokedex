@@ -17,7 +17,7 @@ export const Purchaser: React.FC<PurchaserProps> = ({ alredyOwned }) => {
     if (state.ownedPokemons.length < 6 && !alredyOwned) {
       dispatch({
         type: AppActions.CATCH_POKEMON,
-        payload: state.pokemonList[state.currPokemon],
+        payload: { pokemon: state.pokemonList[state.currPokemon] },
       });
     }
   };

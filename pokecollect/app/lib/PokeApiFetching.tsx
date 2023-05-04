@@ -4,10 +4,13 @@ import PokTypes from "./PokTypes.json";
 const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
-export const fetchPokemons = async (lastSeenPokemon?: Pokemon) => {
+export const fetchPokemons = async (lastSeenPokemon?: Pokemon | null) => {
   const returnValue: Pokemon[] = [];
   try {
-    const randomPokemonIds = getRandomPokemon(Number(NUMBER_OF_POKEMONS), CREDIT_LIMITS + 1);
+    let randomPokemonIds = getRandomPokemon(
+      Number(NUMBER_OF_POKEMONS),
+      CREDIT_LIMITS + 1
+    );
 
     const promises = randomPokemonIds.map((id) => {
       return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
@@ -110,4 +113,11 @@ export const preLoadImgs = async (imgArray: string[]) => {
     currImg.src = img;
     return currImg;
   });
+};
+const getOrderedListOfPokemons = (start: number, finish: number) => {
+  const result = [];
+  for (let i = start; i <= finish; i++) {
+    result.push(i);
+  }
+  return result;
 };
