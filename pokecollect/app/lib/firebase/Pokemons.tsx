@@ -42,28 +42,6 @@ export const checkIfPokemonAlredyInDB = async (
   return id;
 };
 
-export const getLastSeenPokemon = async (userId?: string) => {
-  if (!userId) return;
-
-  const usersCollectionRef = collection(db, "users");
-  const userDocRef = doc(usersCollectionRef, userId);
-  const docSnap = await getDoc(userDocRef);
-  if (docSnap.exists()) {
-    const lastPokemonRef = docSnap.data().last_pokemon_seen;
-    const pkCollRef = collection(db, "pokemons");
-    const pkDocRef = doc(pkCollRef, String(lastPokemonRef));
-    const lastPokemonDoc = await getDoc(pkDocRef);
-
-    if (lastPokemonDoc.exists()) {
-      const pokemonData = lastPokemonDoc.data() as { info_json: string };
-      return JSON.parse(pokemonData.info_json);
-    } else {
-      return null;
-    }
-  }
-  return null;
-};
-
 export const catchPokemonDB = async (
   userDataAuth: User | null,
   pokemon: Pokemon
@@ -76,6 +54,6 @@ export const catchPokemonDB = async (
       catch_date: new Date(),
       favorite: false,
       pokemon_id: pokemon.id,
-    }), // Replace 1 with the number you want to add
+    }),
   });
 };

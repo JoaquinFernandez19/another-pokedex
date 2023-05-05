@@ -4,13 +4,19 @@ import PokTypes from "./PokTypes.json";
 const NUMBER_OF_POKEMONS = process.env.NEXT_PUBLIC_NUMBER_OF_POKEMONS;
 const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
-export const fetchPokemons = async (lastSeenPokemon?: Pokemon | null) => {
+export const fetchPokemons = async (last_pokemon_collection?: number[]) => {
   const returnValue: Pokemon[] = [];
   try {
-    let randomPokemonIds = getRandomPokemon(
-      Number(NUMBER_OF_POKEMONS),
-      CREDIT_LIMITS + 1
-    );
+    let randomPokemonIds;
+    //If last collection, use that one, if not, generate the random one
+    if (last_pokemon_collection) {
+      randomPokemonIds = last_pokemon_collection;
+    } else {
+      randomPokemonIds = getRandomPokemon(
+        Number(NUMBER_OF_POKEMONS),
+        CREDIT_LIMITS + 1
+      );
+    }
 
     const promises = randomPokemonIds.map((id) => {
       return fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
@@ -23,7 +29,6 @@ export const fetchPokemons = async (lastSeenPokemon?: Pokemon | null) => {
     arr.forEach((el) => {
       returnValue.push(cleanupPokemonRequest(el));
     });
-    if (lastSeenPokemon) returnValue[0] = lastSeenPokemon;
   } catch (e) {
     console.log("error", e);
   }
@@ -114,10 +119,10 @@ export const preLoadImgs = async (imgArray: string[]) => {
     return currImg;
   });
 };
-const getOrderedListOfPokemons = (start: number, finish: number) => {
-  const result = [];
-  for (let i = start; i <= finish; i++) {
-    result.push(i);
-  }
-  return result;
-};
+// const getOrderedListOfPokemons = (start: number, finish: number) => {
+//   const result = [];
+//   for (let i = start; i <= finish; i++) {
+//     result.push(i);
+//   }
+//   return result;
+// };

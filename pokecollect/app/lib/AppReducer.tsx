@@ -1,7 +1,7 @@
 import { Reducer, ReducerAction, ReducerState } from "react";
 import { PokemonList, UserDB } from "./Types";
 import { User } from "firebase/auth";
-import { AppInitialState } from "./AppInitialState";
+import { AppInitialState, saveSpentCreditDB } from "./AppInitialState";
 import { catchPokemonDB } from "./firebase/Pokemons";
 
 export enum AppActions {
@@ -47,7 +47,6 @@ export const AppReducer: Reducer<AppState, AppAction> = (
         ...state,
         userData: payload.userData,
       };
-
     case "SET_CREDITS":
       return {
         ...state,
@@ -59,7 +58,8 @@ export const AppReducer: Reducer<AppState, AppAction> = (
         pokemonList: payload.pokemonList,
       };
     case "NEXT_POKEMON":
-      if (state.credits > 0) {
+      if (state.credits > 0 && state.userDataAuth) {
+        saveSpentCreditDB(state.userDataAuth, state.credits - 1);
         return {
           ...state,
           currPokemon: state.currPokemon + 1,
