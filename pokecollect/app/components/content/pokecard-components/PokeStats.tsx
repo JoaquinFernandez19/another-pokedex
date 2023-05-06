@@ -6,7 +6,7 @@ import { AppContext } from "@/app/lib/AppInitialState";
 
 export const PokeStats: React.FC = () => {
   const { state, dispatch } = useContext(AppContext);
-  const { color, height, weight, stats } = state.pokemonList[state.currPokemon];
+  const { color, height, weight, stats } = state.pokemonCollection[state.currPokemon];
   const isMobile = window.innerWidth <= 768;
   const variants = {
     open: {

@@ -20,7 +20,7 @@ export const PokeCard: React.FC = () => {
   useEffect(() => {
     if (
       state.ownedPokemons.find(
-        (pokemon) => pokemon?.id === state.pokemonList[state.currPokemon].id
+        (pokemon) => pokemon?.id === state.pokemonCollection[state.currPokemon].id
       )
     ) {
       setAlredyOwned(true);
@@ -43,7 +43,7 @@ export const PokeCard: React.FC = () => {
               },
             }}
             initial={{ opacity: 0 }}
-            key={`${state.pokemonList[state.currPokemon].id}`}
+            key={`${state.pokemonCollection[state.currPokemon].id}`}
             className="flex flex-col items-center"
           >
             {alredyOwned ? (
@@ -57,7 +57,7 @@ export const PokeCard: React.FC = () => {
                 transition={{ opacity: { duration: 0.2, delay: 0.1 } }}
                 stroke="currentColor"
                 className={`absolute top-[30%] h-[200px] z-50 text-[${
-                  state.pokemonList[state.currPokemon].color
+                  state.pokemonCollection[state.currPokemon].color
                 }]`}
               >
                 <path
@@ -71,8 +71,8 @@ export const PokeCard: React.FC = () => {
             )}
             <div className="flex justify-center items-end mb-5 md:mb-10">
               <h1 className="text-center text-3xl text-white  w-auto mr-3 leading-[24px]">
-                #{state.pokemonList[state.currPokemon].id}{" "}
-                {state.pokemonList[state.currPokemon].name}
+                #{state.pokemonCollection[state.currPokemon].id}{" "}
+                {state.pokemonCollection[state.currPokemon].name}
               </h1>
               <InfoBadge setShowStats={setShowStats} showStats={showStats} />
             </div>
@@ -83,8 +83,8 @@ export const PokeCard: React.FC = () => {
               } relative grid grid-cols-1 gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]`}
             >
               <Image
-                src={state.pokemonList[state.currPokemon].img}
-                alt={state.pokemonList[state.currPokemon].name}
+                src={state.pokemonCollection[state.currPokemon].img}
+                alt={state.pokemonCollection[state.currPokemon].name}
                 width={400}
                 height={400}
                 className="m-auto poke-circle border-solid z-10 px-10 md:px-0 md:col-start-2 md:col-end-3  "

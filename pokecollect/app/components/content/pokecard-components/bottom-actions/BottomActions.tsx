@@ -1,14 +1,12 @@
 import React from "react";
-import { Purchaser } from "./Purchaser";
+import { Catcher } from "./Catcher";
 import { NextPokemon } from "./NextPokemon";
 import { motion } from "framer-motion";
 interface BottomActionsProps {
   alredyOwned: boolean;
 }
 
-export const BottomActions: React.FC<BottomActionsProps> = ({
-  alredyOwned,
-}) => {
+export const BottomActions: React.FC<BottomActionsProps> = ({ alredyOwned }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -17,7 +15,7 @@ export const BottomActions: React.FC<BottomActionsProps> = ({
       className="flex fixed top-3 z-10 mx-auto justify-center gap-2 md:relative md:top-auto  md:mt-10"
     >
       <NextPokemon />
-      <Purchaser alredyOwned={alredyOwned} />
+      <Catcher alredyOwned={alredyOwned} />
     </motion.div>
   );
 };

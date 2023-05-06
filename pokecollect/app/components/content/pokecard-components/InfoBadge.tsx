@@ -22,7 +22,7 @@ export const InfoBadge: React.FC<InfoBadgeProps> = ({
   return (
     <span
       onClick={handleClick}
-      style={{ backgroundColor: state.pokemonList[state.currPokemon].color }}
+      style={{ backgroundColor: state.pokemonCollection[state.currPokemon].color }}
       className="px-2 cursor-pointer text-xs pt-[2px]"
     >
       Info

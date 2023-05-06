@@ -63,7 +63,7 @@ export const Inventory: React.FC = () => {
       style={{ backgroundImage: `url("./${imageUrl}.png")` }}
     >
       <InventoryControls handleOnClick={handleOnClick} />
-      <BagPokemonList pokemonList={state.ownedPokemons} />
+      <BagPokemonList pokemonCollection={state.ownedPokemons} />
     </motion.div>
   );
 };

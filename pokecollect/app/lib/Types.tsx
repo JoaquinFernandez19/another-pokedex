@@ -32,12 +32,11 @@ export interface UserInfoLocal {
   error?: unknown;
 }
 export interface UserDB {
-  achievements: [];
   catchedPokemons: CatchedPokemon[];
   credits: number;
   date_started: string;
   id: string;
-  last_pokemon_seend: number;
+  last_pokemon_collection: [];
   last_reset: string;
   name: string;
   rank: number;
@@ -46,6 +45,13 @@ type CatchedPokemon = {
   catch_date: string;
   favorite: boolean;
   pokemon_id: number;
+};
+
+export type StateDataToUpdateType = {
+  credits?: number;
+  catchedPokemons?: number[];
+  last_pokemon_collection?: number[];
+  last_reset?: Date;
 };
 
 export type PokemonList = Pokemon[];
