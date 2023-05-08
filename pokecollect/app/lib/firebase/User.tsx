@@ -2,27 +2,31 @@ import { User, UserInfo } from "firebase/auth";
 import { collection, doc, updateDoc, setDoc, getDoc } from "firebase/firestore";
 import { PokemonList, StateDataToUpdateType, UserDB } from "../Types";
 import { db } from "./Firebase";
-const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 
 export async function syncStateDataWithDB(
   authUserObject: UserInfo | User | null,
-  credits?: number,
-  ownedPokemons?: PokemonList,
-  pokemonCollection?: PokemonList,
+  credits: number,
+  ownedPokemons: PokemonList,
+  pokemonCollection: PokemonList,
   lastReset?: string
 ) {
   if (!authUserObject) return;
 
   const stateDataToUpdate: StateDataToUpdateType = {};
-  if (credits) stateDataToUpdate.credits = credits;
-  if (ownedPokemons) stateDataToUpdate.catchedPokemons = ownedPokemons.map((poke) => poke.id);
-  if (pokemonCollection)
-    stateDataToUpdate.last_pokemon_collection = pokemonCollection.map((poke) => poke.id);
+  stateDataToUpdate.credits = credits;
+
+  stateDataToUpdate.catchedPokemons = ownedPokemons.map((poke) => poke.id);
+
+  stateDataToUpdate.last_pokemon_collection = pokemonCollection.map(
+    (poke) => poke.id
+  );
   if (lastReset) stateDataToUpdate.last_reset = new Date(lastReset);
 
   const pokemonsCollectionRef = collection(db, "users");
   const ref = doc(pokemonsCollectionRef, authUserObject.uid);
-  updateDoc(ref, stateDataToUpdate).catch((error) => console.error("error...", error));
+  updateDoc(ref, stateDataToUpdate).catch((error) =>
+    console.error("error...", error)
+  );
 }
 
 //All utils functions here correlate to user information
@@ -75,7 +79,11 @@ export async function fetchUserInfo(authUserObject: UserInfo) {
   return false;
 }
 
-export function shouldResetCheck(last_reset: Date, credits: number, recentlyRegister: boolean) {
+export function shouldResetCheck(
+  last_reset: Date,
+  credits: number,
+  recentlyRegister: boolean
+) {
   if (!last_reset) return true;
   const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000); // create a date object for 12 hours ago
   const lastReset = last_reset;

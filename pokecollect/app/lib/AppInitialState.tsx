@@ -12,7 +12,7 @@ import {
   shouldResetCheck,
 } from "./firebase/User";
 
-const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
+export const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 export const AppInitialState: AppState = {
   credits: 0,
   pokemonCollection: [],
@@ -33,15 +33,21 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
   //Get some data needed
   let ownedPokemons = [];
   if (!recentlyRegister) {
-    const ownedPokemonsIdList = userDataDB.catched_pokemons.map((poke: { pokemon_id: number }) =>
-      String(poke.pokemon_id)
+    const ownedPokemonsIdList = userDataDB.catched_pokemons.map(
+      (poke: { pokemon_id: number }) => String(poke.pokemon_id)
     );
     ownedPokemons = await fetchPokemonList(ownedPokemonsIdList);
   }
   //Fix date type to  correclty execute code, new users will have Date object
-  userDataDB.last_reset = recentlyRegister ? userDataDB.last_reset : userDataDB.last_reset.toDate();
+  userDataDB.last_reset = recentlyRegister
+    ? userDataDB.last_reset
+    : userDataDB.last_reset.toDate();
   //Detects if we can re-fetch pokemon list, re add credits and update last reset date
-  const shouldReset = shouldResetCheck(userDataDB.last_reset, userDataDB.credits, recentlyRegister);
+  const shouldReset = shouldResetCheck(
+    userDataDB.last_reset,
+    userDataDB.credits,
+    recentlyRegister
+  );
 
   let credits;
   let pokemonCollection;
@@ -72,7 +78,7 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
     ownedPokemons,
     userDataDB: userDataDB,
     userDataAuth: authUserObject,
-    clickedInitialPokeBall: false,
+    clickedInitialPokeBall: credits < 5,
     isMobile: checkDevice(),
   };
 };

@@ -19,6 +19,10 @@ export const Catcher: React.FC<CatcherProps> = ({ alredyOwned }) => {
         type: AppActions.CATCH_POKEMON,
         payload: { pokemon: state.pokemonCollection[state.currPokemon] },
       });
+      dispatch({
+        type: AppActions.SYNC_WITH_DB,
+        payload: "",
+      });
     }
   };
 

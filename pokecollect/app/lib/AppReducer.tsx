@@ -2,7 +2,7 @@ import { Reducer, ReducerAction, ReducerState } from "react";
 import { PokemonList, UserDB } from "./Types";
 import { User } from "firebase/auth";
 import { AppInitialState } from "./AppInitialState";
-import { catchPokemonDB } from "./firebase/Pokemons";
+import { catchPokemonDB, fetchPokemonList } from "./firebase/Pokemons";
 import { syncStateDataWithDB } from "./firebase/User";
 
 export enum AppActions {
@@ -13,6 +13,9 @@ export enum AppActions {
   INIT_APP = "INIT_APP",
   SIGNOUT_USER = "SIGNOUT_USER",
   START_RESET_TIMER = "START_RESET_TIMER",
+  SET_CREDITS = "SET_CREDITS",
+  SET_POKEMON_COLLECTION = "SET_POKEMON_COLLECTION",
+  SET_CURR_POKEMON = "SET_CURR_POKEMON",
 }
 
 export interface AppState {
@@ -32,12 +35,30 @@ export interface AppAction {
   payload: any;
 }
 
-export const AppReducer: Reducer<AppState, AppAction> = (state: AppState, action: AppAction) => {
+export const AppReducer: Reducer<AppState, AppAction> = (
+  state: AppState,
+  action: AppAction
+) => {
   const { type, payload } = action;
 
   switch (type) {
     case "INIT_APP":
       return payload;
+    case "SET_CREDITS":
+      return {
+        ...state,
+        credits: payload.credits,
+      };
+    case "SET_POKEMON_COLLECTION":
+      return {
+        ...state,
+        pokemonCollection: payload.pokemonCollection,
+      };
+    case "SET_CURR_POKEMON":
+      return {
+        ...state,
+        currPokemon: payload.currPokemon,
+      };
     case "NEXT_POKEMON":
       if (state.credits > 0) {
         return {

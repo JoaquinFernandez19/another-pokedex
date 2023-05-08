@@ -6,6 +6,7 @@ import { Button } from "./Button";
 
 import { AppContext } from "@/app/lib/AppInitialState";
 import { AppActions } from "@/app/lib/AppReducer";
+import { enableCreditsAndFetchPokemonsList } from "@/app/lib/app-usage/Lib";
 
 export const NextPokemon: React.FC = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -13,18 +14,26 @@ export const NextPokemon: React.FC = () => {
 
   const calculateRemainingTime = () => {
     const lastReset = state.userDataDB?.last_reset;
-    debugger;
+
     if (lastReset && state.credits === 0) {
+      //If less than a minute, lets go we reset the state and do the magic
+
       //Here we check the last reset time and get the remaining time to use on our state
       const targetTime = new Date(lastReset).getTime() + 12 * 60 * 60 * 1000;
       const currentTime = new Date().getTime();
       const timeDifference = targetTime - currentTime;
       setRemainingTime(timeDifference);
+
+      console.log(timeDifference);
+      if (timeDifference < 60000) {
+        enableCreditsAndFetchPokemonsList(state, dispatch);
+      }
     }
   };
 
   useEffect(() => {
     if (state.credits > 0) return;
+    calculateRemainingTime();
     const interval = setInterval(calculateRemainingTime, 1000);
     return () => clearInterval(interval);
   }, [state.credits]);
@@ -39,8 +48,6 @@ export const NextPokemon: React.FC = () => {
     <Button
       text={state.credits === 0 ? hours + ":" + minutes : "Next"}
       onClick={() => {
-        //TODO
-
         if (state.credits === 1) {
           dispatch({
             type: AppActions.START_RESET_TIMER,
@@ -49,6 +56,10 @@ export const NextPokemon: React.FC = () => {
         }
         dispatch({
           type: AppActions.NEXT_POKEMON,
+          payload: "",
+        });
+        dispatch({
+          type: AppActions.SYNC_WITH_DB,
           payload: "",
         });
       }}
