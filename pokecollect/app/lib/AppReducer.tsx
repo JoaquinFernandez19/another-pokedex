@@ -1,24 +1,26 @@
 import { Reducer, ReducerAction, ReducerState } from "react";
 import { PokemonList, UserDB } from "./Types";
 import { User } from "firebase/auth";
-import { AppInitialState, saveSpentCreditDB } from "./AppInitialState";
-import { catchPokemonDB } from "./firebase/Pokemons";
+import { AppInitialState } from "./AppInitialState";
+import { catchPokemonDB, fetchPokemonList } from "./firebase/Pokemons";
+import { syncStateDataWithDB } from "./firebase/User";
 
 export enum AppActions {
-  SET_USER_DATA = "SET_USER_DATA",
-  SET_CREDITS = "SET_CREDITS",
-  SET_POKE_LIST = "SET_POKE_LIST",
+  SYNC_WITH_DB = "SYNC_WITH_DB",
   NEXT_POKEMON = "NEXT_POKEMON",
   CATCH_POKEMON = "CATCH_POKEMON",
   SET_CLICKED_PKBALL = "SET_CLICKED_PKBALL",
-  SET_IS_MOBILE = "SET_IS_MOBILE",
   INIT_APP = "INIT_APP",
   SIGNOUT_USER = "SIGNOUT_USER",
+  START_RESET_TIMER = "START_RESET_TIMER",
+  SET_CREDITS = "SET_CREDITS",
+  SET_POKEMON_COLLECTION = "SET_POKEMON_COLLECTION",
+  SET_CURR_POKEMON = "SET_CURR_POKEMON",
 }
 
 export interface AppState {
   credits: number;
-  pokemonList: PokemonList;
+  pokemonCollection: PokemonList;
   currPokemon: number;
   ownedPokemons: PokemonList;
   userDataDB: UserDB | null;
@@ -42,24 +44,23 @@ export const AppReducer: Reducer<AppState, AppAction> = (
   switch (type) {
     case "INIT_APP":
       return payload;
-    case "SET_USER_DATA":
-      return {
-        ...state,
-        userData: payload.userData,
-      };
     case "SET_CREDITS":
       return {
         ...state,
         credits: payload.credits,
       };
-    case "SET_POKE_LIST":
+    case "SET_POKEMON_COLLECTION":
       return {
         ...state,
-        pokemonList: payload.pokemonList,
+        pokemonCollection: payload.pokemonCollection,
+      };
+    case "SET_CURR_POKEMON":
+      return {
+        ...state,
+        currPokemon: payload.currPokemon,
       };
     case "NEXT_POKEMON":
-      if (state.credits > 0 && state.userDataAuth) {
-        saveSpentCreditDB(state.userDataAuth, state.credits - 1);
+      if (state.credits > 0) {
         return {
           ...state,
           currPokemon: state.currPokemon + 1,
@@ -68,7 +69,6 @@ export const AppReducer: Reducer<AppState, AppAction> = (
       }
       return state;
     case "CATCH_POKEMON":
-      catchPokemonDB(state.userDataAuth, payload.pokemon);
       return {
         ...state,
         ownedPokemons: [...state.ownedPokemons, payload.pokemon],
@@ -78,13 +78,23 @@ export const AppReducer: Reducer<AppState, AppAction> = (
         ...state,
         clickedInitialPokeBall: true,
       };
-    case "SET_IS_MOBILE":
-      return {
-        ...state,
-        isMobile: true,
-      };
     case "SIGNOUT_USER":
       return AppInitialState;
+    case "SYNC_WITH_DB":
+      //Executes method will all parameters to update all needed info
+      syncStateDataWithDB(
+        state.userDataAuth,
+        state.credits,
+        state.ownedPokemons,
+        state.pokemonCollection,
+        state.userDataDB?.last_reset
+      );
+      return state;
+    case "START_RESET_TIMER":
+      return {
+        ...state,
+        userDataDB: { ...state.userDataDB, last_reset: new Date().toString() },
+      };
     default:
       return state;
   }

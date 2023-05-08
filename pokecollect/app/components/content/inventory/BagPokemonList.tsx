@@ -3,22 +3,22 @@ import { PokemonList, Pokemon } from "../../../lib/Types";
 import { BagPokemonUnit } from "./BagPokemonUnit";
 
 interface BagPokemonListProps {
-  pokemonList: PokemonList;
+  pokemonCollection: PokemonList;
 }
 
 export const BagPokemonList: React.FC<BagPokemonListProps> = ({
-  pokemonList,
+  pokemonCollection,
 }) => {
-  const difference = 6 - pokemonList.length;
+  const difference = 6 - pokemonCollection.length;
   let inventory: (string | Pokemon)[] = [];
   if (difference != 0) {
     //Means we need to add difference number of slots to inventory after concat
-    inventory = inventory.concat(pokemonList);
+    inventory = inventory.concat(pokemonCollection);
     for (let i = 0; i < difference; i++) {
       inventory.push("");
     }
   } else {
-    inventory = pokemonList;
+    inventory = pokemonCollection;
   }
 
   return (

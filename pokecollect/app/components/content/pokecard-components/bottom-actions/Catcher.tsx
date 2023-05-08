@@ -6,18 +6,22 @@ import { Button } from "./Button";
 import { AppContext } from "@/app/lib/AppInitialState";
 import { AppActions } from "@/app/lib/AppReducer";
 
-interface PurchaserProps {
+interface CatcherProps {
   alredyOwned: boolean;
 }
 
-export const Purchaser: React.FC<PurchaserProps> = ({ alredyOwned }) => {
+export const Catcher: React.FC<CatcherProps> = ({ alredyOwned }) => {
   const { state, dispatch } = useContext(AppContext);
 
   const handleBuy = () => {
     if (state.ownedPokemons.length < 6 && !alredyOwned) {
       dispatch({
         type: AppActions.CATCH_POKEMON,
-        payload: { pokemon: state.pokemonList[state.currPokemon] },
+        payload: { pokemon: state.pokemonCollection[state.currPokemon] },
+      });
+      dispatch({
+        type: AppActions.SYNC_WITH_DB,
+        payload: "",
       });
     }
   };
@@ -27,7 +31,7 @@ export const Purchaser: React.FC<PurchaserProps> = ({ alredyOwned }) => {
       text={""}
       onClick={handleBuy}
       extraStyles={`${alredyOwned ? " disabled " : ""}`}
-      color={state.pokemonList[state.currPokemon].color}
+      color={state.pokemonCollection[state.currPokemon].color}
     >
       Catch
     </Button>
