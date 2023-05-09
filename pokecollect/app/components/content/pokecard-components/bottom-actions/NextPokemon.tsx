@@ -24,11 +24,44 @@ export const NextPokemon: React.FC = () => {
       const timeDifference = targetTime - currentTime;
       setRemainingTime(timeDifference);
 
-      console.log(timeDifference);
       if (timeDifference < 60000) {
         enableCreditsAndFetchPokemonsList(state, dispatch);
       }
     }
+  };
+
+  const handleClick = () => {
+    if (state.credits === 0) return;
+
+    if (state.credits === 1) {
+      dispatch({
+        type: AppActions.START_RESET_TIMER,
+        payload: "",
+      });
+    }
+    //Catch the pokemon if we have credits
+    dispatch({
+      type: AppActions.CATCH_POKEMON,
+      payload: { pokemon: state.pokemonCollection[state.currPokemon] },
+    });
+    dispatch({
+      type: AppActions.SET_CREDITS,
+      payload: { credits: state.credits - 1 },
+    });
+    //If after catching the pokemon we dont have more credits
+    //We need to prevent  switching
+    if (state.credits > 0) {
+      dispatch({
+        type: AppActions.NEXT_POKEMON,
+        payload: "",
+      });
+    }
+
+    //Sync everything with DB
+    dispatch({
+      type: AppActions.SYNC_WITH_DB,
+      payload: "",
+    });
   };
 
   useEffect(() => {
@@ -46,29 +79,14 @@ export const NextPokemon: React.FC = () => {
     .padStart(2, "0");
   return (
     <Button
-      text={state.credits === 0 ? hours + ":" + minutes : "Next"}
-      onClick={() => {
-        if (state.credits === 1) {
-          dispatch({
-            type: AppActions.START_RESET_TIMER,
-            payload: "",
-          });
-        }
-        dispatch({
-          type: AppActions.NEXT_POKEMON,
-          payload: "",
-        });
-        dispatch({
-          type: AppActions.SYNC_WITH_DB,
-          payload: "",
-        });
-      }}
-      extraStyles={" bg-slate-500"}
-      color={undefined}
+      text={state.credits === 0 ? hours + ":" + minutes : "Catch"}
+      onClick={handleClick}
+      extraStyles={" bg-slate-500 button-54 w-20 flex justify-center"}
+      color={state.pokemonCollection[state.currPokemon].color}
     >
       <ToolNumber
         value={Number(state.credits)}
-        style={"bottom-[30px] md:bottom-[24.5px] -left-2 md:-right-2"}
+        style={"bottom-[20px] md:bottom-[24.5px] -left-3 md:-right-2"}
       />
     </Button>
   );

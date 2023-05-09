@@ -1,6 +1,6 @@
 import { AppContext } from "@/app/lib/AppInitialState";
 import React, { useContext, useRef } from "react";
-
+import { FaInfoCircle } from "react-icons/fa";
 import { Dispatch, SetStateAction } from "react";
 interface InfoBadgeProps {
   setShowStats: Dispatch<SetStateAction<boolean>>;
@@ -16,16 +16,23 @@ export const InfoBadge: React.FC<InfoBadgeProps> = ({
   const handleClick = () => {
     if (!waitingAnimation.current) {
       setShowStats(!showStats);
-      waitingAnimation.current = false;
+      waitingAnimation.current = true;
+      setTimeout(function () {
+        waitingAnimation.current = false;
+      }, 500);
     }
   };
   return (
     <span
       onClick={handleClick}
-      style={{ backgroundColor: state.pokemonCollection[state.currPokemon].color }}
-      className="px-2 cursor-pointer text-xs pt-[2px]"
+      className=" cursor-pointer text-[25px] pt-[2px]"
     >
-      Info
+      <FaInfoCircle
+        style={{
+          color: state.pokemonCollection[state.currPokemon].color,
+          filter: "contrast(0.5)",
+        }}
+      />
     </span>
   );
 };

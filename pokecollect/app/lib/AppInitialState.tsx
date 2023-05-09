@@ -69,7 +69,7 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
   }
 
   //Setup correctly showing pokemon based on credits and list length
-  const currPokemon = pokemonCollection.length - (credits + 1);
+  const currPokemon = pokemonCollection.length - (credits + 2);
 
   return {
     credits: credits,

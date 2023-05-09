@@ -16,6 +16,7 @@ export enum AppActions {
   SET_CREDITS = "SET_CREDITS",
   SET_POKEMON_COLLECTION = "SET_POKEMON_COLLECTION",
   SET_CURR_POKEMON = "SET_CURR_POKEMON",
+  SET_DEVICE = "SET_DEVICE",
 }
 
 export interface AppState {
@@ -64,7 +65,6 @@ export const AppReducer: Reducer<AppState, AppAction> = (
         return {
           ...state,
           currPokemon: state.currPokemon + 1,
-          credits: state.credits - 1,
         };
       }
       return state;
@@ -77,6 +77,11 @@ export const AppReducer: Reducer<AppState, AppAction> = (
       return {
         ...state,
         clickedInitialPokeBall: true,
+      };
+    case "SET_DEVICE":
+      return {
+        ...state,
+        isMobile: payload.isMobile,
       };
     case "SIGNOUT_USER":
       return AppInitialState;

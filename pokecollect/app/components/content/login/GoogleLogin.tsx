@@ -52,9 +52,9 @@ export const GoogleLogin: React.FC = ({}) => {
     <div
       className={`${
         (!user && loading) || (loadingAppData && user) || !user
-          ? "required-login"
+          ? "required-login text-slate-800 md:fixed"
           : ""
-      } fixed bottom-1 left-3 `}
+      }  md:top-1 md:left-1 md:justify-self-start md:relative`}
     >
       <button onClick={login} className="flex">
         {text}

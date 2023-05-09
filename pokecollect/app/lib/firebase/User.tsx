@@ -15,7 +15,13 @@ export async function syncStateDataWithDB(
   const stateDataToUpdate: StateDataToUpdateType = {};
   stateDataToUpdate.credits = credits;
 
-  stateDataToUpdate.catchedPokemons = ownedPokemons.map((poke) => poke.id);
+  stateDataToUpdate.catched_pokemons = ownedPokemons.map((poke) => {
+    return {
+      catch_date: new Date().toISOString(),
+      favorite: false,
+      pokemon_id: poke.id,
+    };
+  });
 
   stateDataToUpdate.last_pokemon_collection = pokemonCollection.map(
     (poke) => poke.id

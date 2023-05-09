@@ -4,26 +4,30 @@ import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { AppContext } from "@/app/lib/AppInitialState";
 
+export const pokeStatsVariants = {
+  exitDesktop: {
+    opacity: [1, 0],
+    x: [0, -100],
+  },
+  exitMobile: {
+    opacity: [1, 0],
+    height: ["135px", "0px"],
+  },
+  openDesktop: {
+    opacity: [0, 1],
+    x: [-100, 0],
+  },
+  openMobile: {
+    opacity: [0, 1],
+    height: ["0px", "135px"],
+  },
+};
+
 export const PokeStats: React.FC = () => {
   const { state, dispatch } = useContext(AppContext);
-  const { color, height, weight, stats } = state.pokemonCollection[state.currPokemon];
-  const isMobile = window.innerWidth <= 768;
-  const variants = {
-    open: {
-      x: 0,
-      opacity: 1,
-      height: "auto",
-      transition: {
-        x: { duration: 1, type: "spring" },
-        opacity: { duration: 1, type: "spring" },
-      },
-    },
-    closed: {
-      x: -100,
-      opacity: 0,
-      height: 0,
-    },
-  };
+  const { color, height, weight, stats } =
+    state.pokemonCollection[state.currPokemon];
+
   const outLineVariants = {
     open: {
       height: ["0%", "100%"],
@@ -32,7 +36,8 @@ export const PokeStats: React.FC = () => {
       },
     },
     openMobile: {
-      width: ["0%", "70%"],
+      width: ["0px", "100px"],
+      height: ["0%", "100%"],
       transition: {
         width: { duration: 0.5, delay: 0.2, type: "ease-out" },
       },
@@ -40,11 +45,8 @@ export const PokeStats: React.FC = () => {
   };
 
   return (
-    <motion.div
-      variants={variants}
-      initial={"closed"}
-      animate={"open"}
-      className={`w-auto text-center h-min relative md:text-right md:top-[15%] md:left-[-10%]`}
+    <div
+      className={`w-auto text-center  relative md:text-right bottom-2 md:top-[15%] md:left-[-10%]`}
     >
       <div className="p-3 px-5 grid grid-cols-[repeat(2,minmax(0,100px))] justify-center gap-1 md:flex md:flex-col  md:gap-2  stats-circular-info  relative ">
         <motion.div
@@ -54,7 +56,7 @@ export const PokeStats: React.FC = () => {
           }}
           variants={outLineVariants}
           initial={"hidden"}
-          animate={isMobile ? "openMobile" : "open"}
+          animate={state.isMobile ? "openMobile" : "open"}
         ></motion.div>
         <p className="text-[13px] md:text-sm">
           <> Height: {height}</>
@@ -75,6 +77,6 @@ export const PokeStats: React.FC = () => {
           );
         })}
       </div>
-    </motion.div>
+    </div>
   );
 };

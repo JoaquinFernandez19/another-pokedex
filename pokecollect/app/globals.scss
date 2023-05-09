@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "wood-gradient";
 
 html,
 body {
@@ -10,6 +11,7 @@ body {
   font-size: 20px;
   background-color: #474e68;
   color: white;
+  overflow: hidden;
 }
 
 a {
@@ -21,10 +23,27 @@ a {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
+
 .main-container {
   min-height: 100vh;
   min-height: 100svh;
 }
+.main-container.showing-pokemon {
+  padding-top: 0;
+  display: grid;
+  justify-items: center;
+  grid-template-rows: 30px 1fr;
+}
+
+.main-container.showing-pokeball {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .pokeball {
+    position: fixed;
+  }
+}
+
 .disabled {
   pointer-events: none;
   opacity: 0.3;
@@ -124,23 +143,6 @@ a {
   transition: filter 0.1s ease-in;
 }
 
-.main-container.showing-pokeball {
-  @media (max-height: 788px) {
-    align-items: start;
-    padding-top: 25px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: #474e68;
-  }
-}
-
 .required-login {
   width: 100dvw;
   padding-top: 42vh;
@@ -163,19 +165,15 @@ a {
 
 /* CSS */
 .button-54 {
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
-  letter-spacing: 2px;
   text-decoration: none;
   text-transform: uppercase;
-  background-color: #d7dfff;
 
-  color: #000;
   cursor: pointer;
   border: 3px solid;
   padding: 0.25em 0.5em;
-  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
-    5px 5px 0px 0px;
+  box-shadow: 1px 1px 0px 0px black, 2px 2px 0px 0px black,
+    3px 3px 0px 0px black, 4px 4px 0px 0px black, 5px 5px 0px 0px black;
+  border-color: black;
   position: relative;
   user-select: none;
   -webkit-user-select: none;

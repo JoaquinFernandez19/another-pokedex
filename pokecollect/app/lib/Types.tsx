@@ -49,7 +49,11 @@ type CatchedPokemon = {
 
 export type StateDataToUpdateType = {
   credits?: number;
-  catchedPokemons?: number[];
+  catched_pokemons?: {
+    favorite: boolean;
+    pokemon_id: number;
+    catch_date: string;
+  }[];
   last_pokemon_collection?: number[];
   last_reset?: Date;
 };
