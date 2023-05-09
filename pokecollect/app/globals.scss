@@ -2,7 +2,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "wood-gradient";
 
 html,
 body {
@@ -171,8 +170,7 @@ a {
   cursor: pointer;
   border: 3px solid;
   padding: 0.25em 0.5em;
-  box-shadow: 1px 1px 0px 0px black, 2px 2px 0px 0px black,
-    3px 3px 0px 0px black, 4px 4px 0px 0px black, 5px 5px 0px 0px black;
+  box-shadow: 1px 1px 0px 0px black, 2px 2px 0px 0px black, 3px 3px 0px 0px black, 4px 4px 0px 0px black, 5px 5px 0px 0px black;
   border-color: black;
   position: relative;
   user-select: none;
