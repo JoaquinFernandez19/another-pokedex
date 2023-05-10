@@ -30,7 +30,7 @@ export const PokeCard: React.FC = () => {
   if (state.clickedInitialPokeBall) {
     return (
       <>
-        <div className="h-full flex justify-center md:flex-col items-center relative md:bottom-0 ">
+        <div className="h-full grid grid-rows-[1fr,100px] items-center ">
           <motion.div
             animate={{ opacity: [0, 1] }}
             transition={{

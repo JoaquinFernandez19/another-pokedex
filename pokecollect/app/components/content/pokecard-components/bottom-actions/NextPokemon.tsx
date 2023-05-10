@@ -81,12 +81,12 @@ export const NextPokemon: React.FC = () => {
     <Button
       text={state.credits === 0 ? hours + ":" + minutes : "Catch"}
       onClick={handleClick}
-      extraStyles={" bg-slate-500 button-54 w-20 flex justify-center"}
+      extraStyles={" bg-slate-500  w-20 justify-center h-10"}
       color={state.pokemonCollection[state.currPokemon].color}
     >
       <ToolNumber
         value={Number(state.credits)}
-        style={"bottom-[20px] md:bottom-[24.5px] -left-3 md:-right-2"}
+        style={"bottom-[30.5px]  -left-3 md:-right-2"}
       />
     </Button>
   );
