@@ -67,16 +67,13 @@ a {
 ::-webkit-scrollbar-track {
   background-color: #00000000;
   width: 22px;
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 .inventory {
   background-size: 100% 100%;
-  min-width: 70vw;
-  min-width: 70dvw;
+  width: 800px;
   margin: auto;
-  min-height: 580px;
+  min-height: 400px;
   overflow-y: hidden;
   padding: 75px;
   padding-bottom: 100px;
@@ -86,11 +83,10 @@ a {
     overflow: auto;
     display: grid;
     gap: 15px;
-    max-width: calc(var(--inventory-size) - 150px);
-    max-height: 580px;
+    max-height: 400px;
     margin: auto;
     padding-bottom: 5px;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 
     @media (max-width: 768px) {
       grid-template-columns: repeat(3, 1fr);

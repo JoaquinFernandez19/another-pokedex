@@ -18,7 +18,7 @@ export const PokeCard: React.FC = () => {
 
   //Context
   const { state } = useContext(AppContext);
-  debugger;
+
   useEffect(() => {
     if (state.credits === 0) {
       setlastPokemonCatched(true);

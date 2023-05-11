@@ -22,7 +22,7 @@ export const GoogleLogin: React.FC = ({}) => {
       if (!user) return;
       setLoadingAppData(true);
       const initialState = await SetAppInitialState(user);
-      debugger;
+
       setLoadingAppData(false);
       dispatch({
         type: AppActions.INIT_APP,

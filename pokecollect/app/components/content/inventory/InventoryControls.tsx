@@ -17,10 +17,10 @@ export const InventoryControls: React.FC = () => {
   return (
     <>
       <div
-        className="cursor-pointer absolute top-3 right-6 text-xl"
+        className="cursor-pointer absolute top-2 right-6 text-xl"
         onClick={closeInventory}
       >
-        X
+        x
       </div>
     </>
   );
