@@ -22,6 +22,8 @@ export const AppInitialState: AppState = {
   userDataAuth: null,
   clickedInitialPokeBall: false,
   isMobile: false,
+  showingInventory: false,
+  doInitialAnimation: true,
 };
 export const SetAppInitialState = async (authUserObject: UserInfo) => {
   let userDataDB = await fetchUserInfo(authUserObject);
@@ -69,7 +71,8 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
   }
 
   //Setup correctly showing pokemon based on credits and list length
-  const currPokemon = pokemonCollection.length - (credits + 2);
+  let currPokemon = pokemonCollection.length - 1 - credits;
+  if (currPokemon === -1) currPokemon = 0;
 
   return {
     credits: credits,
@@ -80,6 +83,8 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
     userDataAuth: authUserObject,
     clickedInitialPokeBall: credits < 5,
     isMobile: checkDevice(),
+    showInventory: false,
+    doInitialAnimation: true,
   };
 };
 export const AppContext = createContext<{

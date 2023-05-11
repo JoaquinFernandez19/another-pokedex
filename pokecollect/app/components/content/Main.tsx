@@ -39,9 +39,15 @@ export const Main: React.FC = () => {
         }  relative`}
       >
         <GoogleLogin />
-        <PokeCard />
-        <PokeBall />
-        {/* {state.clickedInitialPokeBall ? <Inventory /> : ""} */}
+        {state.clickedInitialPokeBall ? (
+          state.showingInventory ? (
+            <Inventory />
+          ) : (
+            <PokeCard />
+          )
+        ) : (
+          <PokeBall />
+        )}
       </div>
     </AppContext.Provider>
   );

@@ -22,7 +22,7 @@ export const GoogleLogin: React.FC = ({}) => {
       if (!user) return;
       setLoadingAppData(true);
       const initialState = await SetAppInitialState(user);
-
+      debugger;
       setLoadingAppData(false);
       dispatch({
         type: AppActions.INIT_APP,
@@ -37,8 +37,6 @@ export const GoogleLogin: React.FC = ({}) => {
   if (user) {
     if (loadingAppData) {
       text = "Loading...";
-    } else {
-      text = "Welcome " + user.displayName?.split(" ")[0];
     }
   } else {
     if (loading) {
@@ -58,7 +56,7 @@ export const GoogleLogin: React.FC = ({}) => {
     >
       <button
         onClick={login}
-        className="flex bg-slate-600 text-gray-100 py-[0.25em] px-[0.5em]"
+        className="flex bg-[#484f68] text-gray-100 py-[0.25em] px-[0.5em]"
       >
         {text}
         {user && !loading && !loadingAppData ? <SignoutIcon /> : ""}

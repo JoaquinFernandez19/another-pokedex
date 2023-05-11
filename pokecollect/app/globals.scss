@@ -53,87 +53,64 @@ a {
   transform: translate(-50%, -50%);
 }
 
-.inventory {
-  position: fixed;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: top;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  --inventory-size: 680px;
-  @media (max-width: 768px) {
-    --inventory-size: 364px;
-  }
-  width: var(--inventory-size);
-  padding: 40px 32px;
-  padding-bottom: 0;
-  .inventory-control {
-    position: absolute;
-    width: 97%;
-    top: 0;
-    height: 27px;
-    left: 10px;
-    @media (max-width: 768px) {
-      top: 15px;
-    }
-  }
-  .inventory-control-2 {
-    position: absolute;
-    width: 27px;
-    top: 0;
-    height: 100%;
-    left: 20px;
-    @media (max-width: 768px) {
-      left: 14px;
-    }
-  }
-  .inventory-control-3 {
-    position: absolute;
-    width: 27px;
-    top: 0;
-    height: 100%;
-    right: 20px;
-    @media (max-width: 768px) {
-      right: 14px;
-    }
-  }
+/* Style for scrollbar track */
+::-webkit-scrollbar {
+  background-color: #522323;
+  width: 9px;
+}
 
+::-webkit-scrollbar-thumb {
+  background-color: #00000052;
+  border-radius: 13px;
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background-color: #00000000;
+  width: 22px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.inventory {
+  background-size: 100% 100%;
+  min-width: 70vw;
+  min-width: 70dvw;
+  margin: auto;
+  min-height: 580px;
+  overflow-y: hidden;
+  padding: 75px;
+  padding-bottom: 100px;
   .inventory-pokemon-list {
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: auto;
     display: grid;
-    column-gap: 20px;
+    gap: 15px;
     max-width: calc(var(--inventory-size) - 150px);
+    max-height: 580px;
     margin: auto;
     padding-bottom: 5px;
     grid-template-columns: repeat(6, 1fr);
+
     @media (max-width: 768px) {
       grid-template-columns: repeat(3, 1fr);
-      column-gap: 30px;
-      row-gap: 30px;
+      gap: 30px;
       max-width: fit-content;
     }
     & > div {
-      min-width: 40px;
-      min-height: 60px;
+      width: 100px;
+      height: 80px;
       background-color: #0000001f;
       margin-top: 3px;
-
       border-radius: 25%;
-      background-size: cover;
       background-position: center;
+      background-size: 75%;
+      background-repeat: no-repeat;
       @media (max-width: 768px) {
         min-width: 61px;
         min-height: 72px;
       }
     }
-  }
-  @media (max-width: 768px) {
-    padding-top: 55px;
-    height: 306px;
-    width: 364px;
-    z-index: 1000;
-    bottom: -65px;
   }
 }
 

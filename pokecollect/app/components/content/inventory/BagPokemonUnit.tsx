@@ -22,24 +22,5 @@ export const BagPokemonUnit: React.FC<BagPokemonUnitProps> = ({
     ? { backgroundImage: `url('./empty-pokeball.png')` }
     : { backgroundImage: `url(${pokemon?.sm_img})` };
 
-  const initial = empty ? { y: 100, opacity: 0.2 } : { y: 100, opacity: 1 };
-  const animate = empty ? { y: 0, opacity: 0.2 } : { y: 0, opacity: 1 };
-  const transition = {
-    opacity: { duration: 0.2, type: "linear" },
-    y: { duration: 0.2, type: "linear" },
-  };
-
-  return (
-    <AnimatePresence>
-      <motion.div
-        initial={initial}
-        animate={animate}
-        transition={transition}
-        exit={{ y: 100, opacity: 0 }}
-        className={className_}
-        style={style}
-        key={index}
-      ></motion.div>
-    </AnimatePresence>
-  );
+  return <div className={className_} style={style} key={index}></div>;
 };

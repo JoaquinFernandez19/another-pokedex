@@ -4,17 +4,23 @@ import { NextPokemon } from "./NextPokemon";
 import { motion } from "framer-motion";
 import { OpenInventory } from "./OpenInventory";
 interface BottomActionsProps {
-  alredyOwned: boolean;
+  doInitialTransition: boolean;
 }
 
 export const BottomActions: React.FC<BottomActionsProps> = ({
-  alredyOwned,
+  doInitialTransition,
 }) => {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={{ opacity: doInitialTransition ? 0 : 1 }}
       animate={{ opacity: 1 }}
-      transition={{ opacity: { duration: 2, type: "spring", delay: 2 } }}
+      transition={{
+        opacity: {
+          duration: doInitialTransition ? 2 : 0,
+          type: "spring",
+          delay: doInitialTransition ? 2 : 0,
+        },
+      }}
       className="flex gap-2 justify-center items-end"
     >
       <ProfileIcon />

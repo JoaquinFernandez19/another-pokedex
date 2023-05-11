@@ -17,6 +17,7 @@ export enum AppActions {
   SET_POKEMON_COLLECTION = "SET_POKEMON_COLLECTION",
   SET_CURR_POKEMON = "SET_CURR_POKEMON",
   SET_DEVICE = "SET_DEVICE",
+  SET_INVENTORY_DISPLAY = "SET_INVENTORY_DISPLAY",
 }
 
 export interface AppState {
@@ -28,6 +29,8 @@ export interface AppState {
   userDataAuth: User | null;
   clickedInitialPokeBall: boolean;
   isMobile: boolean;
+  showingInventory: boolean;
+  doInitialAnimation: boolean;
 }
 
 // An interface for our actions
@@ -55,6 +58,12 @@ export const AppReducer: Reducer<AppState, AppAction> = (
         ...state,
         pokemonCollection: payload.pokemonCollection,
       };
+    case "SET_INVENTORY_DISPLAY":
+      return {
+        ...state,
+        showingInventory: payload.showingInventory,
+        doInitialAnimation: false,
+      };
     case "SET_CURR_POKEMON":
       return {
         ...state,
@@ -77,6 +86,7 @@ export const AppReducer: Reducer<AppState, AppAction> = (
       return {
         ...state,
         clickedInitialPokeBall: true,
+        doInitialAnimation: true,
       };
     case "SET_DEVICE":
       return {
