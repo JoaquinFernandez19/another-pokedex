@@ -1,21 +1,31 @@
 import React from "react";
-import { Catcher } from "./Catcher";
+import { ProfileIcon } from "./ProfileIcon";
 import { NextPokemon } from "./NextPokemon";
 import { motion } from "framer-motion";
+import { OpenInventory } from "./OpenInventory";
 interface BottomActionsProps {
-  alredyOwned: boolean;
+  doInitialTransition: boolean;
 }
 
-export const BottomActions: React.FC<BottomActionsProps> = ({ alredyOwned }) => {
+export const BottomActions: React.FC<BottomActionsProps> = ({
+  doInitialTransition,
+}) => {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={{ opacity: doInitialTransition ? 0 : 1 }}
       animate={{ opacity: 1 }}
-      transition={{ opacity: { duration: 2, type: "spring", delay: 2 } }}
-      className="flex fixed top-3 z-10 mx-auto justify-center gap-2 md:relative md:top-auto  md:mt-10"
+      transition={{
+        opacity: {
+          duration: doInitialTransition ? 2 : 0,
+          type: "spring",
+          delay: doInitialTransition ? 2 : 0,
+        },
+      }}
+      className="flex gap-2 justify-center items-end"
     >
+      <ProfileIcon />
       <NextPokemon />
-      <Catcher alredyOwned={alredyOwned} />
+      <OpenInventory />
     </motion.div>
   );
 };

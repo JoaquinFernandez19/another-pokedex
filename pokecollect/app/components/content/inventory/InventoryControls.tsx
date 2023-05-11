@@ -1,26 +1,27 @@
-import React from "react";
+import { AppContext } from "@/app/lib/AppInitialState";
+import { AppActions } from "@/app/lib/AppReducer";
+import React, { useContext } from "react";
 
-interface InventoryControlsProps {
-  handleOnClick: () => void;
-}
+export const InventoryControls: React.FC = () => {
+  const { state, dispatch } = useContext(AppContext);
 
-export const InventoryControls: React.FC<InventoryControlsProps> = ({
-  handleOnClick,
-}) => {
+  const closeInventory = () => {
+    dispatch({
+      type: AppActions.SET_INVENTORY_DISPLAY,
+      payload: {
+        showingInventory: false,
+      },
+    });
+  };
+
   return (
     <>
       <div
-        className="inventory-control cursor-pointer"
-        onClick={handleOnClick}
-      ></div>
-      <div
-        className="inventory-control-2 cursor-pointer"
-        onClick={handleOnClick}
-      ></div>
-      <div
-        className="inventory-control-3 cursor-pointer"
-        onClick={handleOnClick}
-      ></div>
+        className="cursor-pointer absolute top-3 right-6 text-xl"
+        onClick={closeInventory}
+      >
+        X
+      </div>
     </>
   );
 };

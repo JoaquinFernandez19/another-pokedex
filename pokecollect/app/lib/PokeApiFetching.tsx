@@ -15,7 +15,7 @@ export const fetchPokemons = async (last_pokemon_collection?: number[]) => {
     } else {
       randomPokemonIds = getRandomPokemonList(
         Number(NUMBER_OF_POKEMONS),
-        CREDIT_LIMITS + 1
+        CREDIT_LIMITS
       );
     }
     //New system fetches from Firebase
