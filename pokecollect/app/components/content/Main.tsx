@@ -7,6 +7,9 @@ import { Inventory } from "./inventory/Inventory";
 import { GoogleLogin } from "./login/GoogleLogin";
 import { AppActions, AppReducer } from "@/app/lib/AppReducer";
 import { AppContext, AppInitialState } from "@/app/lib/AppInitialState";
+import { MainContent } from "./MainContent";
+import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
+import { BackgroundLogo } from "../layout/BackgroundLogo";
 
 export const Main: React.FC = () => {
   const [state, dispatch] = useReducer(AppReducer, AppInitialState);
@@ -33,20 +36,16 @@ export const Main: React.FC = () => {
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
+      <BackgroundLogo />
       <div
-        className={`main-container ${
-          state.clickedInitialPokeBall ? "showing-pokemon" : "showing-pokeball"
-        }  relative`}
+        className={`main-container relative ${
+          !state.clickedInitialPokeBall && "showing-pokeball"
+        }`}
       >
         <GoogleLogin />
-        {state.clickedInitialPokeBall ? (
-          state.showingInventory ? (
-            <Inventory />
-          ) : (
-            <PokeCard />
-          )
-        ) : (
-          <PokeBall />
+        <MainContent />
+        {state.clickedInitialPokeBall && (
+          <BottomActions doInitialTransition={state.doInitialAnimation} />
         )}
       </div>
     </AppContext.Provider>

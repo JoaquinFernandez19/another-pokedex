@@ -26,12 +26,9 @@ a {
 .main-container {
   min-height: 100vh;
   min-height: 100svh;
-}
-.main-container.showing-pokemon {
-  padding-top: 0;
   display: grid;
-  justify-items: center;
-  grid-template-rows: 30px 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 100px;
 }
 
 .main-container.showing-pokeball {
@@ -77,6 +74,13 @@ a {
   overflow-y: hidden;
   padding: 75px;
   padding-bottom: 100px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 45px;
+    padding-bottom: 45px;
+  }
+
   .inventory-pokemon-list {
     padding-left: 10px;
     padding-right: 10px;
@@ -90,8 +94,9 @@ a {
 
     @media (max-width: 768px) {
       grid-template-columns: repeat(3, 1fr);
-      gap: 30px;
-      max-width: fit-content;
+      gap: 5px;
+      padding-left: 15px;
+      padding-right: 0px;
     }
     & > div {
       width: 100px;
@@ -103,8 +108,8 @@ a {
       background-size: 75%;
       background-repeat: no-repeat;
       @media (max-width: 768px) {
-        min-width: 61px;
-        min-height: 72px;
+        width: 70px;
+        height: 60px;
       }
     }
   }

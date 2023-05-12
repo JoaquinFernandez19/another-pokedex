@@ -16,7 +16,7 @@ export const CompletedSessionMark: React.FC = ({}) => {
       animate={{ opacity: 1 }}
       transition={{ opacity: { duration: 0.2, delay: 0.1 } }}
       stroke="currentColor"
-      className={`absolute top-[100px] md:top-[200px] h-[200px] z-50 text-[${
+      className={`absolute m-auto top-0 bottom-0 left-0 right-0 h-[200px] z-50 text-[${
         state.pokemonCollection[state.currPokemon].color
       }]`}
     >

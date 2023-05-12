@@ -10,7 +10,7 @@ export const fetchPokemons = async (last_pokemon_collection?: number[]) => {
   try {
     let randomPokemonIds;
     //If last collection, use that one, if not, generate the random one
-    if (last_pokemon_collection) {
+    if (last_pokemon_collection?.length) {
       randomPokemonIds = last_pokemon_collection;
     } else {
       randomPokemonIds = getRandomPokemonList(

@@ -21,7 +21,7 @@ export const BottomActions: React.FC<BottomActionsProps> = ({
           delay: doInitialTransition ? 2 : 0,
         },
       }}
-      className="flex gap-2 justify-center items-end"
+      className="flex gap-2 justify-center items-end pb-[30px]"
     >
       <ProfileIcon />
       <NextPokemon />

@@ -34,6 +34,7 @@ export const GoogleLogin: React.FC = ({}) => {
   }, [user]);
 
   let text;
+
   if (user) {
     if (loadingAppData) {
       text = "Loading...";
@@ -49,10 +50,10 @@ export const GoogleLogin: React.FC = ({}) => {
   return (
     <div
       className={`${
-        (!user && loading) || (loadingAppData && user) || !user
-          ? "required-login text-slate-800 md:fixed"
+        !user || loading || loadingAppData
+          ? "required-login text-slate-800"
           : ""
-      }  md:top-1 md:left-1 md:justify-self-start md:relative`}
+      }  md:top-1 md:left-1 md:justify-self-start fixed`}
     >
       <button
         onClick={login}
