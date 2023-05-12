@@ -38,15 +38,13 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       onClick={onClick}
       className={
-        "md:text-m relative cursor-pointer flex button-54 h-[36px] px-4 py-0 items-center justify-center" +
+        "md:text-m relative cursor-pointer flex button-54 h-[36px] px-4 py-0 items-center justify-center " +
         extraStyles
       }
       style={{ backgroundColor: color }}
     >
-      <p>
-        {text ? text : ""}
-        {children ? children : ""}
-      </p>
+      {text ? text : ""}
+      {children ? children : ""}
     </button>
   );
 };
