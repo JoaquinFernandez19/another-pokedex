@@ -38,20 +38,22 @@ export const PokeCard: React.FC = () => {
       key={`${state.pokemonCollection[state.currPokemon].id}`}
       className="flex flex-col justify-center items-center"
     >
-      {lastPokemonCatched && <CompletedSessionMark />}
       <Title setShowStats={setShowStats} showStats={showStats} />
       <div
         className={`${
           lastPokemonCatched ? "owned" : "unowned"
         } relative md:grid  gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]`}
       >
-        <Image
-          src={state.pokemonCollection[state.currPokemon].img}
-          alt={state.pokemonCollection[state.currPokemon].name}
-          width={400}
-          height={400}
-          className="m-auto poke-circle border-solid z-10 px-10 md:px-0 md:col-start-2 md:col-end-3  "
-        />
+        <div className="relative md:col-start-2 md:col-end-3">
+          <Image
+            src={state.pokemonCollection[state.currPokemon].img}
+            alt={state.pokemonCollection[state.currPokemon].name}
+            width={400}
+            height={400}
+            className="m-auto poke-circle border-solid z-10 px-10 md:px-0 "
+          />
+          {lastPokemonCatched && <CompletedSessionMark />}
+        </div>
         <AnimatePresence>
           {showStats && (
             <motion.div

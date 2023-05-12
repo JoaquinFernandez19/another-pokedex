@@ -17,7 +17,7 @@ export const InventoryControls: React.FC = () => {
   return (
     <>
       <div
-        className="cursor-pointer absolute top-1 right-[9px] md:top-2 md:right-4 text-xl w-6 flex justify-center"
+        className="cursor-pointer absolute top-2 right-[9px] md:top-2 md:right-4 text-xl w-6 flex justify-center"
         onClick={closeInventory}
       >
         x
