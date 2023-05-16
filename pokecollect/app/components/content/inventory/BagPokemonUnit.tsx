@@ -21,6 +21,14 @@ export const BagPokemonUnit: React.FC<BagPokemonUnitProps> = ({
   const style = empty
     ? { backgroundImage: `url('./empty-pokeball.png')` }
     : { backgroundImage: `url(${pokemon?.sm_img})` };
-
-  return <div className={className_} style={style} key={index}></div>;
+  if (pokemon?.amount) {
+    return (
+      <div className={className_} style={style} key={index}>
+        <span className="absolute right-2 bottom-0 opacity-30">
+          {pokemon.amount > 1 ? pokemon.amount : ""}
+        </span>
+      </div>
+    );
+  }
+  return <></>;
 };

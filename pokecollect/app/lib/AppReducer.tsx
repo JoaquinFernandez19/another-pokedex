@@ -81,7 +81,7 @@ export const AppReducer: Reducer<AppState, AppAction> = (
       if (!state.userDataDB) return;
 
       //In ownPokemons, we add the new pokemon, but if alredy exist, we sum up the amount
-      const ownedPokemonsUpdated = [...state.ownedPokemons];
+      let ownedPokemonsUpdated = [...state.ownedPokemons];
       let alredyCatched = false;
       const catchedPokemonsDBUpdated = state.userDataDB.catched_pokemons.map(
         (poke) => {
@@ -92,14 +92,21 @@ export const AppReducer: Reducer<AppState, AppAction> = (
           return poke;
         }
       );
-
+      //If it wasnt catched, we add it to the pokemon list
+      //Including the amount :)
       if (!alredyCatched) {
-        ownedPokemonsUpdated.push(payload.pokemon);
+        ownedPokemonsUpdated.push({ ...payload.pokemon, amount: 1 });
         catchedPokemonsDBUpdated.push({
           catch_date: new Date().toISOString(),
           favorite: false,
           pokemon_id: payload.pokemon.id,
           amount: 1,
+        });
+      } else {
+        ownedPokemonsUpdated = state.ownedPokemons.map((poke) => {
+          if (poke.id === payload.pokemon.id)
+            return { ...poke, amount: poke.amount + 1 };
+          return poke;
         });
       }
 

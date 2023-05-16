@@ -11,6 +11,7 @@ import {
   syncStateDataWithDB,
   shouldResetCheck,
 } from "./firebase/User";
+import { CatchedPokemon, PokemonList } from "./Types";
 
 export const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 export const AppInitialState: AppState = {
@@ -39,7 +40,14 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
       (poke: { pokemon_id: number }) => String(poke.pokemon_id)
     );
     ownedPokemons = await fetchPokemonList(ownedPokemonsIdList);
+    if (ownedPokemons.length) {
+      ownedPokemons = addAmountToLocalOwnedPokemonList(
+        ownedPokemons,
+        userDataDB.catched_pokemons
+      );
+    }
   }
+  debugger;
   //Fix date type to  correclty execute code, new users will have Date object
   userDataDB.last_reset = recentlyRegister
     ? userDataDB.last_reset
@@ -99,4 +107,23 @@ export const AppContext = createContext<{
 function checkDevice() {
   const { innerWidth: width } = window;
   return width <= 768;
+}
+function addAmountToLocalOwnedPokemonList(
+  ownedPokemons: PokemonList,
+  catched_pokemons: CatchedPokemon[]
+) {
+  const ownedPokemonsWithAmount = ownedPokemons.map((pokemon1) => {
+    const pokemonKeyFromDB = catched_pokemons.find(
+      (pokemon2) => pokemon1.id === pokemon2.pokemon_id
+    );
+
+    if (pokemonKeyFromDB) {
+      const amount = pokemonKeyFromDB.amount ?? 1; //Handle users that have catched before amount update
+      return { ...pokemon1, amount: amount };
+    }
+
+    return pokemon1;
+  });
+
+  return ownedPokemonsWithAmount;
 }
