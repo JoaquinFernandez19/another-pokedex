@@ -23,8 +23,8 @@ export const OpenInventory: React.FC = () => {
       } flex flex-row`}
       onClick={handleClick}
     >
-      <GiChest />
-      <p className="ml-1">{state.ownedPokemons.length}</p>
+      <GiChest className="pointer-events-none" />
+      <p className="ml-1 pointer-events-none">{state.ownedPokemons.length}</p>
     </Button>
   );
 };

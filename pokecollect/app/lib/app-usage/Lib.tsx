@@ -21,6 +21,7 @@ export async function enableCreditsAndFetchPokemonsList(
     type: AppActions.SET_CREDITS,
     payload: { credits: CREDIT_LIMITS },
   });
+
   dispatch({
     type: AppActions.SYNC_WITH_DB,
     payload: "",

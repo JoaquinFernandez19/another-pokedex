@@ -61,9 +61,9 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
     await syncStateDataWithDB(
       authUserObject,
       credits,
-      ownedPokemons,
       pokemonCollection,
-      lastReset.toString()
+      lastReset.toString(),
+      userDataDB.catched_pokemons
     );
   } else {
     credits = userDataDB.credits;
@@ -71,8 +71,9 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
   }
 
   //Setup correctly showing pokemon based on credits and list length
-  let currPokemon = pokemonCollection.length - 1 - credits;
+  let currPokemon = pokemonCollection.length - credits;
   if (currPokemon === -1) currPokemon = 0;
+  if (currPokemon === 5) currPokemon = 4;
 
   return {
     credits: credits,

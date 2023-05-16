@@ -1,27 +1,26 @@
 import { User, UserInfo } from "firebase/auth";
 import { collection, doc, updateDoc, setDoc, getDoc } from "firebase/firestore";
-import { PokemonList, StateDataToUpdateType, UserDB } from "../Types";
+import {
+  CatchedPokemon,
+  PokemonList,
+  StateDataToUpdateType,
+  UserDB,
+} from "../Types";
 import { db } from "./Firebase";
 
 export async function syncStateDataWithDB(
   authUserObject: UserInfo | User | null,
   credits: number,
-  ownedPokemons: PokemonList,
   pokemonCollection: PokemonList,
-  lastReset?: string
+  lastReset: string,
+  catched_pokemons: CatchedPokemon[]
 ) {
   if (!authUserObject) return;
 
   const stateDataToUpdate: StateDataToUpdateType = {};
   stateDataToUpdate.credits = credits;
 
-  stateDataToUpdate.catched_pokemons = ownedPokemons.map((poke) => {
-    return {
-      catch_date: new Date().toISOString(),
-      favorite: false,
-      pokemon_id: poke.id,
-    };
-  });
+  stateDataToUpdate.catched_pokemons = catched_pokemons;
 
   stateDataToUpdate.last_pokemon_collection = pokemonCollection.map(
     (poke) => poke.id
@@ -35,29 +34,6 @@ export async function syncStateDataWithDB(
   );
 }
 
-//All utils functions here correlate to user information
-// export async function saveUserDataToDBAfterReset(
-//   authUserObject: UserInfo,
-//   pokemonCollection: PokemonList,
-//   lastReset: Date
-// ) {
-//   //First prepare the array of ids
-//   const listOfPokemonIds = pokemonCollection.map((poke) => poke.id);
-//   const pokemonsCollectionRef = collection(db, "users");
-//   const ref = doc(pokemonsCollectionRef, authUserObject.uid);
-//   updateDoc(ref, {
-//     last_pokemon_collection: listOfPokemonIds,
-//     last_reset: lastReset,
-//     credits: CREDIT_LIMITS,
-//   }).catch((error) => console.error("error...", error));
-// }
-// export async function saveSpentCreditDB(authUserObject: UserInfo, credits: number) {
-//   const pokemonsCollectionRef = collection(db, "users");
-//   const ref = doc(pokemonsCollectionRef, authUserObject.uid);
-//   updateDoc(ref, {
-//     credits: credits,
-//   }).catch((error) => console.error("error...", error));
-// }
 export async function registerUserInDB(authUserObject: UserInfo) {
   const InitialUserData = {
     achievements: [],

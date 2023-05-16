@@ -4,12 +4,14 @@ import { BagPokemonList } from "./BagPokemonList";
 import { InventoryControls } from "./InventoryControls";
 
 import { AppContext } from "@/app/lib/AppInitialState";
+import { motion } from "framer-motion";
 
 export const Inventory: React.FC = () => {
   const { state } = useContext(AppContext);
 
   return (
-    <div
+    <motion.div
+      animate={{ opacity: [0, 1], y: [-300, 0] }}
       className="inventory relative z-50"
       style={{
         backgroundImage: `url("./${
@@ -19,6 +21,6 @@ export const Inventory: React.FC = () => {
     >
       <InventoryControls />
       <BagPokemonList pokemonCollection={state.ownedPokemons} />
-    </div>
+    </motion.div>
   );
 };

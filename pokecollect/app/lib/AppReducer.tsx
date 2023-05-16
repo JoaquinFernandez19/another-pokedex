@@ -78,9 +78,38 @@ export const AppReducer: Reducer<AppState, AppAction> = (
       }
       return state;
     case "CATCH_POKEMON":
+      if (!state.userDataDB) return;
+
+      //In ownPokemons, we add the new pokemon, but if alredy exist, we sum up the amount
+      const ownedPokemonsUpdated = [...state.ownedPokemons];
+      let alredyCatched = false;
+      const catchedPokemonsDBUpdated = state.userDataDB.catched_pokemons.map(
+        (poke) => {
+          if (poke.pokemon_id === payload.pokemon.id) {
+            alredyCatched = true;
+            return { ...poke, amount: poke.amount + 1 };
+          }
+          return poke;
+        }
+      );
+
+      if (!alredyCatched) {
+        ownedPokemonsUpdated.push(payload.pokemon);
+        catchedPokemonsDBUpdated.push({
+          catch_date: new Date().toISOString(),
+          favorite: false,
+          pokemon_id: payload.pokemon.id,
+          amount: 1,
+        });
+      }
+
       return {
         ...state,
-        ownedPokemons: [...state.ownedPokemons, payload.pokemon],
+        ownedPokemons: ownedPokemonsUpdated,
+        userDataDB: {
+          ...state.userDataDB,
+          catched_pokemons: catchedPokemonsDBUpdated,
+        },
       };
     case "SET_CLICKED_PKBALL":
       return {
@@ -96,13 +125,14 @@ export const AppReducer: Reducer<AppState, AppAction> = (
     case "SIGNOUT_USER":
       return AppInitialState;
     case "SYNC_WITH_DB":
+      if (!state.userDataDB) return;
       //Executes method will all parameters to update all needed info
       syncStateDataWithDB(
         state.userDataAuth,
         state.credits,
-        state.ownedPokemons,
         state.pokemonCollection,
-        state.userDataDB?.last_reset
+        state.userDataDB.last_reset,
+        state.userDataDB.catched_pokemons
       );
       return state;
     case "START_RESET_TIMER":

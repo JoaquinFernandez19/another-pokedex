@@ -14,6 +14,7 @@ export interface Pokemon {
   color?: string | undefined;
   value: number;
   sm_img: string;
+  amount: number;
 }
 
 export interface PokemonType {
@@ -32,7 +33,7 @@ export interface UserInfoLocal {
   error?: unknown;
 }
 export interface UserDB {
-  catchedPokemons: CatchedPokemon[];
+  catched_pokemons: CatchedPokemon[];
   credits: number;
   date_started: string;
   id: string;
@@ -41,10 +42,11 @@ export interface UserDB {
   name: string;
   rank: number;
 }
-type CatchedPokemon = {
+export type CatchedPokemon = {
   catch_date: string;
   favorite: boolean;
   pokemon_id: number;
+  amount: number;
 };
 
 export type StateDataToUpdateType = {
