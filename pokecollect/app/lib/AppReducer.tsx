@@ -1,8 +1,7 @@
-import { Reducer, ReducerAction, ReducerState } from "react";
+import { Reducer } from "react";
 import { PokemonList, UserDB } from "./Types";
 import { User } from "firebase/auth";
 import { AppInitialState } from "./AppInitialState";
-import { catchPokemonDB, fetchPokemonList } from "./firebase/Pokemons";
 import { syncStateDataWithDB } from "./firebase/User";
 
 export enum AppActions {
@@ -39,10 +38,7 @@ export interface AppAction {
   payload: any;
 }
 
-export const AppReducer: Reducer<AppState, AppAction> = (
-  state: AppState,
-  action: AppAction
-) => {
+export const AppReducer: Reducer<AppState, AppAction> = (state: AppState, action: AppAction) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -83,15 +79,13 @@ export const AppReducer: Reducer<AppState, AppAction> = (
       //In ownPokemons, we add the new pokemon, but if alredy exist, we sum up the amount
       let ownedPokemonsUpdated = [...state.ownedPokemons];
       let alredyCatched = false;
-      const catchedPokemonsDBUpdated = state.userDataDB.catched_pokemons.map(
-        (poke) => {
-          if (poke.pokemon_id === payload.pokemon.id) {
-            alredyCatched = true;
-            return { ...poke, amount: poke.amount + 1 };
-          }
-          return poke;
+      const catchedPokemonsDBUpdated = state.userDataDB.catched_pokemons.map((poke) => {
+        if (poke.pokemon_id === payload.pokemon.id) {
+          alredyCatched = true;
+          return { ...poke, amount: poke.amount + 1 };
         }
-      );
+        return poke;
+      });
       //If it wasnt catched, we add it to the pokemon list
       //Including the amount :)
       if (!alredyCatched) {
@@ -104,8 +98,7 @@ export const AppReducer: Reducer<AppState, AppAction> = (
         });
       } else {
         ownedPokemonsUpdated = state.ownedPokemons.map((poke) => {
-          if (poke.id === payload.pokemon.id)
-            return { ...poke, amount: poke.amount + 1 };
+          if (poke.id === payload.pokemon.id) return { ...poke, amount: poke.amount + 1 };
           return poke;
         });
       }

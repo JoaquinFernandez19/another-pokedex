@@ -3,7 +3,7 @@ import { AppActions } from "@/app/lib/AppReducer";
 import React, { useContext } from "react";
 
 export const InventoryControls: React.FC = () => {
-  const { state, dispatch } = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
 
   const closeInventory = () => {
     dispatch({

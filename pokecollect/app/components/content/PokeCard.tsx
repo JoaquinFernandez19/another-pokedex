@@ -2,12 +2,13 @@
 
 import React, { useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PokeStats, pokeStatsVariants } from "./pokecard-components/PokeStats";
+import { PokeStats } from "./pokecard-components/PokeStats";
 import Image from "next/image";
 import { AppContext } from "@/app/lib/AppInitialState";
 import { CompletedSessionMark } from "./pokecard-components/CompletedSessionMark";
 import { Title } from "./pokecard-components/Title";
 import { useLastPokemonCatched, usePokeStats } from "./Hooks";
+import { pokeStatsVariants } from "./pokecard-components/Hooks";
 
 export const PokeCard: React.FC = () => {
   const { state } = useContext(AppContext);
@@ -28,11 +29,7 @@ export const PokeCard: React.FC = () => {
       className="flex flex-col justify-center items-center"
     >
       <Title setShowStats={pokeStats.set} showStats={pokeStats.show} />
-      <div
-        className={`${
-          lastPokemonCatched ? "owned" : "unowned"
-        } relative md:grid  gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]`}
-      >
+      <div className={`${lastPokemonCatched ? "owned" : "unowned"} relative md:grid  gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]`}>
         <div className="relative md:col-start-2 md:col-end-3">
           <Image
             src={state.pokemonCollection[state.currPokemon].img}
