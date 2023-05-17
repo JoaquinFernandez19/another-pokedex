@@ -11,7 +11,8 @@ import {
   syncStateDataWithDB,
   shouldResetCheck,
 } from "./firebase/User";
-import { CatchedPokemon, PokemonList } from "./Types";
+
+import { addAmountToLocalOwnedPokemonList, checkDevice } from "./app-usage/Lib";
 
 export const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
 export const AppInitialState: AppState = {
@@ -47,7 +48,7 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
       );
     }
   }
-  debugger;
+
   //Fix date type to  correclty execute code, new users will have Date object
   userDataDB.last_reset = recentlyRegister
     ? userDataDB.last_reset
@@ -77,7 +78,7 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
     credits = userDataDB.credits;
     pokemonCollection = await fetchPokemons(userDataDB.last_pokemon_collection);
   }
-
+  debugger;
   //Setup correctly showing pokemon based on credits and list length
   let currPokemon = pokemonCollection.length - credits;
   if (currPokemon === -1) currPokemon = 0;
@@ -103,27 +104,3 @@ export const AppContext = createContext<{
   state: AppInitialState,
   dispatch: () => {},
 });
-
-function checkDevice() {
-  const { innerWidth: width } = window;
-  return width <= 768;
-}
-function addAmountToLocalOwnedPokemonList(
-  ownedPokemons: PokemonList,
-  catched_pokemons: CatchedPokemon[]
-) {
-  const ownedPokemonsWithAmount = ownedPokemons.map((pokemon1) => {
-    const pokemonKeyFromDB = catched_pokemons.find(
-      (pokemon2) => pokemon1.id === pokemon2.pokemon_id
-    );
-
-    if (pokemonKeyFromDB) {
-      const amount = pokemonKeyFromDB.amount ?? 1; //Handle users that have catched before amount update
-      return { ...pokemon1, amount: amount };
-    }
-
-    return pokemon1;
-  });
-
-  return ownedPokemonsWithAmount;
-}

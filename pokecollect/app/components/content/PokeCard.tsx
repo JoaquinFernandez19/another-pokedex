@@ -1,29 +1,18 @@
 "use client";
 
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PokeStats, pokeStatsVariants } from "./pokecard-components/PokeStats";
 import Image from "next/image";
 import { AppContext } from "@/app/lib/AppInitialState";
 import { CompletedSessionMark } from "./pokecard-components/CompletedSessionMark";
 import { Title } from "./pokecard-components/Title";
+import { useLastPokemonCatched, usePokeStats } from "./Hooks";
 
 export const PokeCard: React.FC = () => {
-  //States and refs
-  const [showStats, setShowStats] = useState<boolean>(false);
-  const [lastPokemonCatched, setlastPokemonCatched] = useState<boolean>(false);
-
-  //Context
   const { state } = useContext(AppContext);
-
-  useEffect(() => {
-    if (state.credits === 0) {
-      setlastPokemonCatched(true);
-    } else {
-      setlastPokemonCatched(false);
-    }
-  }, [state.ownedPokemons, state.currPokemon]);
-
+  const pokeStats = usePokeStats();
+  const lastPokemonCatched = useLastPokemonCatched(state);
   return (
     <motion.div
       animate={{ opacity: [0, 1] }}
@@ -38,7 +27,7 @@ export const PokeCard: React.FC = () => {
       key={`${state.pokemonCollection[state.currPokemon].id}`}
       className="flex flex-col justify-center items-center"
     >
-      <Title setShowStats={setShowStats} showStats={showStats} />
+      <Title setShowStats={pokeStats.set} showStats={pokeStats.show} />
       <div
         className={`${
           lastPokemonCatched ? "owned" : "unowned"
@@ -55,7 +44,7 @@ export const PokeCard: React.FC = () => {
           {lastPokemonCatched && <CompletedSessionMark />}
         </div>
         <AnimatePresence>
-          {showStats && (
+          {pokeStats.show && (
             <motion.div
               key="poke-stats"
               className="overflow-hidden grid grid-cols-1"

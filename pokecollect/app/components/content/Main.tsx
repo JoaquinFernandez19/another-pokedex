@@ -10,29 +10,11 @@ import { AppContext, AppInitialState } from "@/app/lib/AppInitialState";
 import { MainContent } from "./MainContent";
 import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
 import { BackgroundLogo } from "../layout/BackgroundLogo";
+import { useResizeWindow } from "./Hooks";
 
 export const Main: React.FC = () => {
   const [state, dispatch] = useReducer(AppReducer, AppInitialState);
-
-  //create use effect that dispatches action when window is resized
-  useEffect(() => {
-    const resizeTimeout = 100;
-    let resizeTimerId: ReturnType<typeof setTimeout>;
-
-    window.onresize = function () {
-      clearTimeout(resizeTimerId);
-      resizeTimerId = setTimeout(resizeDone, resizeTimeout);
-    };
-
-    function resizeDone() {
-      // Do something here after resize is completed
-      if (window.innerWidth < 768) {
-        dispatch({ type: AppActions.SET_DEVICE, payload: { isMobile: true } });
-      } else {
-        dispatch({ type: AppActions.SET_DEVICE, payload: { isMobile: false } });
-      }
-    }
-  });
+  useResizeWindow(dispatch);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
