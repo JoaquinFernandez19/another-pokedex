@@ -12,9 +12,6 @@ export const BagPokemonList: React.FC<BagPokemonListProps> = ({
   return (
     <div className="inventory-pokemon-list">
       {pokemonCollection.map((pokemon, i) => {
-        if (typeof pokemon === "string") {
-          return <BagPokemonUnit empty={true} key={`empty-${i}`} index={i} />;
-        }
         return <BagPokemonUnit pokemon={pokemon} key={`pk-${i}`} index={i} />;
       })}
     </div>
