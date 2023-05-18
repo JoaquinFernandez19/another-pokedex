@@ -1,12 +1,13 @@
 "use client";
 
-import { PokeBall } from "./PokeBall";
-import React, { useEffect, useReducer, useState } from "react";
-import { PokeCard } from "../content/PokeCard";
-import { Inventory } from "./inventory/Inventory";
+import React, { useReducer } from "react";
 import { GoogleLogin } from "./login/GoogleLogin";
-import { AppActions, AppReducer } from "@/app/lib/AppReducer";
-import { AppContext, AppInitialState } from "@/app/lib/AppInitialState";
+import { AppReducer } from "@/app/lib/AppReducer";
+import {
+  AppContext,
+  AppInitialState,
+  ActionsContext,
+} from "@/app/lib/AppInitialState";
 import { MainContent } from "./MainContent";
 import { BottomActions } from "./pokecard-components/bottom-actions/BottomActions";
 import { BackgroundLogo } from "../layout/BackgroundLogo";
@@ -17,19 +18,21 @@ export const Main: React.FC = () => {
   useResizeWindow(dispatch);
 
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      <BackgroundLogo />
-      <div
-        className={`main-container relative ${
-          !state.clickedInitialPokeBall && "showing-pokeball"
-        }`}
-      >
-        <GoogleLogin />
-        <MainContent />
-        {state.clickedInitialPokeBall && (
-          <BottomActions doInitialTransition={state.doInitialAnimation} />
-        )}
-      </div>
-    </AppContext.Provider>
+    <ActionsContext.Provider value={{ dispatch }}>
+      <AppContext.Provider value={{ state }}>
+        <BackgroundLogo />
+        <div
+          className={`main-container relative ${
+            !state.clickedInitialPokeBall && "showing-pokeball"
+          }`}
+        >
+          <GoogleLogin />
+          <MainContent />
+          {state.clickedInitialPokeBall && (
+            <BottomActions doInitialTransition={state.doInitialAnimation} />
+          )}
+        </div>
+      </AppContext.Provider>
+    </ActionsContext.Provider>
   );
 };

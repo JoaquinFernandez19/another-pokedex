@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import { Button } from "./Button";
 import { GiChest } from "react-icons/gi";
-import { AppContext } from "@/app/lib/AppInitialState";
+import { ActionsContext, AppContext } from "@/app/lib/AppInitialState";
 import { AppActions } from "@/app/lib/AppReducer";
 
 export const OpenInventory: React.FC = () => {
-  const { state, dispatch } = useContext(AppContext);
+  const { state } = useContext(AppContext);
+  const { dispatch } = useContext(ActionsContext);
+
   const handleClick = () => {
     if (state.ownedPokemons.length === 0) return;
     dispatch({

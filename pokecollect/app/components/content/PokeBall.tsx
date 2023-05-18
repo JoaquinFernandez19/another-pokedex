@@ -2,15 +2,15 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { AppContext } from "@/app/lib/AppInitialState";
+import { ActionsContext, AppContext } from "@/app/lib/AppInitialState";
 import { AppActions } from "@/app/lib/AppReducer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/lib/firebase/Firebase";
 import { usePokeBallEvents } from "./Hooks";
 
 export const PokeBall: React.FC = () => {
-  const { state, dispatch } = useContext(AppContext);
-
+  const { state } = useContext(AppContext);
+  const { dispatch } = useContext(ActionsContext);
   const initialState = {
     openingSate: false,
     hoveringState: false,

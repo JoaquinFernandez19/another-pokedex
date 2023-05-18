@@ -4,7 +4,10 @@ import { CREDIT_LIMITS } from "../AppInitialState";
 import { PokemonList, CatchedPokemon, Pokemon } from "../Types";
 import { fetchPokemonList } from "../firebase/Pokemons";
 
-export async function enableCreditsAndFetchPokemonsList(state: AppState, dispatch: Dispatch<AppAction>) {
+export async function enableCreditsAndFetchPokemonsList(
+  state: AppState,
+  dispatch: Dispatch<AppAction>
+) {
   const newPokemons = await fetchPokemons();
 
   dispatch({
@@ -26,9 +29,14 @@ export async function enableCreditsAndFetchPokemonsList(state: AppState, dispatc
   });
 }
 
-export function addAmountToLocalOwnedPokemonList(ownedPokemons: PokemonList, catched_pokemons: CatchedPokemon[]) {
+export function addAmountToLocalOwnedPokemonList(
+  ownedPokemons: PokemonList,
+  catched_pokemons: CatchedPokemon[]
+) {
   const ownedPokemonsWithAmount = ownedPokemons.map((pokemon1) => {
-    const pokemonKeyFromDB = catched_pokemons.find((pokemon2) => pokemon1.id === pokemon2.pokemon_id);
+    const pokemonKeyFromDB = catched_pokemons.find(
+      (pokemon2) => pokemon1.id === pokemon2.pokemon_id
+    );
 
     if (pokemonKeyFromDB) {
       const amount = pokemonKeyFromDB.amount ?? 1; //Handle users that have catched before amount update
@@ -56,10 +64,15 @@ export const fetchPokemons = async (last_pokemon_collection?: number[]) => {
     if (last_pokemon_collection?.length) {
       randomPokemonIds = last_pokemon_collection;
     } else {
-      randomPokemonIds = getRandomPokemonList(Number(NUMBER_OF_POKEMONS), CREDIT_LIMITS);
+      randomPokemonIds = getRandomPokemonList(
+        Number(NUMBER_OF_POKEMONS),
+        CREDIT_LIMITS
+      );
     }
     //New system fetches from Firebase
-    const processedListToString = randomPokemonIds.map((pokeid: number) => String(pokeid));
+    const processedListToString = randomPokemonIds.map((pokeid: number) =>
+      String(pokeid)
+    );
     returnValue = await fetchPokemonList(processedListToString);
     //Old method fetches PokeAPI
     // const promises = randomPokemonIds.map((id) => {
@@ -91,10 +104,10 @@ export const getRandomPokemonList = (maxNum: number, quantity: number) => {
   return result;
 };
 
-// export const preLoadImgs = async (imgArray: string[]) => {
-//   return imgArray.map((img) => {
-//     const currImg = new Image();
-//     currImg.src = img;
-//     return currImg;
-//   });
-// };
+export const preLoadImgsInstant = async (imgArray: string[]) => {
+  return imgArray.map((img) => {
+    const currImg = new Image();
+    currImg.src = img;
+    return currImg;
+  });
+};

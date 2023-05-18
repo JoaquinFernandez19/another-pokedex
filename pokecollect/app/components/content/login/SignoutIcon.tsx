@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { auth } from "../../../lib/firebase/Firebase";
 import { signOut } from "firebase/auth";
 import { motion } from "framer-motion";
-import { AppContext } from "@/app/lib/AppInitialState";
+import { ActionsContext, AppContext } from "@/app/lib/AppInitialState";
 import { AppActions } from "@/app/lib/AppReducer";
 
 export const SignoutIcon = () => {
-  const { dispatch } = useContext(AppContext);
+  const { dispatch } = useContext(ActionsContext);
   const signOut_ = () => {
     signOut(auth);
     dispatch({
