@@ -19,6 +19,7 @@ import {
 } from "./app-usage/Lib";
 
 export const CREDIT_LIMITS = Number(process.env.NEXT_PUBLIC_CREDITS);
+
 export const AppInitialState: AppState = {
   credits: 0,
   pokemonCollection: [],
@@ -28,7 +29,6 @@ export const AppInitialState: AppState = {
   userDataAuth: null,
   clickedInitialPokeBall: false,
   isMobile: false,
-  showingInventory: false,
   doInitialAnimation: true,
 };
 export const SetAppInitialState = async (authUserObject: UserInfo) => {
@@ -97,9 +97,8 @@ export const SetAppInitialState = async (authUserObject: UserInfo) => {
     ownedPokemons,
     userDataDB: userDataDB,
     userDataAuth: authUserObject,
-    clickedInitialPokeBall: credits < 5,
+    clickedInitialPokeBall: false,
     isMobile: checkDevice(),
-    showInventory: false,
     doInitialAnimation: true,
   };
 };

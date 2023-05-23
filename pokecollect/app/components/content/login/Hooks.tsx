@@ -1,8 +1,4 @@
-import {
-  ActionsContext,
-  AppContext,
-  SetAppInitialState,
-} from "@/app/lib/AppInitialState";
+import { ActionsContext, SetAppInitialState } from "@/app/lib/AppInitialState";
 import { AppActions } from "@/app/lib/AppReducer";
 import { auth } from "@/app/lib/firebase/Firebase";
 
@@ -12,6 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 export const useLoginSystem = () => {
   const [loadingAppData, setLoadingAppData] = useState<boolean>(false);
   const [user, loading] = useAuthState(auth);
+
   const { dispatch } = useContext(ActionsContext);
 
   useEffect(() => {
@@ -31,17 +28,10 @@ export const useLoginSystem = () => {
   }, [user]);
 
   let text;
-  if (user) {
-    if (loadingAppData) {
-      text = "Loading...";
-    }
-  } else {
-    if (loading) {
-      text = "Loading...";
-    } else {
-      text = "Login with Google";
-    }
-  }
+
+  if (loading || loadingAppData) text = "Loading...";
+
+  if (!user) text = "Login with Google";
 
   return {
     text,

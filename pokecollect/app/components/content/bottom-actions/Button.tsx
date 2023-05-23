@@ -5,6 +5,7 @@ interface ButtonProps {
   children?: ReactNode;
   text?: string;
   onClick?: () => void;
+  onMouseUp?: () => void;
   extraStyles?: string;
   sm?: boolean;
 }
@@ -14,6 +15,7 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   text,
   onClick,
+  onMouseUp,
   extraStyles,
   sm,
 }) => {

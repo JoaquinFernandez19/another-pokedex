@@ -8,11 +8,17 @@ interface InfoBadgeProps {
   showStats: boolean;
 }
 
-export const InfoBadge: React.FC<InfoBadgeProps> = ({ setShowStats, showStats }) => {
+export const InfoBadge: React.FC<InfoBadgeProps> = ({
+  setShowStats,
+  showStats,
+}) => {
   const { state } = useContext(AppContext);
   const clickInfoBadgeCB = useClickInfoBadgeCb(setShowStats, showStats);
   return (
-    <span onClick={clickInfoBadgeCB} className=" cursor-pointer text-[25px] pt-[2px]">
+    <span
+      onClick={clickInfoBadgeCB}
+      className=" cursor-pointer text-[25px] pt-[2px]"
+    >
       <FaInfoCircle
         style={{
           color: state.pokemonCollection[state.currPokemon].color,

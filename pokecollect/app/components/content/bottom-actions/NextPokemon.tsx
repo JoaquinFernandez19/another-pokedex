@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useContext, useEffect, useState } from "react";
-import { ToolNumber } from "../../tools/ToolNumber";
+
 import { Button } from "./Button";
 
 import { ActionsContext, AppContext } from "@/app/lib/AppInitialState";
 import { AppActions } from "@/app/lib/AppReducer";
 import { useNextPokemon, useResetTimer } from "./Hooks";
+import { ToolNumber } from "../tools/ToolNumber";
 
 export const NextPokemon: React.FC = () => {
   const { state } = useContext(AppContext);

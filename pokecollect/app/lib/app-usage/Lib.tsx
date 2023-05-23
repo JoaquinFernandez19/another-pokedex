@@ -3,6 +3,7 @@ import { AppAction, AppActions, AppState } from "../AppReducer";
 import { CREDIT_LIMITS } from "../AppInitialState";
 import { PokemonList, CatchedPokemon, Pokemon } from "../Types";
 import { fetchPokemonList } from "../firebase/Pokemons";
+import { Bubblegum_Sans } from "@next/font/google";
 
 export async function enableCreditsAndFetchPokemonsList(
   state: AppState,
@@ -110,4 +111,27 @@ export const preLoadImgsInstant = async (imgArray: string[]) => {
     currImg.src = img;
     return currImg;
   });
+};
+
+export const bublegum = Bubblegum_Sans({
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+export const getFormattedDate = (dateObj: Date) => {
+  // Define the desired date format
+  const dateFormat = "yyyy/MM/dd";
+
+  // Get the individual date components
+  const year = String(dateObj.getFullYear());
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
+
+  // Construct the formatted date string
+  const formattedDate = dateFormat
+    .replace("yyyy", year)
+    .replace("MM", month)
+    .replace("dd", day);
+
+  return formattedDate;
 };

@@ -1,5 +1,9 @@
 import { User } from "@firebase/auth";
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
+import {
+  DocumentData,
+  QueryDocumentSnapshot,
+  Timestamp,
+} from "firebase/firestore";
 
 export interface Pokemon {
   name: string;
@@ -16,7 +20,11 @@ export interface Pokemon {
   sm_img: string;
   amount: number;
 }
-
+export type MainContentDisplayType =
+  | "pokeball"
+  | "pokecard"
+  | "profile-menu"
+  | "inventory";
 export interface PokemonType {
   slot: number;
   type: { name: string; url: string };
@@ -35,7 +43,7 @@ export interface UserInfoLocal {
 export interface UserDB {
   catched_pokemons: CatchedPokemon[];
   credits: number;
-  date_started: string;
+  date_started: Timestamp;
   id: string;
   last_pokemon_collection: [];
   last_reset: string;

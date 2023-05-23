@@ -1,15 +1,17 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { auth } from "../../../lib/firebase/Firebase";
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
-
-import { SignoutIcon } from "./SignoutIcon";
+import dynamic from "next/dynamic";
+// import { SignoutIcon } from "./SignoutIcon";
 
 import { useLoginSystem } from "./Hooks";
+import { SignoutIcon } from "./SignoutIcon";
 
-export const GoogleLogin: React.FC = ({}) => {
+const GoogleLogin: React.FC = ({}) => {
   const googleAuth = new GoogleAuthProvider();
   const { text, user, loading } = useLoginSystem();
-
+  const [xd, setxt] = useState<boolean>(false);
   const login = async () => {
     if (user) return;
     signInWithPopup(auth, googleAuth);
@@ -31,3 +33,7 @@ export const GoogleLogin: React.FC = ({}) => {
     </div>
   );
 };
+
+export default dynamic(() => Promise.resolve(GoogleLogin), {
+  ssr: false,
+});

@@ -1,15 +1,12 @@
-import { Main } from "./components/content/Main";
-import { Bubblegum_Sans } from "@next/font/google";
-
-const bublegum = Bubblegum_Sans({
-  subsets: ["latin"],
-  weight: ["400"],
-});
-
+"use client";
+import { Metadata } from "next";
+import { PokeBall } from "./components/content/PokeBall";
+export const metadata: Metadata = {
+  title: "Pokecollect",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
 export default function Home() {
-  return (
-    <div className={`main ${bublegum.className}`}>
-      <Main />
-    </div>
-  );
+  return <PokeBall />;
 }

@@ -1,5 +1,5 @@
 import { Reducer } from "react";
-import { PokemonList, UserDB } from "./Types";
+import { MainContentDisplayType, PokemonList, UserDB } from "./Types";
 import { User } from "firebase/auth";
 import { AppInitialState } from "./AppInitialState";
 import { syncStateDataWithDB } from "./firebase/User";
@@ -16,7 +16,8 @@ export enum AppActions {
   SET_POKEMON_COLLECTION = "SET_POKEMON_COLLECTION",
   SET_CURR_POKEMON = "SET_CURR_POKEMON",
   SET_DEVICE = "SET_DEVICE",
-  SET_INVENTORY_DISPLAY = "SET_INVENTORY_DISPLAY",
+  SET_PAGE = "SET_PAGE",
+  APP_STARTED = "APP_STARTED",
 }
 
 export interface AppState {
@@ -28,7 +29,6 @@ export interface AppState {
   userDataAuth: User | null;
   clickedInitialPokeBall: boolean;
   isMobile: boolean;
-  showingInventory: boolean;
   doInitialAnimation: boolean;
 }
 
@@ -38,7 +38,10 @@ export interface AppAction {
   payload: any;
 }
 
-export const AppReducer: Reducer<AppState, AppAction> = (state: AppState, action: AppAction) => {
+export const AppReducer: Reducer<AppState, AppAction> = (
+  state: AppState,
+  action: AppAction
+) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -54,10 +57,9 @@ export const AppReducer: Reducer<AppState, AppAction> = (state: AppState, action
         ...state,
         pokemonCollection: payload.pokemonCollection,
       };
-    case "SET_INVENTORY_DISPLAY":
+    case "SET_PAGE":
       return {
         ...state,
-        showingInventory: payload.showingInventory,
         doInitialAnimation: false,
       };
     case "SET_CURR_POKEMON":
@@ -79,13 +81,15 @@ export const AppReducer: Reducer<AppState, AppAction> = (state: AppState, action
       //In ownPokemons, we add the new pokemon, but if alredy exist, we sum up the amount
       let ownedPokemonsUpdated = [...state.ownedPokemons];
       let alredyCatched = false;
-      const catchedPokemonsDBUpdated = state.userDataDB.catched_pokemons.map((poke) => {
-        if (poke.pokemon_id === payload.pokemon.id) {
-          alredyCatched = true;
-          return { ...poke, amount: poke.amount + 1 };
+      const catchedPokemonsDBUpdated = state.userDataDB.catched_pokemons.map(
+        (poke) => {
+          if (poke.pokemon_id === payload.pokemon.id) {
+            alredyCatched = true;
+            return { ...poke, amount: poke.amount + 1 };
+          }
+          return poke;
         }
-        return poke;
-      });
+      );
       //If it wasnt catched, we add it to the pokemon list
       //Including the amount :)
       if (!alredyCatched) {
@@ -98,7 +102,8 @@ export const AppReducer: Reducer<AppState, AppAction> = (state: AppState, action
         });
       } else {
         ownedPokemonsUpdated = state.ownedPokemons.map((poke) => {
-          if (poke.id === payload.pokemon.id) return { ...poke, amount: poke.amount + 1 };
+          if (poke.id === payload.pokemon.id)
+            return { ...poke, amount: poke.amount + 1 };
           return poke;
         });
       }
@@ -139,6 +144,11 @@ export const AppReducer: Reducer<AppState, AppAction> = (state: AppState, action
       return {
         ...state,
         userDataDB: { ...state.userDataDB, last_reset: new Date().toString() },
+      };
+    case "APP_STARTED":
+      return {
+        ...state,
+        doInitialAnimation: false,
       };
     default:
       return state;

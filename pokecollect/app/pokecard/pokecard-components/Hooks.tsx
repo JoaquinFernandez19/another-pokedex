@@ -1,6 +1,9 @@
 import { useRef } from "react";
 
-export const useClickInfoBadgeCb = (setShowStats: React.Dispatch<React.SetStateAction<boolean>>, showStats: boolean) => {
+export const useClickInfoBadgeCb = (
+  setShowStats: React.Dispatch<React.SetStateAction<boolean>>,
+  showStats: boolean
+) => {
   const waitingAnimation = useRef<boolean>(false);
   return () => {
     if (!waitingAnimation.current) {
