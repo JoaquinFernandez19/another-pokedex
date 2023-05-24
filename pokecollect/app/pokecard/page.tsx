@@ -1,26 +1,27 @@
-"use client";
+'use client';
 
-import React, { useContext } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { PokeStats } from "./pokecard-components/PokeStats";
-import Image from "next/image";
-import { AppContext } from "@/app/lib/AppInitialState";
-import { CompletedSessionMark } from "./pokecard-components/CompletedSessionMark";
-import { Title } from "./pokecard-components/Title";
+import React, { useContext } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { PokeStats } from './pokecard-components/PokeStats';
+import Image from 'next/image';
+import { AppContext } from '@/app/lib/AppInitialState';
+import { CompletedSessionMark } from './pokecard-components/CompletedSessionMark';
+import { Title } from './pokecard-components/Title';
 import {
   useLastPokemonCatched,
   usePokeStats,
-} from "../components/content/Hooks";
-import { pokeStatsVariants } from "./pokecard-components/Hooks";
-import { useRedirectMainPage } from "../lib/Hooks";
+} from '../components/content/Hooks';
+import { pokeStatsVariants } from './pokecard-components/Hooks';
+import { useRedirectMainPage } from '../lib/Hooks';
 
 export default function PokeCard() {
   const { state } = useContext(AppContext);
-  //Prevent entering directly to this component
-  if (useRedirectMainPage(state)) return <></>;
 
   const pokeStats = usePokeStats();
   const lastPokemonCatched = useLastPokemonCatched(state);
+
+  //Prevent entering directly to this component
+  if (useRedirectMainPage(state)) return <></>;
 
   return (
     <motion.div
@@ -28,7 +29,7 @@ export default function PokeCard() {
       transition={{
         opacity: {
           duration: state.doInitialAnimation ? 3 : 0,
-          type: "spring",
+          type: 'spring',
           delay: state.doInitialAnimation ? 0.5 : 0,
         },
       }}
@@ -39,7 +40,7 @@ export default function PokeCard() {
       <Title setShowStats={pokeStats.set} showStats={pokeStats.show} />
       <div
         className={`${
-          lastPokemonCatched ? "owned" : "unowned"
+          lastPokemonCatched ? 'owned' : 'unowned'
         } relative md:grid  gap-2 xl:px-20 md:gap-0 md:grid-cols-[1fr,2fr,1fr]`}
       >
         <div className="relative md:col-start-2 md:col-end-3">
@@ -58,8 +59,8 @@ export default function PokeCard() {
               key="poke-stats"
               className="overflow-hidden grid grid-cols-1"
               variants={pokeStatsVariants}
-              exit={state.isMobile ? "exitMobile" : "exitDesktop"}
-              animate={state.isMobile ? "openMobile" : "openDesktop"}
+              exit={state.isMobile ? 'exitMobile' : 'exitDesktop'}
+              animate={state.isMobile ? 'openMobile' : 'openDesktop'}
             >
               <PokeStats />
             </motion.div>
